@@ -1,0 +1,35 @@
+/* Full-screen container with gradient background */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple → Blue gradient */
+  background-attachment: fixed; /* smooth scrolling effect */
+  padding: 20px;
+}
+
+/* Card styling */
+.login-card {
+  border-radius: 15px;
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95); /* slightly transparent white */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo inside card */
+.logo-img {
+  width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px auto;
+}
+
+/* Responsive: shrink logo on mobile */
+@media (max-width: 576px) {
+  .logo-img {
+    width: 80px;
+  }
+}

@@ -6,14 +6,16 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-   private apiUrl = "https://charipay-web-api.azurewebsites.net/api/Auth/"; // auth api
+   private apiUrl_live = "https://charipay-web-api.azurewebsites.net/api/Auth"; // auth api
+   // private apiUrl_local = "http://localhost:5291/api/Auth"; // auth api
+
 
    constructor(private http: HttpClient) {}
 
 
    login(email : string, password : string) : Observable<any>
    {
-      return this.http.post(`${this.apiUrl}/login`, {email, password})
+      return this.http.post(`${this.apiUrl_live}/login`, {email, password})
        .pipe(
         tap((response : any) => {
           localStorage.setItem('token', response.token);
@@ -23,7 +25,7 @@ export class AuthService {
 
    logout()
    {
-     localStorage.removeItem('token');
+      localStorage.removeItem('token');
    }
 
    getToken()

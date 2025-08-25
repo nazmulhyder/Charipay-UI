@@ -10,12 +10,13 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.css'
 })
 export class LoginComponent {
-   email: string = '';
+    email: string = '';
     password: string = '';
 
     constructor(private auth: AuthService, private router: Router) {}
 
     onSubmit() {
+      debugger;
       this.auth.login(this.email, this.password).subscribe({
         next: () => {
           this.router.navigate(['/dashboard']);

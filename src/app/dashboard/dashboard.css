@@ -1,0 +1,44 @@
+/* Cards hover effect */
+.card {
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Chart height */
+canvas {
+  width: 100% !important;
+  height: 250px !important;
+}
+
+/* User avatar hover */
+.dropdown img {
+  transition: transform 0.2s;
+}
+
+.dropdown img:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-danger {
+    align-self: flex-end;
+  }
+}
+.profile-pic {
+    width: 50px;            /* size of the picture */
+    height: 50px;           /* make it square */
+    border-radius: 50%;      /* makes it circular */
+    border: 1px solid #3498db;  /* solid border, color of your choice */
+    object-fit: cover;       /* ensures the image covers the circle */
+}

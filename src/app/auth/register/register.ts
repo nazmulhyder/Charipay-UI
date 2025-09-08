@@ -1,39 +1,33 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { passwordMatchValidator } from '../../shared/validators/password-match.validator';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, ReactiveFormsModule, CommonModule],
   templateUrl: './register.html',
   styleUrl: './register.css'
 })
 export class RegisterComponent {
-name: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
 
-  constructor(private router: Router) {}
+   registerForm: FormGroup;  
 
-  onSignup() {
-    // Basic validation: check if passwords match
-    if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
+    constructor(private router: Router, private fb:FormBuilder) {
+      this.registerForm = this.fb.group({
+      fullName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      role: ['', Validators.required]
+},
+   { Validators : passwordMatchValidator('password','confirmPassword') });
 
-    // Here, you can integrate your backend API to register the user
-    const signupData = {
-      name: this.name,
-      email: this.email,
-      password: this.password
-    };
+  }
 
-    console.log('Signup Data:', signupData);
-
-    // Simulate successful signup
-    alert('Signup successful! Please login.');
-    this.router.navigate(['/']); // Navigate back to login page
+  onSignup()
+  {
+    
   }
 }

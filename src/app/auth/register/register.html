@@ -39,13 +39,29 @@
           <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</small>
         </div>
       </div></div>
-        <div class="col-6"> <!-- Confirm Password -->
+        <div class="col-6">
+      
+      <div class="mb-3">
+        <label class="form-label">Phone</label>
+        <input type="text" formControlName="phone" class="form-control" placeholder="Phone number" />
+        <div *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.errors" class="text-danger">
+          <small *ngIf="registerForm.get('phone')?.errors?.['required']">Phone number is required</small>
+        </div>
+      </div>
+
+     <!-- Confirm Password -->
       <div class="mb-3">
         <label class="form-label">Confirm Password</label>
         <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Confirm password" />
-        <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors" class="text-danger">
-          <small *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirm Password is required</small>
-          <small *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">Passwords do not match</small>
+
+        <!-- Required -->
+        <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors?.['required']" class="text-danger">
+          Confirm Password is required
+        </div>
+
+        <!-- Password mismatch (FormGroup-level error) -->
+        <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" class="text-danger">
+          Passwords do not match
         </div>
       </div>
 

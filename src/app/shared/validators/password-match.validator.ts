@@ -4,7 +4,10 @@ export function passwordMatchValidator(passwordField: string, confirmPasswordFie
   return (form: AbstractControl): ValidationErrors | null => {
     const password = form.get(passwordField)?.value;
     const confirmPassword = form.get(confirmPasswordField)?.value;
-    return password !== confirmPassword ? { passwordMismatch: true } : null;
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      return { passwordMismatch: true };  // set error at FormGroup level
+    }
+    return null; // no error
   };
-  
 }

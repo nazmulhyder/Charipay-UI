@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { passwordMatchValidator } from '../../shared/validators/password-match.validator';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-
+import { ToastService } from '../../shared/custom/toast-service';
 @Component({
   selector: 'app-register',
   imports: [FormsModule, RouterModule, ReactiveFormsModule, CommonModule],
@@ -18,6 +18,7 @@ export class RegisterComponent {
   errorMessage = '';
 
   constructor(private router: Router, private fb: FormBuilder, private auth: AuthService) {
+
     this.registerForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -61,6 +62,7 @@ export class RegisterComponent {
       error:(err) =>{
          this.loading = false;
          this.errorMessage = err.error?.message || 'Registration failed. Please try again'
+         alert(this.errorMessage);
       }
     });
 

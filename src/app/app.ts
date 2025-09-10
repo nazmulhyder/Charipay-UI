@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ToastrComponent } from './toastr/toastr';
 
 @Component({
   selector: 'app-root',

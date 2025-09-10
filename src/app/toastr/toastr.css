@@ -1,0 +1,24 @@
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1050;
+}
+.toast {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+  color: #fff;
+  min-width: 200px;
+}
+.success { background-color: #28a745; }
+.error { background-color: #dc3545; }
+.warning { background-color: #ffc107; color: #000; }
+
+.toast {
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+}
+.toast.ng-enter {
+  opacity: 1;
+}

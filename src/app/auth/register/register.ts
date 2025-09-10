@@ -25,7 +25,7 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       phone: ['', [Validators.required, Validators.pattern(/^\+?\d{7,15}$/)]],
       confirmPassword: ['', Validators.required],
-      role: ['', Validators.required]
+      roleId: ['', Validators.required]
     },
       { validators: passwordMatchValidator('password', 'confirmPassword') });
 
@@ -49,7 +49,8 @@ export class RegisterComponent {
       "createdAt" : new Date().toISOString(),
       "addressLine1" : null,
       "postCode" : null,
-      "dob" : null
+      "dob" : null,
+      "roleId" : formValue.roleId
     }
 
     this.auth.register(signupData).subscribe ({

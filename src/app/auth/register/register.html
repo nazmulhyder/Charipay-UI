@@ -1,7 +1,7 @@
 <div class="signup-container d-flex justify-content-center align-items-center vh-100">
   <div class="signup-card p-4 shadow-lg rounded-4 w-100" style="max-width: 600px; background: #ffffff;">
     <div class="text-center mb-4">
-      <img src="/assets/charipay-logo.png" alt="Charity Logo" class="logo-img mb-3" style="width: 80px; height: auto;" />
+      <img src="/assets/charipay-logo.svg" alt="Charity Logo" class="logo-img mb-3" style="width: 80px; height: auto;" />
       <h2 class="mb-2">Sign Up</h2>
       <p class="text-muted">Join us and make a difference</p>
     </div>
@@ -68,12 +68,12 @@
       <!-- Role -->
       <div class="mb-4">
         <label class="form-label">Register As</label>
-        <select formControlName="role" class="form-select">
+        <select formControlName="roleId" class="form-select">
           <option value="" disabled selected>Select role</option>
-          <option value="user">User</option>
-          <option value="volunteer">Volunteer</option>
+          <option value="2">Donor</option>
+          <option value="3">Volunteer</option>
         </select>
-        <div *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid" class="text-danger">
+        <div *ngIf="registerForm.get('roleId')?.touched && registerForm.get('roleId')?.invalid" class="text-danger">
           Role is required
         </div>
       </div>

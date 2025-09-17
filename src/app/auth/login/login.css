@@ -4,8 +4,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple → Blue gradient */
+  /* background: linear-gradient(135deg, #6a11cb, #2575fc); Purple → Blue gradient */
+  background-image: url("/assets/background-img/bg-img-1.jpg");
   background-attachment: fixed; /* smooth scrolling effect */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
   padding: 20px;
 }
 

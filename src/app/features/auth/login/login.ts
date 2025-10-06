@@ -51,6 +51,7 @@ export class LoginComponent {
 
     private redirectUser(role:string)
     {
+      debugger;
       switch(role){
         case 'Admin':
           this.router.navigate(['/admin/dashboard']);

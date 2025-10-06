@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment.prod";
 
 interface ApiResponse <T> {
    sucess: boolean;
@@ -57,9 +57,20 @@ export class AuthService
 
  getUserRole(): string {
     const token = this.getToken();
+    //console.log('check 1', token);
     if (!token) return '';
     const decoded = this.decodeToken(token);
+    //  console.log('check 2', decoded);
+    //  console.log('check 3', decoded?.role);
     return decoded?.role ?? '';
+
+  }
+
+  getUserName(): string {
+    const token = this.getToken();
+    if(!token) return '';
+    const decoded = this.decodeToken(token);
+    return decoded?.fullName ?? '';
   }
 
 

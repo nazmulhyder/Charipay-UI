@@ -1,0 +1,98 @@
+<!-- 🌍 Hero Section -->
+<section class="hero-section text-center text-white d-flex align-items-center justify-content-center">
+  <div class="container">
+    <h1 class="display-5 fw-bold mb-3">Make a Difference with Charipay</h1>
+    <p class="lead mb-4">Discover meaningful campaigns and support causes that change lives.</p>
+    <a routerLink="/campaigns" class="btn btn-primary btn-lg px-4">Browse Campaigns</a>
+  </div>
+</section>
+
+<!-- 🌟 Featured Campaigns -->
+<section class="featured-campaigns py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold">Featured Campaigns</h2>
+      <a routerLink="/campaigns" class="text-decoration-none text-primary fw-semibold">
+        View All <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Campaign Grid -->
+    <div *ngIf="!loading && featuredCampaigns.length > 0" class="row g-4">
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let campaign of featuredCampaigns">
+        <div class="card h-100 shadow-sm border-0">
+          <img [src]="campaign.imageUrl || '/assets/images/default-campaign.jpg'"
+               class="card-img-top" alt="{{ campaign.campaignName }}">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold">{{ campaign.campaignName }}</h5>
+            <p class="card-text text-muted">{{ campaign.campaignDescription }}</p>
+
+            <div class="progress mb-2">
+               <div
+    class="progress-bar bg-success"
+    role="progressbar"
+    [style.width.%]="(campaign.currentAmount / campaign.goalAmount) * 100"
+    [attr.aria-valuenow]="(campaign.currentAmount / campaign.goalAmount) * 100"
+    aria-valuemin="0"
+    aria-valuemax="100">
+  </div>
+            </div>
+            <small class="text-muted">
+              Raised £{{ campaign.currentAmount | number }} of £{{ campaign.currentAmount | number }}
+            </small>
+          </div>
+
+          <div class="card-footer bg-transparent border-0 text-center pb-3">
+            <a [routerLink]="['/campaigns', campaign.campaignId]" class="btn btn-outline-primary w-75">
+              View Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && featuredCampaigns.length === 0" class="text-center py-5">
+      <p class="text-muted mb-0">No featured campaigns available right now.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ⚙️ How It Works -->
+<section class="how-it-works py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-5">How It Works</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 p-4">
+          <i class="bi bi-search display-5 text-primary mb-3"></i>
+          <h5 class="fw-bold">1. Discover Campaigns</h5>
+          <p>Browse causes that inspire you and see how your help makes a difference.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 p-4">
+          <i class="bi bi-heart display-5 text-danger mb-3"></i>
+          <h5 class="fw-bold">2. Donate Securely</h5>
+          <p>Support your chosen campaign safely through our trusted payment gateway.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 p-4">
+          <i class="bi bi-people display-5 text-success mb-3"></i>
+          <h5 class="fw-bold">3. Make a Difference</h5>
+          <p>See your donation in action and help change lives in your community.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

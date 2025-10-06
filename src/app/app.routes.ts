@@ -1,18 +1,18 @@
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login';
-import { RegisterComponent } from './auth/register/register';
-import { Dashboard } from './dashboard/dashboard';
-import { Guards } from './core/authguards';
-import { Home } from './public/home/home';
 import { NgModule } from '@angular/core';
+import { PUBLIC_ROUTES } from './features/public/public-routing.module';
+import { AUTH_ROUTES } from './features/auth/auth-routing.module';
+import { ADMIN_ROUTES } from './features/admin/admin-routing.module';
+import { DONOR_ROUTES } from './features/donor/donor-routing.module';
+import { VOLUNTEER_ROUTES } from './features/volunteer/volunteer-routing.module';
 
 export const routes: Routes = [
-  { path: '', component: Home }, // public landing page
-  { path: 'home', component: Home }, // optional alias
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: Dashboard, canActivate: [Guards] },
-  { path: '**', redirectTo: '' } // catch-all redirects to home
+    {path:'', children:PUBLIC_ROUTES},
+    {path:'auth', children:AUTH_ROUTES},
+    {path:'admin', children: ADMIN_ROUTES},
+    {path:'donor', children:DONOR_ROUTES},
+    {path:'volunteer', children: VOLUNTEER_ROUTES},
+    {path:'**', redirectTo:''}
 ];
 
 @NgModule({

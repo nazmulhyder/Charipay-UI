@@ -1,12 +1,45 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
+import { Navbar } from '../layout/navbar/navbar';
+import { Footer } from '../layout/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone:true,
+  imports: [RouterOutlet, Navbar, Footer],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
-export class App {
+export class App implements OnInit{
   protected title = 'Charipay-UI';
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
+  ngOnInit():void
+  {
+     if(this.auth.isLoggedIn())
+     {
+        const role = this.auth.getUserRole();
+        this.redirectUser(role);
+     }
+  }
+
+  private redirectUser(role:string)
+    {
+      switch(role){
+        case 'Admin':
+          this.router.navigate(['/admin/dashboard']);
+          break;
+        case 'Donor':
+          this.router.navigate(['/donor/dashboard']);
+          break;
+        case 'Volunteer':
+          this.router.navigate(['/volunteer/tasks']);
+          break;
+        default:
+          this.router.navigate(['/'])
+          break;
+      }
+    }
 }

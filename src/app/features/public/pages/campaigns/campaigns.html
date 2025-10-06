@@ -1,0 +1,51 @@
+<section class="min-h-screen bg-gray-50 py-10">
+  <div class="max-w-7xl mx-auto px-4">
+    <h1 class="text-3xl font-bold text-gray-800 text-center mb-10">
+      Active Campaigns
+    </h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        *ngFor="let c of campaigns"
+        class="bg-white rounded-2xl shadow hover:shadow-xl transition duration-300 overflow-hidden"
+      >
+        <img
+          [src]="c.imageUrl"
+          alt="{{ c.campaignName }}"
+          class="w-full h-52 object-cover"
+        />
+
+        <div class="p-5 flex flex-col justify-between h-full">
+          <div>
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">
+              {{ c.campaignName }}
+            </h2>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+              {{ c.campaignDescription }}
+            </p>
+          </div>
+
+          <div>
+            <div class="h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
+              <div
+                class="bg-green-500 h-full transition-all duration-500"
+                [style.width.%]="(c.currentAmount / c.goalAmount) * 100"
+              ></div>
+            </div>
+
+            <p class="text-sm text-gray-500 mb-3">
+              £{{ c.currentAmount }} raised of £{{ c.goalAmount }}
+            </p>
+
+            <button
+              (click)="onViewDetail(c.campaignId)"
+              class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

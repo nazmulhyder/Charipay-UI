@@ -25,6 +25,9 @@ export class AuthService
        {
         this.isLoggedInSubject.next(true);
        }
+       else{
+         this.logout();
+       }
     }
 
     login(email:string, password: string) : Observable<ApiResponse<{token: string}>> {

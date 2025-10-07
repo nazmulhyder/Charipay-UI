@@ -4,8 +4,6 @@ import { VolunteerTasksComponent } from "./tasks/tasks";
 
 export const VOLUNTEER_ROUTES : Routes = [
   { path:'', 
-    canActivate:[AuthGuard],
-    data :{role:'volunteer'},
     children : [
         {path:'tasks', component: VolunteerTasksComponent},
         {path: '', redirectTo:'tasks', pathMatch:'full'}

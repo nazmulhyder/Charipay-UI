@@ -21,6 +21,7 @@ export class Navbar implements OnInit{
      debugger;
      this.auth.isLoggedIn$.subscribe( status => {
         this.isLoggedIn = status;
+        console.log('from navbar', this.isLoggedIn);
 
         if(status)
         {

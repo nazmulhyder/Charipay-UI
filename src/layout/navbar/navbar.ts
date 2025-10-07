@@ -1,12 +1,39 @@
-import { Component } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../app/core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLinkActive],
+  imports: [ RouterLink,CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class Navbar {
+export class Navbar implements OnInit{
+  
+  isLoggedIn = false;
+  userName : string = '';
 
+  constructor(private auth: AuthService, private router : Router) {}
+
+  ngOnInit(): void {
+     // subscribe to login state changes
+     debugger;
+     this.auth.isLoggedIn$.subscribe( status => {
+        this.isLoggedIn = status;
+
+        if(status)
+        {
+          this.userName = this.auth.getUserName();
+        }
+
+        else this.userName = '';
+     })
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/auth/login']);
+  }
+   
 }

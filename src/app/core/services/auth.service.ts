@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "../../../environments/environment.prod";
 
 interface ApiResponse <T> {
@@ -14,21 +14,63 @@ interface ApiResponse <T> {
 
 export class AuthService
 {
+    private isLoggedInSubject =   new BehaviorSubject<boolean>(this.hasValidToken());
+    isLoggedIn$ = this.isLoggedInSubject.asObservable();
     private http = inject(HttpClient);
     private tokenKey = 'token';
     private baseUrl = `${environment.apiUrl}/auth`
+
+    constructor() {
+       if(this.hasValidToken())
+       {
+        this.isLoggedInSubject.next(true);
+       }
+       else{
+         this.logout();
+       }
+    }
 
     login(email:string, password: string) : Observable<ApiResponse<{token: string}>> {
         return this.http.post<ApiResponse<{token:string}>> (`${this.baseUrl}/login`, {email, password});
     }
 
-    register(model: any): Observable <ApiResponse<any>> {
-        return this.http.post<ApiResponse<any>>(`${this.baseUrl}/register`, model)
+    signup(model: any): Observable <ApiResponse<any>> {
+        return this.http.post<ApiResponse<any>>(`${this.baseUrl}/Signup`, model)
     }
 
-    storeToken(token:string) {localStorage.setItem(this.tokenKey, token)};
+    logout() 
+    {
+      localStorage.removeItem(this.tokenKey);
+      localStorage.removeItem('user');
+      this.isLoggedInSubject.next(false);
+    }
+
+    storeToken(token:string) {
+      localStorage.setItem(this.tokenKey, token)
+      this.isLoggedInSubject.next(true);
+    };
+     
+    storeUser(userData: any)
+    {
+       localStorage.setItem('user', JSON.stringify(userData));
+    }
+
+    getUser() {
+      const data = localStorage.getItem('user');
+      return data ? JSON.parse(data) : null;
+    }
+   
     getToken(){return localStorage.getItem(this.tokenKey)};
-    logout() {localStorage.removeItem(this.tokenKey)};
+    hasValidToken(): boolean {
+      const token = this.getToken();
+      if (!token) return false;
+      const decoded = this.decodeToken(token);
+      if (!decoded || !decoded.exp) return false;
+      const now = Math.floor(Date.now() / 1000);
+      return decoded.exp > now;
+    }
+
+
 
     isLoggedIn(): boolean {
         const token = this.getToken();
@@ -47,7 +89,7 @@ export class AuthService
     }
   }
 
-    // ✅ Check expiry
+  // ✅ Check expiry
  isTokenExpired(token: string): boolean {
     const decoded = this.decodeToken(token);
     if (!decoded || !decoded.exp) return true; // invalid or no exp

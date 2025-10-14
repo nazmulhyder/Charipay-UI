@@ -55,7 +55,7 @@ export class RegisterComponent {
       "roleId" : formValue.roleId
     }
 
-    this.auth.register(signupData).subscribe ({
+    this.auth.signup(signupData).subscribe ({
       next: (res) => {
         this.loading = false;
         alert('Registration successful!');

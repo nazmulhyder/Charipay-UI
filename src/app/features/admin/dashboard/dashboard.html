@@ -1,1 +1,63 @@
-<p>dashboard works!</p>
+<div class="container-fluid py-4">
+  <h3 class="fw-bold mb-4">User Management</h3>
+
+  <!-- Search bar -->
+  <div class="d-flex mb-3">
+    <input [(ngModel)]="searchTerm" type="text" class="form-control w-25 me-2" placeholder="Search users..." />
+    <button class="btn btn-primary" (click)="onSearch()">Search</button>
+  </div>
+
+  <!-- Table -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+      </div>
+
+      <table class="table table-hover mb-0" *ngIf="!loading && users.length > 0">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <td>{{ (pageNumber - 1) * pageSize + i + 1 }}</td>
+            <td>{{ user.fullName }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span class="badge bg-secondary">{{ user.role }}</span>
+            </td>
+            <td>{{ user.createdAt | date: 'mediumDate' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!loading && users.length === 0" class="text-center py-4 text-muted">
+        No users found.
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <small class="text-muted">
+      Showing {{ users.length }} of {{ totalCount }} users
+    </small>
+
+    <nav *ngIf="totalCount > pageSize">
+      <ul class="pagination mb-0">
+        <li class="page-item" [class.disabled]="pageNumber === 1">
+          <a class="page-link" (click)="onPageChange(pageNumber - 1)">Previous</a>
+        </li>
+        <li class="page-item" [class.disabled]="(pageNumber * pageSize) >= totalCount">
+          <a class="page-link" (click)="onPageChange(pageNumber + 1)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

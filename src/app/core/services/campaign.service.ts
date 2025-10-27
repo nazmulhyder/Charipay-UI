@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
 import { Observable, of } from "rxjs";
-import { Campaign } from "../models/campaign.model";
+import { Campaign } from "../../shared/models/campaign.model";
 @Injectable ({providedIn:'root'})
 
 export class CampaignService {

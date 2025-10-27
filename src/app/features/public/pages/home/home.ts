@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Campaign } from '../../../../core/models/campaign.model';
+import { Campaign } from '../../../../shared/models/campaign.model';
 import { CampaignService } from '../../../../core/services/campaign.service';
 import { RouterLink } from '@angular/router';
 

@@ -11,7 +11,7 @@ export class AdminService {
 
    constructor(private http : HttpClient) {}
 
-   getUsers(pageNumber: number =1, pageSize:number = 10, search?:string) : Observable<any> {
+   getUsers(pageNumber: number, pageSize:number, search?:string) : Observable<any> {
        let url = `${this.baseUrl}/UserList?pageNumber=${pageNumber}&pageSize=${pageSize}`;
        if (search) url+= `&search=${encodeURIComponent(search)}`;
 
@@ -19,18 +19,29 @@ export class AdminService {
    }
 
    //#region Admin-> Charity
-   createCharity(charity: FormData)
+   createCharity(charity: any)
    {
-     return this.http.post(`${this.charityBaseUrl}/Charities/CreateCharity`, charity);
+     return this.http.post(`${this.charityBaseUrl}/CreateCharity`, charity);
    }
 
-    getAllCharity(pageNumber: number =1, pageSize:number = 10, search?:string) : Observable<any> 
+   updateCharity(charity: any)
+   {
+     return this.http.post(`${this.charityBaseUrl}/UpdateCharity`, charity);
+   }
+
+    getAllCharity(pageNumber: number, pageSize:number, search?:string) : Observable<any> 
     {
        let url = `${this.baseUrl}/GetAllCharity?pageNumber=${pageNumber}&pageSize=${pageSize}`;
        if (search) url+= `&search=${encodeURIComponent(search)}`;
 
        return this.http.get(url);
    }
+   
+   deleteCharity(id : string)
+   {
+     return this.http.delete(`${this.charityBaseUrl}/DeleteCharity?CharityId=${id}`);
+   }
+
    //#endregion
 
 }

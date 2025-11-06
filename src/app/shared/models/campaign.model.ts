@@ -10,3 +10,5 @@ export interface Campaign {
     imageUrl? : string;
 
 }
+
+

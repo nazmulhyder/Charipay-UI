@@ -8,6 +8,7 @@ import { Injectable } from "@angular/core";
 export class AdminService {
    private baseUrl = `${environment.apiUrl}/AdminDashboard`
    private charityBaseUrl = `${environment.apiUrl}/Charities`
+   private campaignBaseUrl = `${environment.apiUrl}/Campaigns`
 
    constructor(private http : HttpClient) {}
 
@@ -42,6 +43,22 @@ export class AdminService {
      return this.http.delete(`${this.charityBaseUrl}/DeleteCharity?CharityId=${id}`);
    }
 
+   //#endregion
+
+   //#region Campaigns
+   getAllCampaign(pageNumber: number, pageSize:number, search?:string) : Observable<any> {
+      let url = `${this.campaignBaseUrl}/GetAllCampaigns?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+
+      if (search)
+        url += `search=${encodeURIComponent(search)}`;
+
+      return this.http.get(url);
+   }
+
+   createCampaign(campaign : any)
+   {
+      this.http.post(`${this.campaignBaseUrl}/CreateCampaign`, campaign);
+   }
    //#endregion
 
 }

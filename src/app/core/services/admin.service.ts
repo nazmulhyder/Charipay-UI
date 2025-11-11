@@ -43,6 +43,11 @@ export class AdminService {
      return this.http.delete(`${this.charityBaseUrl}/DeleteCharity?CharityId=${id}`);
    }
 
+   getLookupCharity()
+   {
+     return this.http.get(`${this.charityBaseUrl}/GetLookupCharity`)
+   }
+
    //#endregion
 
    //#region Campaigns

@@ -1,85 +1,106 @@
 <div class="container-fluid py-4">
-  <!-- <h3 class="fw-bold mb-4">Campaign Management</h3> -->
-   <div>campaign works!</div>
-
+  <h3 class="fw-bold mb-4">Campaign Management</h3>
   <!-- 🧱 FORM SECTION -->
-  <!-- <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="mb-5">
+   <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="mb-5">
     <div class="row g-3">
       <div class="col-md-6">
-        <label class="form-label">Charity Name</label>
-        <input type="text" class="form-control" formControlName="name" placeholder="Charity name"/>
-        <div *ngIf="charityForm.get('name')?.touched && charityForm.get('name')?.invalid" class="text-danger">
-        <small *ngIf="charityForm.get('name')?.errors?.['required']">Charity name is required</small>
+        <label class="form-label">Select charity</label>
+         <select id="charityId" formControlName="charityId" class="form-select">
+             <option value="0" disabled selected>Select a charity</option>
+             <option *ngFor="let c of charities.data" [value]="c.charityId"> {{c.name}}</option>
+         </select>
+        <div *ngIf="campaignForm.get('charityId')?.touched && campaignForm.get('charityId')?.invalid" class="text-danger">
+        <small *ngIf="campaignForm.get('charityId')?.errors?.['required']">Charity name is required</small>
         </div>
       </div>
       <div class="col-md-6">
-        <label class="form-label">Registration No</label>
-        <input type="text" class="form-control" formControlName="registrationNumber" placeholder="Registration number"/>
-        <div *ngIf="charityForm.get('registrationNumber')?.touched && charityForm.get('registrationNumber')?.invalid" class="text-danger">
-          <small *ngIf="charityForm.get('registrationNumber')?.errors?.['required']">Registration no is required</small>
+        <label class="form-label">Campaign Name</label>
+        <input type="text" class="form-control" formControlName="campaignName" placeholder="campaign name"/>
+        <div *ngIf="campaignForm.get('campaignName')?.touched && campaignForm.get('campaignName')?.invalid" class="text-danger">
+          <small *ngIf="campaignForm.get('campaignName')?.errors?.['required']">Campaign name is required</small>
         </div>
       </div>
       <div class="col-md-6">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" formControlName="contactEmail" placeholder="Enter charity email"/>
-        <div *ngIf="charityForm.get('contactEmail')?.touched && charityForm.get('contactEmail')?.invalid" class="text-danger">
-          <small *ngIf="charityForm.get('contactEmail')?.errors?.['required']">Email is required</small>
+        <label class="form-label">Campaign Description</label>
+        <textarea type="email" class="form-control" formControlName="campaignDescription" placeholder="write charity description .." cols="5" rows="1"></textarea>
+       
+        <div *ngIf="campaignForm.get('campaignDescription')?.touched && campaignForm.get('campaignDescription')?.invalid" class="text-danger">
+          <small *ngIf="campaignForm.get('campaignDescription')?.errors?.['required']">campaign description is required</small>
         </div>
       </div>
       <div class="col-md-6">
-        <label class="form-label">Website</label>
-        <input type="url" class="form-control" formControlName="website" />
+        <label class="form-label">Goal Amount</label>
+        <input type="number" class="form-control" formControlName="goalAmount" />
+         <div *ngIf="campaignForm.get('goalAmount')?.touched && campaignForm.get('goalAmount')?.invalid" class="text-danger">
+          <small *ngIf="campaignForm.get('goalAmount')?.errors?.['required']">goal amount is required</small>
+        </div>
       </div>
-      <div class="col-12">
-        <label class="form-label">Description</label>
-        <textarea class="form-control" rows="3" formControlName="description"></textarea>
+       <div class="col-md-6">
+        <label class="form-label">Current Amount</label>
+        <input type="number" class="form-control" formControlName="currentAmount" />
+         <div *ngIf="campaignForm.get('currentAmount')?.touched && campaignForm.get('currentAmount')?.invalid" class="text-danger">
+          <small *ngIf="campaignForm.get('currentAmount')?.errors?.['required']">current amount is required</small>
+        </div>
       </div>
-      <div class="col-md-6 text-center" *ngIf="previewUrl">
-        <label class="form-label d-block">Preview</label>
-        <img [src]="previewUrl" class="img-thumbnail" style="max-width: 120px;" />
+       <div class="col-md-6">
+        <label class="form-label">Start date</label>
+        <input type="date" class="form-control" formControlName="campaignStartDate" />
+         <div *ngIf="campaignForm.get('campaignStartDate')?.touched && campaignForm.get('campaignStartDate')?.invalid" class="text-danger">
+          <small *ngIf="campaignForm.get('campaignStartDate')?.errors?.['required']">campaign start date is required</small>
+        </div>
       </div>
+          <div class="col-md-6">
+        <label class="form-label">End date</label>
+        <input type="date" class="form-control" formControlName="campaignEndDate" />
+         <div *ngIf="campaignForm.get('campaignEndDate')?.touched && campaignForm.get('campaignEndDate')?.invalid" class="text-danger">
+          <small *ngIf="campaignForm.get('campaignEndDate')?.errors?.['required']">campaign end date is required</small>
+        </div>
+      </div>
+
     </div>
 
     <div class="mt-4 d-flex justify-content-between">
       <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
-      <button type="submit" class="btn btn-primary" [disabled]="charityForm.invalid">
-        {{ isEditMode ? 'Update Charity' : 'Create Charity' }}
+      <button type="submit" class="btn btn-primary" [disabled]="campaignForm.invalid">
+        {{ isEditMode ? 'Update Campaign' : 'Create Campaign' }}
       </button>
     </div>
-  </form> -->
+  </form> 
 
   <!-- 📋 LIST SECTION -->
-  <!-- <div class="d-flex mb-3">
-    <input [(ngModel)]="searchTerm" type="text" class="form-control w-25 me-2" placeholder="Search charity..." />
+  <div class="d-flex mb-3">
+    <input [(ngModel)]="searchTerm" type="text" class="form-control w-25 me-2" placeholder="Search campaign..." />
     <button class="btn btn-primary" (click)="onSearch()">Search</button>
-  </div> -->
-  <!-- <div class="card shadow-sm">
-    <div class="card-header bg-light fw-bold">Charity List</div>
+  </div> 
+  <div class="card shadow-sm">
+    <div class="card-header bg-light fw-bold">Campaign List</div>
     <div class="card-body p-0">
       <div *ngIf="loading" class="text-center py-5">
         <div class="spinner-border text-primary"></div>
       </div>
 
-      <table class="table table-hover mb-0" *ngIf="!loading && charities.length > 0">
+      <table class="table table-hover mb-0" *ngIf="!loading && campaigns.length > 0">
         <thead class="table-light">
           <tr>
             <th>#</th>
             <th>Charity Name</th>
-            <th>Regis. No</th>
-            <th>Email</th>
-             <th>Website</th>
-            <th>Status</th>
-            <th>Created</th>
+            <th>Campaign name</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Goal Amount</th>
+            <th>Current Amount</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let c of charities; let i = index">
+          <tr *ngFor="let c of campaigns; let i = index">
             <td>{{ (pageNumber - 1) * pageSize + i + 1 }}</td>
-            <td>{{ c.name }}</td>
-            <td>{{ c.registrationNumber }}</td>
-            <td>{{ c.contactEmail }}</td>
-            <td><a href="'http://'+c.website" target="_blank">{{ c.website }}</a></td>
+            <td>{{ c.charityId }}</td>
+            <td>{{ c.campaignName }}</td>
+            <td>{{ c.campaignStartDate }}</td>
+            <td>{{ c.campaignEndDate }}</td>
+            <td>{{ c.goalAmount }}</td>
+            <td>{{ c.currentAmount }}</td>
             <td>
               <span class="badge" [ngClass]="c.isActive ? 'bg-success' : 'bg-secondary'">
                 {{ c.isApproved ? 'Approved' : 'Not Approved' }}
@@ -98,13 +119,13 @@
         </tbody>
       </table>
 
-      <div *ngIf="!loading && charities.length === 0" class="text-center py-4 text-muted">
-        No charities found.
+      <div *ngIf="!loading && campaigns.length === 0" class="text-center py-4 text-muted">
+        No campaigns found.
       </div>
     </div>
-  </div> -->
+  </div> 
   <!-- Pagination -->
-  <!-- <div class="d-flex justify-content-between align-items-center mt-3">
+  <div class="d-flex justify-content-between align-items-center mt-3">
     <small class="text-muted">
       Showing {{ charities.length }} of {{ totalCount }} charities
     </small>
@@ -119,6 +140,6 @@
         </li>
       </ul>
     </nav>
-  </div> -->
+  </div> 
 
 </div>

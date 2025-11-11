@@ -8,6 +8,7 @@ export interface Campaign {
     campaignStartDate : string;
     campaignEndDate : string;
     imageUrl? : string;
+    charityId : string
 
 }
 

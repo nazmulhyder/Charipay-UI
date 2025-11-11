@@ -32,7 +32,8 @@ export class CampaignService {
             chairtyName : 'WaterAid',
             campaignStartDate: '2025-09-01T00:00:00Z',
             campaignEndDate: '2025-12-01T00:00:00Z',
-            imageUrl : ''
+            imageUrl : '',
+            charityId : ""
         },
          {   campaignId: 'b2',
             campaignName :'Education for All',
@@ -42,7 +43,8 @@ export class CampaignService {
             chairtyName : 'EduCare',
             campaignStartDate: '2025-08-01T00:00:00Z',
             campaignEndDate: '2025-10-31T00:00:00Z',
-            imageUrl : ''
+            imageUrl : '',
+            charityId : ""
         },
          {   campaignId: 'b3',
             campaignName :'Food Relief Program',
@@ -52,7 +54,8 @@ export class CampaignService {
             chairtyName : 'FeedHope',
             campaignStartDate: '2025-08-01T00:00:00Z',
             campaignEndDate: '2025-10-31T00:00:00Z',
-            imageUrl : ''
+            imageUrl : '',
+            charityId : ""
         }
      ]
    }

@@ -8,7 +8,10 @@ export interface Campaign {
     campaignStartDate : string;
     campaignEndDate : string;
     imageUrl? : string;
-    charityId : string
+    charityId : string;
+    isActive : boolean;
+    currencyCode:string;
+    isFeatured : boolean;
 
 }
 

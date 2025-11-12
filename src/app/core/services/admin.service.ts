@@ -55,15 +55,26 @@ export class AdminService {
       let url = `${this.campaignBaseUrl}/GetAllCampaigns?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
       if (search)
-        url += `search=${encodeURIComponent(search)}`;
+        url += `&search=${encodeURIComponent(search)}`;
 
       return this.http.get(url);
    }
 
    createCampaign(campaign : any)
    {
-      this.http.post(`${this.campaignBaseUrl}/CreateCampaign`, campaign);
+      return this.http.post(`${this.campaignBaseUrl}/CreateCampaign`, campaign);
    }
+
+    updateCampaign(campaign : any)
+   {
+      return this.http.post(`${this.campaignBaseUrl}/UpdateCampaign`, campaign);
+   }
+
+      deleteCampaign(id : string)
+   {
+     return this.http.delete(`${this.campaignBaseUrl}/DeleteCampaigns?CampaignId=${id}`);
+   }
+
    //#endregion
 
 }

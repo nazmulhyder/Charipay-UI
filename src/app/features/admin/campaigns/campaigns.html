@@ -29,6 +29,16 @@
         </div>
       </div>
       <div class="col-md-6">
+        <label class="form-label">Currency</label>
+        <select name="" id="" formControlName="currencyCode" class="form-select">
+          <option *ngFor="let c of currencies" value="{{c.code}}">{{c.symbol}}-{{c.name}}</option>
+        </select>
+        <!-- <input type="number" class="form-control" formControlName="goalAmount" /> -->
+         <div *ngIf="campaignForm.get('currencyCode')?.touched && campaignForm.get('currencyCode')?.invalid" class="text-danger">
+          <small *ngIf="campaignForm.get('currencyCode')?.errors?.['required']">Currency is required</small>
+        </div>
+      </div>
+      <div class="col-md-6">
         <label class="form-label">Goal Amount</label>
         <input type="number" class="form-control" formControlName="goalAmount" />
          <div *ngIf="campaignForm.get('goalAmount')?.touched && campaignForm.get('goalAmount')?.invalid" class="text-danger">
@@ -49,13 +59,24 @@
           <small *ngIf="campaignForm.get('campaignStartDate')?.errors?.['required']">campaign start date is required</small>
         </div>
       </div>
-          <div class="col-md-6">
+        <div class="col-md-6">
         <label class="form-label">End date</label>
         <input type="date" class="form-control" formControlName="campaignEndDate" />
          <div *ngIf="campaignForm.get('campaignEndDate')?.touched && campaignForm.get('campaignEndDate')?.invalid" class="text-danger">
           <small *ngIf="campaignForm.get('campaignEndDate')?.errors?.['required']">campaign end date is required</small>
         </div>
       </div>
+
+    <div class="col-md-6 d-flex align-items-center mt-2">
+    <input
+      type="checkbox"
+      class="form-check-input me-2"
+      formControlName="isFeatured"
+  />
+  <label class="form-check-label mb-0 text-gray-700" for="isFeatured">
+    Mark as Featured Campaign
+  </label>
+</div>
 
     </div>
 
@@ -69,7 +90,7 @@
 
   <!-- 📋 LIST SECTION -->
   <div class="d-flex mb-3">
-    <input [(ngModel)]="searchTerm" type="text" class="form-control w-25 me-2" placeholder="Search campaign..." />
+    <input [(ngModel)]="searchTerm" type="text" class="form-control w-25 me-2" placeholder="Search by campaign ..." />
     <button class="btn btn-primary" (click)="onSearch()">Search</button>
   </div> 
   <div class="card shadow-sm">
@@ -89,29 +110,25 @@
             <th>End date</th>
             <th>Goal Amount</th>
             <th>Current Amount</th>
+            <th>Created At</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let c of campaigns; let i = index">
             <td>{{ (pageNumber - 1) * pageSize + i + 1 }}</td>
-            <td>{{ c.charityId }}</td>
+            <td>{{ c.charityName }}</td>
             <td>{{ c.campaignName }}</td>
-            <td>{{ c.campaignStartDate }}</td>
-            <td>{{ c.campaignEndDate }}</td>
-            <td>{{ c.goalAmount }}</td>
-            <td>{{ c.currentAmount }}</td>
-            <td>
-              <span class="badge" [ngClass]="c.isActive ? 'bg-success' : 'bg-secondary'">
-                {{ c.isApproved ? 'Approved' : 'Not Approved' }}
-              </span>
-            </td>
+            <td>{{ c.campaignStartDate | date: 'mediumDate'}}</td>
+            <td>{{ c.campaignEndDate | date: 'mediumDate'}}</td>
+            <td>{{ getCurrencySymbol(c.currencyCode) }}{{ c.goalAmount | number:'1.0-0'}}</td>
+            <td> {{ getCurrencySymbol(c.currencyCode) }}{{ c.currentAmount | number:'1.0-0'}}</td>
             <td>{{ c.createdAt | date: 'mediumDate' }}</td>
             <td>
               <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(c)">
                 <i class="bi bi-pencil-square"></i>
               </button>
-               <button class="btn btn-sm btn-outline-danger me-2" (click)="onDelete(c.charityId)">
+               <button class="btn btn-sm btn-outline-danger me-2" (click)="onDelete(c.campaignId)">
                 <i class="bi bi bi-trash"></i>
               </button>
             </td>
@@ -127,7 +144,7 @@
   <!-- Pagination -->
   <div class="d-flex justify-content-between align-items-center mt-3">
     <small class="text-muted">
-      Showing {{ charities.length }} of {{ totalCount }} charities
+      Showing {{ charities.length }} of {{ totalCount }} campaigns
     </small>
 
     <nav *ngIf="totalCount > pageSize">

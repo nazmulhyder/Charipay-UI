@@ -33,7 +33,10 @@ export class CampaignService {
             campaignStartDate: '2025-09-01T00:00:00Z',
             campaignEndDate: '2025-12-01T00:00:00Z',
             imageUrl : '',
-            charityId : ""
+            charityId : "",
+            isActive:true,
+            currencyCode:'GBP',
+            isFeatured : true
         },
          {   campaignId: 'b2',
             campaignName :'Education for All',
@@ -44,7 +47,10 @@ export class CampaignService {
             campaignStartDate: '2025-08-01T00:00:00Z',
             campaignEndDate: '2025-10-31T00:00:00Z',
             imageUrl : '',
-            charityId : ""
+            charityId : "",
+            isActive:true,
+            currencyCode:'GBP',
+            isFeatured : true
         },
          {   campaignId: 'b3',
             campaignName :'Food Relief Program',
@@ -55,7 +61,10 @@ export class CampaignService {
             campaignStartDate: '2025-08-01T00:00:00Z',
             campaignEndDate: '2025-10-31T00:00:00Z',
             imageUrl : '',
-            charityId : ""
+            charityId : "",
+            isActive:true,
+            currencyCode:'GBP',
+            isFeatured : true
         }
      ]
    }

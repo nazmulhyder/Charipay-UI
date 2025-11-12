@@ -12,7 +12,7 @@ export const ADMIN_ROUTES : Routes = [
         {path:'charities', component: Charities},
         {path:'campains', component:AdminCampaigns},
         {path:'reports', component: Reports},
-        {path:'', redirectTo: 'dashboard', pathMatch:'full'}
+       // {path:'', redirectTo: 'dashboard', pathMatch:'full'}
 
     ]
 }

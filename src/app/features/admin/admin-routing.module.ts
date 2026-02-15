@@ -10,7 +10,7 @@ export const ADMIN_ROUTES : Routes = [
     children:[
         {path:'dashboard', component: AdminDashboardComponent},
         {path:'charities', component: Charities},
-        {path:'campains', component:AdminCampaigns},
+        {path:'campaigns', component:AdminCampaigns},
         {path:'reports', component: Reports},
        // {path:'', redirectTo: 'dashboard', pathMatch:'full'}
 

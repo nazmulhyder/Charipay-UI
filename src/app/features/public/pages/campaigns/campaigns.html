@@ -1,51 +1,80 @@
-<section class="min-h-screen bg-gray-50 py-10">
-  <div class="max-w-7xl mx-auto px-4">
-    <h1 class="text-3xl font-bold text-gray-800 text-center mb-10">
-      Active Campaigns
-    </h1>
+<section class="py-5 bg-light">
+  <div class="container">
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Header -->
+    <div class="row mb-4">
+      <div class="col-12 col-md-8">
+        <h2 class="fw-bold mb-1">All Active Campaigns</h2>
+        <p class="text-muted mb-0">
+          Browse and support verified active campaigns.
+        </p>
+      </div>
+    </div>
+
+    <!-- Campaign Grid -->
+    <div class="row g-4">
+
       <div
+        class="col-12 col-sm-6 col-lg-4 col-xl-3"
         *ngFor="let c of campaigns"
-        class="bg-white rounded-2xl shadow hover:shadow-xl transition duration-300 overflow-hidden"
       >
-        <img
-          [src]="c.imageUrl"
-          alt="{{ c.campaignName }}"
-          class="w-full h-52 object-cover"
-        />
 
-        <div class="p-5 flex flex-col justify-between h-full">
-          <div>
-            <h2 class="text-xl font-semibold text-gray-800 mb-2">
-              {{ c.campaignName }}
-            </h2>
-            <p class="text-gray-600 text-sm mb-3 line-clamp-3">
-              {{ c.campaignDescription }}
-            </p>
+        <div class="card h-100 shadow-sm border-0 campaign-card">
+
+          <!-- Image -->
+          <div class="position-relative">
+            <img
+              [src]="c.imageUrl || '/assets/background-img/default-campaign-bg.jpg'"
+              [alt]="c.campaignName"
+              class="card-img-top"
+              style="height: 200px; object-fit: cover;"
+            />
           </div>
 
-          <div>
-            <div class="h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
-              <div
-                class="bg-green-500 h-full transition-all duration-500"
-                [style.width.%]="(c.currentAmount / c.goalAmount) * 100"
-              ></div>
-            </div>
+          <!-- Body -->
+          <div class="card-body d-flex flex-column">
 
-            <p class="text-sm text-gray-500 mb-3">
-              £{{ c.currentAmount }} raised of £{{ c.goalAmount }}
+            <h5 class="card-title text-truncate">
+              {{ c.campaignName }}
+            </h5>
+
+            <p class="card-text text-muted small flex-grow-1">
+              {{ c.campaignDescription }}
             </p>
 
+            <!-- Progress -->
+            <div class="mt-3">
+              <div class="progress" style="height: 10px;">
+                <div
+                  class="progress-bar bg-success"
+                  role="progressbar"
+                  [style.width.%]="getProgressPercentage(c)"
+                ></div>
+              </div>
+
+              <div class="small text-muted mt-2">
+                £{{ c.currentAmount | number:'1.0-0' }}
+                raised of
+                £{{ c.goalAmount | number:'1.0-0' }}
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Footer Button -->
+          <div class="card-footer bg-white border-0 pt-0">
             <button
+              class="btn btn-outline-primary w-100"
               (click)="onViewDetail(c.campaignId)"
-              class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition"
             >
               View Details
             </button>
           </div>
+
         </div>
+
       </div>
+
     </div>
   </div>
 </section>

@@ -1,92 +1,175 @@
 <div class="container-fluid py-4">
   <h3 class="fw-bold mb-4">Campaign Management</h3>
-  <!-- 🧱 FORM SECTION -->
-   <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="mb-5">
+<form 
+  [formGroup]="campaignForm"
+  (ngSubmit)="onSubmit()"
+  enctype="multipart/form-data"
+  class="card shadow-sm border-0 p-4 mb-5"
+>
+  <div class="mb-4">
+    <h4 class="fw-bold mb-1">{{ isEditMode ? 'Update Campaign' : 'Create Campaign' }}</h4>
+    <p class="text-muted mb-0">Enter campaign details and upload a campaign image.</p>
+  </div>
+
+  <!-- Basic Information -->
+  <div class="mb-4">
+    <h5 class="fw-semibold mb-3">Basic Information</h5>
     <div class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label">Select charity</label>
-         <select id="charityId" formControlName="charityId" class="form-select">
-             <option value="0" disabled selected>Select a charity</option>
-             <option *ngFor="let c of charities.data" [value]="c.charityId"> {{c.name}}</option>
-         </select>
-        <div *ngIf="campaignForm.get('charityId')?.touched && campaignForm.get('charityId')?.invalid" class="text-danger">
-        <small *ngIf="campaignForm.get('charityId')?.errors?.['required']">Charity name is required</small>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Campaign Name</label>
-        <input type="text" class="form-control" formControlName="campaignName" placeholder="campaign name"/>
-        <div *ngIf="campaignForm.get('campaignName')?.touched && campaignForm.get('campaignName')?.invalid" class="text-danger">
-          <small *ngIf="campaignForm.get('campaignName')?.errors?.['required']">Campaign name is required</small>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Campaign Description</label>
-        <textarea type="email" class="form-control" formControlName="campaignDescription" placeholder="write charity description .." cols="5" rows="1"></textarea>
-       
-        <div *ngIf="campaignForm.get('campaignDescription')?.touched && campaignForm.get('campaignDescription')?.invalid" class="text-danger">
-          <small *ngIf="campaignForm.get('campaignDescription')?.errors?.['required']">campaign description is required</small>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Currency</label>
-        <select name="" id="" formControlName="currencyCode" class="form-select">
-          <option *ngFor="let c of currencies" value="{{c.code}}">{{c.symbol}}-{{c.name}}</option>
+      <div class="col-12 col-md-6">
+        <label class="form-label">Select Charity</label>
+        <select formControlName="charityId" class="form-select">
+          <option [value]="0">Select a charity</option>
+          <option *ngFor="let c of charities.data" [value]="c.charityId">
+            {{ c.name }}
+          </option>
         </select>
-        <!-- <input type="number" class="form-control" formControlName="goalAmount" /> -->
-         <div *ngIf="campaignForm.get('currencyCode')?.touched && campaignForm.get('currencyCode')?.invalid" class="text-danger">
-          <small *ngIf="campaignForm.get('currencyCode')?.errors?.['required']">Currency is required</small>
+        <div *ngIf="campaignForm.get('charityId')?.touched && campaignForm.get('charityId')?.invalid" class="text-danger small mt-1">
+          Charity is required
         </div>
       </div>
-      <div class="col-md-6">
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Campaign Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="campaignName"
+          placeholder="Enter campaign name"
+        />
+        <div *ngIf="campaignForm.get('campaignName')?.touched && campaignForm.get('campaignName')?.invalid" class="text-danger small mt-1">
+          Campaign name is required
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Campaign Description</label>
+        <textarea
+          class="form-control"
+          formControlName="campaignDescription"
+          placeholder="Write campaign description..."
+          rows="4"
+        ></textarea>
+        <div *ngIf="campaignForm.get('campaignDescription')?.touched && campaignForm.get('campaignDescription')?.invalid" class="text-danger small mt-1">
+          Campaign description is required
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Funding & Dates -->
+  <div class="mb-4">
+    <h5 class="fw-semibold mb-3">Funding & Dates</h5>
+    <div class="row g-3">
+      <div class="col-12 col-md-4">
+        <label class="form-label">Currency</label>
+        <select formControlName="currencyCode" class="form-select">
+          <option [ngValue]="null">Select currency</option>
+          <option *ngFor="let c of currencies" [value]="c.code">
+            {{ c.symbol }} - {{ c.name }}
+          </option>
+        </select>
+        <div *ngIf="campaignForm.get('currencyCode')?.touched && campaignForm.get('currencyCode')?.invalid" class="text-danger small mt-1">
+          Currency is required
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
         <label class="form-label">Goal Amount</label>
         <input type="number" class="form-control" formControlName="goalAmount" />
-         <div *ngIf="campaignForm.get('goalAmount')?.touched && campaignForm.get('goalAmount')?.invalid" class="text-danger">
-          <small *ngIf="campaignForm.get('goalAmount')?.errors?.['required']">goal amount is required</small>
+        <div *ngIf="campaignForm.get('goalAmount')?.touched && campaignForm.get('goalAmount')?.invalid" class="text-danger small mt-1">
+          Goal amount is required
         </div>
       </div>
-       <div class="col-md-6">
+
+      <div class="col-12 col-md-4">
         <label class="form-label">Current Amount</label>
         <input type="number" class="form-control" formControlName="currentAmount" />
-         <div *ngIf="campaignForm.get('currentAmount')?.touched && campaignForm.get('currentAmount')?.invalid" class="text-danger">
-          <small *ngIf="campaignForm.get('currentAmount')?.errors?.['required']">current amount is required</small>
+        <div *ngIf="campaignForm.get('currentAmount')?.touched && campaignForm.get('currentAmount')?.invalid" class="text-danger small mt-1">
+          Current amount is required
         </div>
       </div>
-       <div class="col-md-6">
-        <label class="form-label">Start date</label>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Start Date</label>
         <input type="date" class="form-control" formControlName="campaignStartDate" />
-         <div *ngIf="campaignForm.get('campaignStartDate')?.touched && campaignForm.get('campaignStartDate')?.invalid" class="text-danger">
-          <small *ngIf="campaignForm.get('campaignStartDate')?.errors?.['required']">campaign start date is required</small>
+        <div *ngIf="campaignForm.get('campaignStartDate')?.touched && campaignForm.get('campaignStartDate')?.invalid" class="text-danger small mt-1">
+          Start date is required
         </div>
       </div>
-        <div class="col-md-6">
-        <label class="form-label">End date</label>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">End Date</label>
         <input type="date" class="form-control" formControlName="campaignEndDate" />
-         <div *ngIf="campaignForm.get('campaignEndDate')?.touched && campaignForm.get('campaignEndDate')?.invalid" class="text-danger">
-          <small *ngIf="campaignForm.get('campaignEndDate')?.errors?.['required']">campaign end date is required</small>
+        <div *ngIf="campaignForm.get('campaignEndDate')?.touched && campaignForm.get('campaignEndDate')?.invalid" class="text-danger small mt-1">
+          End date is required
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image & Settings -->
+  <div class="mb-4">
+    <h5 class="fw-semibold mb-3">Image & Settings</h5>
+    <div class="row g-3 align-items-start">
+      <div class="col-12 col-md-6">
+        <label class="form-label">Campaign Image</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+        />
+
+        <div *ngIf="imagePreview" class="mt-3">
+          <img
+            [src]="imagePreview"
+            class="img-fluid rounded border"
+            style="max-height: 220px; object-fit: cover;"
+            alt="Campaign preview"
+          />
         </div>
       </div>
 
-    <div class="col-md-6 d-flex align-items-center mt-2">
-    <input
-      type="checkbox"
-      class="form-check-input me-2"
-      formControlName="isFeatured"
-  />
-  <label class="form-check-label mb-0 text-gray-700" for="isFeatured">
-    Mark as Featured Campaign
-  </label>
-</div>
+      <div class="col-12 col-md-6">
+        <label class="form-label d-block mb-3">Campaign Options</label>
 
-    </div>
+        <div class="form-check mb-3">
+          <input
+            id="isFeatured"
+            type="checkbox"
+            class="form-check-input"
+            formControlName="isFeatured"
+          />
+          <label class="form-check-label" for="isFeatured">
+            Mark as Featured Campaign
+          </label>
+        </div>
 
-    <div class="mt-4 d-flex justify-content-between">
-      <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
-      <button type="submit" class="btn btn-primary" [disabled]="campaignForm.invalid">
-        {{ isEditMode ? 'Update Campaign' : 'Create Campaign' }}
-      </button>
+        <div class="form-check">
+          <input
+            id="isActive"
+            type="checkbox"
+            class="form-check-input"
+            formControlName="isActive"
+          />
+          <label class="form-check-label" for="isActive">
+            Is Active
+          </label>
+        </div>
+      </div>
     </div>
-  </form> 
+  </div>
+
+  <!-- Buttons -->
+  <div class="d-flex justify-content-end gap-2 pt-2">
+    <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+      Reset
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="campaignForm.invalid">
+      {{ isEditMode ? 'Update Campaign' : 'Create Campaign' }}
+    </button>
+  </div>
+</form>
 
   <!-- 📋 LIST SECTION -->
   <div class="d-flex mb-3">

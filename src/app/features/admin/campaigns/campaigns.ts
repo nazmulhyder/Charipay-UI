@@ -25,6 +25,28 @@ export class AdminCampaigns implements OnInit{
   pageSize = 10;
   selectedCampaignId : any;
   totalCount : number =0;
+  response = [];
+
+  //image upload
+  selectedFile : File | null = null;
+  imagePreview : string | null = null;
+
+  onFileSelected(event: Event){
+    const input = event.target as HTMLInputElement;
+
+    if(!input.files?.length) return;
+
+    this.selectedFile = input.files[0];
+
+    //preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+
+    reader.readAsDataURL(this.selectedFile);
+  }
+
 
   constructor(private fb: FormBuilder, private http:HttpClient, private adminService: AdminService) {
      
@@ -41,7 +63,7 @@ export class AdminCampaigns implements OnInit{
         charityId : ["0", Validators.required],
         currencyCode : ['GBP'],
         isFeatured : [false],
-        isActive : [true]
+        isActive : [false]
      }, {Validators: endDateAfterStartDateValidator()});
 
      this.getLookupCharities();
@@ -99,10 +121,27 @@ export class AdminCampaigns implements OnInit{
 
       request.subscribe({
          next: (res) =>{
+           console.log();
+           const campaignId = this.isEditMode? this.selectedCampaignId : res.data?.campaignId;
+
+           if(!campaignId) {
+             alert("Campaign saved but campaigned id is not returned!");
+             this.loading = false;
+             return;
+           }
+
+
+           if(this.selectedFile)
+           {
+            this.uploadCampaignImage(campaignId);
+           }
+           else {
+            // const campaignId =  res.data.CampaignId;
             this.loading = false;
             alert(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`);
             this.resetForm();
             this.loadCampaigns();
+           }          
          },
         error: (err) =>{
             alert('Error occured while save campaigns!');
@@ -155,6 +194,33 @@ export class AdminCampaigns implements OnInit{
     });
   }
 
+  uploadCampaignImage(campaignId:string) : void {
+    if(!this.selectedFile)
+    {
+      this.loading = false;
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('File', this.selectedFile);
+
+    this.adminService.uploadCampaignImage(campaignId, formData).subscribe({
+      next:(res) =>{
+        this.loading = false;
+        alert(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`);
+        this.resetForm();
+        this.loadCampaigns();
+
+      },
+
+      error:(err) =>{
+        console.error(err);
+        this.loading = false;
+        alert("Image upload failed");
+      }
+    })
+  }
+
   private formatDate(dateString: string): string | null {
   if (!dateString) return null;
   return new Date(dateString).toISOString().split('T')[0];
@@ -181,7 +247,7 @@ export class AdminCampaigns implements OnInit{
   
   loadCampaigns(){
       this.loading = true;
-      this.adminService.getAllCampaign(this.pageNumber, this.pageSize, this.searchTerm)
+      this.adminService.getAllCampaign(this.pageNumber, this.pageSize, false, false, this.searchTerm)
       .subscribe({
            next: (res) => {
               this.campaigns = res.data?.items;

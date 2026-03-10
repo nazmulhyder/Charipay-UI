@@ -2,6 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment.prod";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
+import { ApiResponse } from "../../shared/models/api-response.model";
+import { Campaign } from "../../shared/models/campaign.model";
 
 @Injectable ({providedIn:'root'})
 
@@ -51,8 +53,8 @@ export class AdminService {
    //#endregion
 
    //#region Campaigns
-   getAllCampaign(pageNumber: number, pageSize:number, search?:string) : Observable<any> {
-      let url = `${this.campaignBaseUrl}/GetAllCampaigns?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+   getAllCampaign(pageNumber: number, pageSize:number, IsActive:boolean,IsFeatured?: boolean,  search?:string) : Observable<any> {
+      let url = `${this.campaignBaseUrl}/Admin/AllCampaigns?PageNumber=${pageNumber}&PageSize=${pageSize}&IsActive=${IsActive}&IsFeatured=${IsFeatured}`;
 
       if (search)
         url += `&search=${encodeURIComponent(search)}`;
@@ -60,15 +62,32 @@ export class AdminService {
       return this.http.get(url);
    }
 
-   createCampaign(campaign : any)
-   {
-      return this.http.post(`${this.campaignBaseUrl}/CreateCampaign`, campaign);
-   }
+  //  createCampaign(campaign : any)
+  //  {
+  //     return this.http.post(`${this.campaignBaseUrl}/CreateCampaign`, campaign);
+  //  }
 
-    updateCampaign(campaign : any)
-   {
-      return this.http.post(`${this.campaignBaseUrl}/UpdateCampaign`, campaign);
-   }
+createCampaign(payload: any): Observable<ApiResponse<Campaign>> {
+  return this.http.post<ApiResponse<Campaign>>(
+    `${this.campaignBaseUrl}/CreateCampaign`,
+    payload
+  );
+}
+
+updateCampaign(payload: any): Observable<ApiResponse<Campaign>> {
+  return this.http.post<ApiResponse<Campaign>>(
+    `${this.campaignBaseUrl}/UpdateCampaign`,
+    payload
+  );
+}
+
+uploadCampaignImage(campaignId: string, formData: FormData): Observable<any> {
+  return this.http.post(`${this.campaignBaseUrl}/upload-image?CampaignId=${campaignId}`, formData);
+}
+  //   updateCampaign(campaign : any)
+  //  {
+  //     return this.http.post(`${this.campaignBaseUrl}/UpdateCampaign`, campaign);
+  //  }
 
       deleteCampaign(id : string)
    {

@@ -1,18 +1,19 @@
 export interface Campaign {
     campaignId: string;
-    campaignName : string ;
-    campaignDescription : string;
-    goalAmount : number;
-    currentAmount : number;
-    chairtyName : string;
-    campaignStartDate : string;
-    campaignEndDate : string;
-    imageUrl? : string;
-    charityId : string;
-    isActive : boolean;
-    currencyCode:string;
-    isFeatured : boolean;
-
+    campaignName: string;
+    campaignDescription: string;
+    goalAmount: number;
+    currentAmount: number;
+    campaignStartDate: string;
+    campaignEndDate: string;
+    imageUrl: string;
+    charityName: string | null;
+    charityId: string;
+    createdById: string;
+    createdAt: string;
+    isFeatured: boolean;
+    isActive: boolean;
+    currencyCode: string;
 }
 
 

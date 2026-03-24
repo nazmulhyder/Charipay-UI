@@ -39,4 +39,13 @@ export class Home  implements OnInit{
         
       })
   }
+
+  getProgress(campaign: any): number {
+  if (!campaign?.goalAmount || campaign.goalAmount <= 0) {
+    return 0;
+  }
+
+  const progress = (campaign.currentAmount / campaign.goalAmount) * 100;
+  return Math.min(progress, 100);
+}
 }

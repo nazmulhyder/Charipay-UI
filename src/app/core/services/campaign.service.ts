@@ -21,13 +21,17 @@ export class CampaignService {
    // }
 
 
-getPublicCampaigns(pageNumber: number, pageSize:number, IsFeatured:boolean, search?:string) : Observable<any> 
+  getPublicCampaigns(pageNumber: number, pageSize:number, IsFeatured:boolean, search?:string) : Observable<any> 
   {
        let url = `${this.campaignBaseUrl}/Public/AllCampaigns?pageNumber=${pageNumber}&pageSize=${pageSize}&IsFeatured=${IsFeatured}`;
        if (search) url+= `&search=${encodeURIComponent(search)}`;
 
        return this.http.get(url);
    }
+
+ getCampaignById(id: any) {
+  return this.http.get<any>(`${this.campaignBaseUrl}/GetById?CampaignId=${id}`);
+}
 
 
   

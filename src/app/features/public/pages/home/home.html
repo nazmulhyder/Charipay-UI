@@ -1,17 +1,27 @@
-<!-- 🌍 Hero Section -->
+<!-- Hero Section -->
 <section class="hero-section text-center text-white d-flex align-items-center justify-content-center">
   <div class="container">
-    <h1 class="display-5 fw-bold mb-3">Make a Difference with Charipay</h1>
-    <p class="lead mb-4">Discover meaningful campaigns and support causes that change lives.</p>
-    <a routerLink="/campaigns" class="btn btn-primary btn-lg px-4">Browse Campaigns</a>
+    <h1 class="display-5 fw-bold mb-3">Make Giving Simple and Meaningful</h1>
+    <p class="lead mb-4">
+      Support trusted campaigns, help communities, and see the impact of your contribution.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a routerLink="/campaigns" class="btn btn-primary btn-lg px-4">
+        Browse Campaigns
+      </a>
+      <a routerLink="/about" class="btn btn-outline-light btn-lg px-4">
+        Learn More
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- 🌟 Featured Campaigns -->
+<!-- Featured Campaigns -->
 <section class="featured-campaigns py-5">
   <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="fw-bold">Featured Campaigns</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <h2 class="fw-bold mb-0">Featured Campaigns</h2>
       <a routerLink="/campaigns" class="text-decoration-none text-primary fw-semibold">
         View All <i class="bi bi-arrow-right ms-1"></i>
       </a>
@@ -27,32 +37,48 @@
     <!-- Campaign Grid -->
     <div *ngIf="!loading && featuredCampaigns.length > 0" class="row g-4">
       <div class="col-12 col-md-6 col-lg-4" *ngFor="let campaign of featuredCampaigns">
-        <div class="card h-100 shadow-sm border-0">
-          <img [src]="campaign.imageUrl || '/assets/background-img/default-campaign-bg.jpg'"
-               class="card-img-top" alt="{{ campaign.campaignName }}">
-          <div class="card-body">
-            <h5 class="card-title fw-semibold">{{ campaign.campaignName }}</h5>
-            <p class="card-text text-muted">{{ campaign.campaignDescription }}</p>
-
-            <div class="progress mb-2">
-               <div
-        class="progress-bar bg-success"
-        role="progressbar"
-        [style.width.%]="(campaign.currentAmount / campaign.goalAmount) * 100"
-        [attr.aria-valuenow]="(campaign.currentAmount / campaign.goalAmount) * 100"
-        aria-valuemin="0"
-        aria-valuemax="100">
-  </div>
-            </div>
-            <small class="text-muted">
-              Raised £{{ campaign.currentAmount | number }} of £{{ campaign.goalAmount | number }}
-            </small>
+        <div class="card campaign-card h-100 border-0 shadow-sm">
+          <div class="campaign-image-wrapper">
+            <img
+              [src]="campaign.imageUrl || '/assets/background-img/default-campaign-bg.jpg'"
+              class="campaign-image"
+              [alt]="campaign.campaignName"
+            />
           </div>
 
-          <div class="card-footer bg-transparent border-0 text-center pb-3">
-            <a [routerLink]="['/campaigns', campaign.campaignId]" class="btn btn-outline-primary w-75">
-              View Details
-            </a>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-semibold mb-2">
+              {{ campaign.campaignName }}
+            </h5>
+
+            <p class="card-text text-muted campaign-description mb-3">
+              {{ campaign.campaignDescription }}
+            </p>
+
+            <div class="mb-2">
+              <div class="progress campaign-progress">
+                <div
+                  class="progress-bar bg-success"
+                  role="progressbar"
+                  [style.width.%]="getProgress(campaign)"
+                  [attr.aria-valuenow]="getProgress(campaign)"
+                  aria-valuemin="0"
+                  aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+
+            <small class="text-muted d-block mb-3">
+              Raised £{{ campaign.currentAmount | number }} of £{{ campaign.goalAmount | number }}
+            </small>
+
+            <div class="mt-auto text-center">
+              <a
+                [routerLink]="['/campaigns', campaign.campaignId]"
+                class="btn btn-outline-primary w-75">
+                View Details
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -65,32 +91,39 @@
   </div>
 </section>
 
-<!-- ⚙️ How It Works -->
+<!-- How It Works -->
 <section class="how-it-works py-5 bg-light">
   <div class="container text-center">
     <h2 class="fw-bold mb-5">How It Works</h2>
+
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 p-4">
+        <div class="card border-0 shadow-sm h-100 p-4 how-card">
           <i class="bi bi-search display-5 text-primary mb-3"></i>
           <h5 class="fw-bold">1. Discover Campaigns</h5>
-          <p>Browse causes that inspire you and see how your help makes a difference.</p>
+          <p class="mb-0">
+            Browse meaningful causes and find campaigns that match your values.
+          </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 p-4">
+        <div class="card border-0 shadow-sm h-100 p-4 how-card">
           <i class="bi bi-heart display-5 text-danger mb-3"></i>
           <h5 class="fw-bold">2. Donate Securely</h5>
-          <p>Support your chosen campaign safely through our trusted payment gateway.</p>
+          <p class="mb-0">
+            Support your chosen campaign safely through a secure donation process.
+          </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 p-4">
+        <div class="card border-0 shadow-sm h-100 p-4 how-card">
           <i class="bi bi-people display-5 text-success mb-3"></i>
           <h5 class="fw-bold">3. Make a Difference</h5>
-          <p>See your donation in action and help change lives in your community.</p>
+          <p class="mb-0">
+            Help real communities and see how contributions create meaningful impact.
+          </p>
         </div>
       </div>
     </div>

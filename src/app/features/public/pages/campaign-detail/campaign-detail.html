@@ -1,1 +1,60 @@
-<p>campaign-detail works!</p>
+<div class="container py-5">
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!loading && errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Campaign Details -->
+  <div *ngIf="!loading && campaign" class="row g-4">
+    <div class="col-lg-6">
+      <div class="campaign-image-wrapper bg-light rounded shadow-sm p-3">
+        <img
+          [src]="campaign.imageUrl || '/assets/background-img/default-campaign-bg.jpg'"
+          [alt]="campaign.campaignName"
+          class="img-fluid campaign-image"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <h2 class="fw-bold mb-3">{{ campaign.campaignName }}</h2>
+      <p class="text-muted mb-4">{{ campaign.campaignDescription }}</p>
+
+      <div class="progress mb-2" style="height: 12px;">
+        <div
+          class="progress-bar bg-success"
+          role="progressbar"
+          [style.width.%]="getProgress()"
+          [attr.aria-valuenow]="getProgress()"
+          aria-valuemin="0"
+          aria-valuemax="100">
+        </div>
+      </div>
+
+      <p class="mb-2">
+        <strong>Raised:</strong> £{{ campaign.currentAmount | number }}
+      </p>
+      <p class="mb-2">
+        <strong>Goal:</strong> £{{ campaign.goalAmount | number }}
+      </p>
+      <p class="mb-2">
+        <strong>Status:</strong> {{ campaign.isActive ? 'Active' : 'Closed' }}
+      </p>
+
+      <div class="mt-4">
+        <button class="btn btn-primary btn-lg px-4">Donate Now</button>
+      </div>
+    </div>
+  </div>
+
+  <a routerLink="/campaigns" class="btn btn-outline-secondary mb-4 mt-4">
+  ← Back to Campaigns
+</a>
+</div>

@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CampaignService } from '../../../../core/services/campaign.service';
 import { Campaign } from '../../../../shared/models/campaign.model';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-campaigns',
   standalone:true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './campaigns.html',
   styleUrl: './campaigns.css'
 })

@@ -48,13 +48,182 @@
         <strong>Status:</strong> {{ campaign.isActive ? 'Active' : 'Closed' }}
       </p>
 
-      <div class="mt-4">
-        <button class="btn btn-primary btn-lg px-4">Donate Now</button>
+     <div class="mt-4">
+  <button
+    class="btn btn-primary btn-lg px-4"
+    (click)="toggleDonationForm()"
+    [disabled]="!campaign.isActive">
+    Donate Now
+  </button>
+</div>
+
+      <!-- Donation Choice -->
+<div *ngIf="showDonationChoice" class="card shadow-sm border-0 mt-4">
+  <div class="card-body">
+    <h5 class="card-title mb-3">How would you like to donate?</h5>
+    <p class="text-muted mb-3">
+      Choose whether you want to donate anonymously or with your account.
+    </p>
+
+    <div class="d-flex gap-2 flex-wrap">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="chooseAnonymousDonation()">
+        Donate Anonymously
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="chooseNonAnonymousDonation()">
+        Donate with Account
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="cancelDonationChoice()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="donationErrorMessage" class="alert alert-danger mt-3">
+        {{ donationErrorMessage }}
+      </div>
+
+      <!-- Donation Form -->
+      <div *ngIf="showDonationForm" class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+          <h5 class="card-title mb-3">
+  {{ donationMode === 'anonymous' ? 'Anonymous Donation' : 'Donate to this campaign' }}
+</h5>
+
+<p class="text-muted" *ngIf="donationMode === 'anonymous'">
+  Your donation will be submitted without showing your identity.
+</p>
+
+<p class="text-muted" *ngIf="donationMode === 'nonAnonymous'">
+  Your donation will be associated with your account.
+</p>
+
+          <form [formGroup]="donationForm" (ngSubmit)="submitDonation()">
+            <div class="mb-3">
+              <label for="amount" class="form-label">Amount (£)</label>
+              <input
+                id="amount"
+                type="number"
+                class="form-control"
+                formControlName="amount"
+                placeholder="Enter donation amount"
+              />
+
+              <div
+                *ngIf="donationForm.get('amount')?.touched && donationForm.get('amount')?.errors?.['required']"
+                class="text-danger mt-1">
+                Amount is required.
+              </div>
+
+              <div
+                *ngIf="donationForm.get('amount')?.touched && donationForm.get('amount')?.errors?.['min']"
+                class="text-danger mt-1">
+                Minimum donation amount is £1.
+              </div>
+            </div>
+
+            <div class="mb-3">
+  <label class="form-label fw-semibold">Payment Method</label>
+
+ <div class="d-flex gap-3 flex-wrap">
+
+  <label
+    class="btn"
+    [ngClass]="donationForm.value.paymentMethod === 'Card' ? 'btn-primary' : 'btn-outline-primary'">
+
+    <input
+      type="radio"
+      value="Card"
+      formControlName="paymentMethod"
+      class="d-none" />
+
+    💳 Card
+  </label>
+
+  <label
+    class="btn"
+    [ngClass]="donationForm.value.paymentMethod === 'BankTransfer' ? 'btn-primary' : 'btn-outline-primary'">
+
+    <input
+      type="radio"
+      value="BankTransfer"
+      formControlName="paymentMethod"
+      class="d-none" />
+
+    🏦 Bank Transfer
+  </label>
+
+  <label
+    class="btn"
+    [ngClass]="donationForm.value.paymentMethod === 'MobileWallet' ? 'btn-primary' : 'btn-outline-primary'">
+
+    <input
+      type="radio"
+      value="MobileWallet"
+      formControlName="paymentMethod"
+      class="d-none" />
+
+    📱 Mobile Wallet
+  </label>
+
+</div>
+
+ <div
+    *ngIf="donationForm.get('paymentMethod')?.touched && donationForm.get('paymentMethod')?.errors?.['required']"
+    class="text-danger mt-1">
+    Please select a payment method.
+  </div>
+</div>
+
+            <div class="mb-3">
+              <label for="message" class="form-label">Message (optional)</label>
+              <textarea
+                id="message"
+                class="form-control"
+                rows="4"
+                formControlName="message"
+                placeholder="Write a message"></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Submitting...' : 'Donate' }}
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="showDonationForm = false">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
   <a routerLink="/campaigns" class="btn btn-outline-secondary mb-4 mt-4">
-  ← Back to Campaigns
-</a>
+    ← Back to Campaigns
+  </a>
 </div>

@@ -10,3 +10,11 @@
   max-height: 450px;
   object-fit: contain;
 }
+
+.form-check-input {
+  cursor: pointer;
+}
+
+.form-check-label {
+  cursor: pointer;
+}

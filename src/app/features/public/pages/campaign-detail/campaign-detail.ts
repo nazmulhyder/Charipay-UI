@@ -7,41 +7,41 @@ import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-campaign-detail',
-  imports: [CommonModule, RouterModule,ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './campaign-detail.html',
   styleUrl: './campaign-detail.css'
 })
-export class CampaignDetail implements OnInit{
-   campaign: any = null;
-    loading = false;
-    errorMessage = '';
-    donationForm!: FormGroup;
-    isSubmitting = false;
-    showDonationForm = false;
-    successMessage = '';
-     donationErrorMessage = '';
-    isLoggedIn = false;
-    showDonationChoice = false;
-donationMode: 'anonymous' | 'nonAnonymous' | null = null;
+export class CampaignDetail implements OnInit {
+  campaign: any = null;
+  loading = false;
+  errorMessage = '';
+  donationForm!: FormGroup;
+  isSubmitting = false;
+  showDonationForm = false;
+  successMessage = '';
+  donationErrorMessage = '';
+  isLoggedIn = false;
+  showDonationChoice = false;
+  donationMode: 'anonymous' | 'nonAnonymous' | null = null;
 
 
 
-    constructor(
-      private route: ActivatedRoute,
-      private campaignService: CampaignService,
-      private fb: FormBuilder,
-      private router: Router,
-      private authService: AuthService
-    ) {}
+  constructor(
+    private route: ActivatedRoute,
+    private campaignService: CampaignService,
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   initializeForm(): void {
-      this.donationForm = this.fb.group({
+    this.donationForm = this.fb.group({
       amount: [null, [Validators.required, Validators.min(1)]],
       message: [''],
       paymentMethod: ['', Validators.required]
     });
   }
-  
+
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.initializeForm();
@@ -55,7 +55,7 @@ donationMode: 'anonymous' | 'nonAnonymous' | null = null;
   }
 
 
-   getCampaignDetails(id: string): void {
+  getCampaignDetails(id: string): void {
     this.loading = true;
     this.errorMessage = '';
 
@@ -80,8 +80,8 @@ donationMode: 'anonymous' | 'nonAnonymous' | null = null;
     return Math.min((this.campaign.currentAmount / this.campaign.goalAmount) * 100, 100);
   }
 
- 
-toggleDonationForm() {
+
+  toggleDonationForm() {
     this.successMessage = '';
     this.donationErrorMessage = '';
 
@@ -92,44 +92,75 @@ toggleDonationForm() {
 
     this.showDonationChoice = true;
     this.showDonationForm = false;
-}
-
-chooseAnonymousDonation(): void {
-  this.donationMode = 'anonymous';
-  this.showDonationChoice = false;
-  this.showDonationForm = true;
-}
-
-chooseNonAnonymousDonation(): void {
-  this.donationMode = 'nonAnonymous';
-
-  if (!this.isLoggedIn) {
-     const campaignId = this.route.snapshot.paramMap.get('id');
-    this.router.navigate(['auth/login'], {
-      queryParams: { returnUrl: `/campaigns/${campaignId}` }
-    });
-    return;
   }
 
-  this.showDonationChoice = false;
-  this.showDonationForm = true;
-}
+  chooseAnonymousDonation(): void {
+    this.donationMode = 'anonymous';
+    this.showDonationChoice = false;
+    this.showDonationForm = true;
+  }
 
-cancelDonationChoice(): void {
-  this.showDonationChoice = false;
-  this.showDonationForm = false;
-  this.donationMode = null;
-}
+  chooseNonAnonymousDonation(): void {
+    this.donationMode = 'nonAnonymous';
 
-submitDonation(): void {
+    if (!this.isLoggedIn) {
+      const campaignId = this.route.snapshot.paramMap.get('id');
+      this.router.navigate(['auth/login'], {
+        queryParams: { returnUrl: `/campaigns/${campaignId}` }
+      });
+      return;
+    }
 
-  const payload = {
-  campaignId: this.route.snapshot.paramMap.get('id'),
-  amount: Number(this.donationForm.value.amount),
-  message: this.donationForm.value.message?.trim() || '',
-  isAnonymous: this.donationMode === 'anonymous',
-   paymentMethod: this.donationForm.value.paymentMethod
-};
+    this.showDonationChoice = false;
+    this.showDonationForm = true;
+  }
 
-}
+  cancelDonationChoice(): void {
+    this.showDonationChoice = false;
+    this.showDonationForm = false;
+    this.donationMode = null;
+  }
+
+  submitDonation(): void {
+
+      if(this.donationForm.invalid)
+      {
+        this.donationForm.markAllAsTouched();
+        return;
+      }
+
+    const payload = {
+      campaignId: this.route.snapshot.paramMap.get('id'),
+      amount: Number(this.donationForm.value.amount),
+      message: this.donationForm.value.message?.trim() || '',
+      isAnonymous: this.donationMode === 'anonymous'? true : false,
+      paymentMethod: this.donationForm.value.paymentMethod
+    };
+
+console.log(payload);
+  const request = this.campaignService.CreateDonation(payload);
+
+  request.subscribe ({
+    next : (res) => {
+      console.log(res.data?.paymentStatus);
+       console.log(res);
+      if(res.data?.paymentStatus == 'Succeeded')
+       {
+        alert(`Donation Successful`);
+         this.getCampaignDetails(res.data.campaignId);
+       }
+      else
+        alert('something went wrong in donation');
+
+      this.donationForm.reset();
+      this.showDonationForm = false;
+    },
+
+    error: (err) =>{
+        alert('something went wrong in donation');
+        this.donationForm.reset();
+        this.showDonationForm = false;
+    }
+  })
+  }
 }

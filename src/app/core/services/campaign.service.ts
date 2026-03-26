@@ -4,10 +4,13 @@ import { Observable, of } from "rxjs";
 import { Campaign } from "../../shared/models/campaign.model";
 import { environment } from "../../../environments/environment.prod";
 import { HttpClient } from "@angular/common/http";
+import { DonationResponse } from "../../shared/models/donation-response.model";
+import { ApiResponse } from "../../shared/models/api-response.model";
 @Injectable ({providedIn:'root'})
 
 export class CampaignService {
    private campaignBaseUrl = `${environment.apiUrl}/Campaigns`
+   private donationBaseUrl = `${environment.apiUrl}/Donations`
   constructor(private api: ApiService, private http: HttpClient) {}
 
    // getAll(): Observable<Campaign[]> {
@@ -33,7 +36,12 @@ export class CampaignService {
   return this.http.get<any>(`${this.campaignBaseUrl}/GetById?CampaignId=${id}`);
 }
 
-
+CreateDonation(payload: any): Observable<ApiResponse<DonationResponse>> {
+  return this.http.post<ApiResponse<DonationResponse>>(
+    `${this.donationBaseUrl}/CreateDonation`,
+    payload
+  );
+}
   
 }
 

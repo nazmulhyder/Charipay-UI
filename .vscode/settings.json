@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/0bfbd333-52c0-4efa-9127-0f65c968c4b4/resourceGroups/My-development-apps/providers/Microsoft.Web/sites/charipay",
+    "appService.deploySubpath": "dist\\Charipay-UI"
+}

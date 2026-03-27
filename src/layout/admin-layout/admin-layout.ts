@@ -20,8 +20,6 @@ export class AdminLayout implements OnInit{
     this.userName = this.auth.getUserName();
   }
 
-   
-
    toggleSidebar(){
      this.sidebarOpen = !this.sidebarOpen;
      const sidebar = document.getElementById('sidebar');

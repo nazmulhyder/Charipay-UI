@@ -17,13 +17,19 @@ import { RouterLink } from '@angular/router';
 export class Home  implements OnInit{
    featuredCampaigns : Campaign[] = [];
    loading = true;
+  searchTerm = "";
+  pageNumber = 1;
+  pageSize = 10;
+  selectedCampaignId : any;
+  totalCount : number =0;
 
    constructor(private campaignService:  CampaignService){}
 
   ngOnInit(): void {
-    this.campaignService.getFeaturedCampains().subscribe({
+    this.campaignService.getPublicCampaigns(this.pageNumber, this.pageSize, true, this.searchTerm).subscribe({
       next: (res)=> {
-        this.featuredCampaigns = res || [];
+        this.featuredCampaigns = res.data?.items || [];
+        console.log('home', this.featuredCampaigns)
         this.loading = false;
       },
       error:(err) => {
@@ -33,4 +39,13 @@ export class Home  implements OnInit{
         
       })
   }
+
+  getProgress(campaign: any): number {
+  if (!campaign?.goalAmount || campaign.goalAmount <= 0) {
+    return 0;
+  }
+
+  const progress = (campaign.currentAmount / campaign.goalAmount) * 100;
+  return Math.min(progress, 100);
+}
 }

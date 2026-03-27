@@ -1,0 +1,16 @@
+.campaign-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campaign-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.campaign-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* 👈 show only 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 48\0px; /* keeps cards equal */
+}

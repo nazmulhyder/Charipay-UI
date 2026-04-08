@@ -4,6 +4,23 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+
+  interface RecentDonation {
+  donorName: string;
+  campaignName: string;
+  amount: number;
+  createdAt: string;
+}
+
+interface DashboardData {
+  totalUsers: number;
+  totalCharities: number;
+  totalCampaigns: number;
+  totalDonations: number;
+  recentDonations: RecentDonation[];
+}
+
+
 @Component({
   selector: 'app-dashboard',
   standalone:true,
@@ -19,13 +36,18 @@ export class AdminDashboardComponent implements OnInit
   pageSize = 10;
   loading = false;
   searchTerm = '';
+  dashboardData : DashboardData | null = null;
+   isLoading = false;
+  errorMessage = '';
  
   constructor(private adminService: AdminService){}
   
   ngOnInit(): void {
     this.pageNumber =1;
-    this.loadUsers();
+    //this.loadUsers();
+    this.loadDashboard();
   }
+
 
 
   loadUsers() {
@@ -43,6 +65,25 @@ export class AdminDashboardComponent implements OnInit
         console.error('Failed to load users', err);
       }
     });
+  }
+
+  loadDashboard()
+  {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.adminService.getDashboard().subscribe({
+      next: (res) =>{
+          this.dashboardData = res?.data;
+          this.isLoading = false;
+          console.log(this.dashboardData);
+      }, 
+
+      error: (err) => {
+            console.error('Failed to load dashboard data', err);
+            this.errorMessage = 'Failed to load dashboard data.';
+            this.isLoading = false;
+      }
+    })
   }
 
   onSearch()

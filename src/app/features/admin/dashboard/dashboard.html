@@ -1,63 +1,135 @@
 <div class="container-fluid py-4">
-  <h3 class="fw-bold mb-4">User Management</h3>
-
-  <!-- Search bar -->
-  <div class="d-flex mb-3">
-    <input [(ngModel)]="searchTerm" type="text" class="form-control w-25 me-2" placeholder="Search users..." />
-    <button class="btn btn-primary" (click)="onSearch()">Search</button>
-  </div>
-
-  <!-- Table -->
-  <div class="card shadow-sm">
-    <div class="card-body p-0">
-      <div *ngIf="loading" class="text-center py-5">
-        <div class="spinner-border text-primary" role="status"></div>
-      </div>
-
-      <table class="table table-hover mb-0" *ngIf="!loading && users.length > 0">
-        <thead class="table-light">
-          <tr>
-            <th>#</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users; let i = index">
-            <td>{{ (pageNumber - 1) * pageSize + i + 1 }}</td>
-            <td>{{ user.fullName }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-              <span class="badge bg-secondary">{{ user.role }}</span>
-            </td>
-            <td>{{ user.createdAt | date: 'mediumDate' }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div *ngIf="!loading && users.length === 0" class="text-center py-4 text-muted">
-        No users found.
-      </div>
+  <!-- Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Admin Dashboard</h2>
+      <p class="text-muted mb-0">Overview of Charipay platform activity</p>
     </div>
   </div>
 
-  <!-- Pagination -->
-  <div class="d-flex justify-content-between align-items-center mt-3">
-    <small class="text-muted">
-      Showing {{ users.length }} of {{ totalCount }} users
-    </small>
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border" role="status" aria-hidden="true"></div>
+    <p class="mt-3 mb-0 text-muted">Loading dashboard...</p>
+  </div>
 
-    <nav *ngIf="totalCount > pageSize">
-      <ul class="pagination mb-0">
-        <li class="page-item" [class.disabled]="pageNumber === 1">
-          <a class="page-link" (click)="onPageChange(pageNumber - 1)">Previous</a>
-        </li>
-        <li class="page-item" [class.disabled]="(pageNumber * pageSize) >= totalCount">
-          <a class="page-link" (click)="onPageChange(pageNumber + 1)">Next</a>
-        </li>
-      </ul>
-    </nav>
+  <!-- Error -->
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger d-flex justify-content-between align-items-center">
+    <span>{{ errorMessage }}</span>
+    <button class="btn btn-sm btn-outline-danger" (click)="loadDashboard()">Retry</button>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!isLoading && dashboardData">
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-4">
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <p class="dashboard-label text-muted mb-2">Total Users</p>
+            <h3 class="dashboard-value mb-0">{{ dashboardData.totalUsers }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <p class="dashboard-label text-muted mb-2">Total Charities</p>
+            <h3 class="dashboard-value mb-0">{{ dashboardData.totalCharities }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <p class="dashboard-label text-muted mb-2">Total Campaigns</p>
+            <h3 class="dashboard-value mb-0">{{ dashboardData.totalCampaigns }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <p class="dashboard-label text-muted mb-2">Total Donations</p>
+            <h3 class="dashboard-value mb-0">{{ dashboardData.totalDonations }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-3">
+            <a routerLink="/admin/charities" class="btn btn-primary w-100">
+              Create Charity
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <a routerLink="/admin/campaigns" class="btn btn-success w-100">
+              Create Campaign
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <a routerLink="/admin/users" class="btn btn-outline-dark w-100">
+              View Users
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <a routerLink="/admin/donations" class="btn btn-outline-secondary w-100">
+              View Donations
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Donations -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0 fw-semibold">Recent Donations</h5>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Donor</th>
+                <th>Campaign</th>
+                <th>Amount</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let donation of dashboardData.recentDonations">
+                <td>{{ donation.donorName }}</td>
+                <td>{{ donation.campaignName }}</td>
+                <td>£{{ donation.amount }}</td>
+                <td>{{ donation.createdAt | date:'medium' }}</td>
+              </tr>
+
+              <tr *ngIf="!dashboardData.recentDonations?.length">
+                <td colspan="4" class="text-center text-muted py-4">
+                  No recent donations found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

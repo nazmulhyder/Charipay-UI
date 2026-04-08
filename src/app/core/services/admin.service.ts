@@ -96,4 +96,10 @@ uploadCampaignImage(campaignId: string, formData: FormData): Observable<any> {
 
    //#endregion
 
+   //#region Dashbaord
+   getDashboard() {
+   return this.http.get<any>(`${this.baseUrl}/dashboard`);
+   }
+   //#endregion Dashboard
+
 }

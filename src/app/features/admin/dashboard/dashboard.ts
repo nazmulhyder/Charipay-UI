@@ -48,25 +48,6 @@ export class AdminDashboardComponent implements OnInit
     this.loadDashboard();
   }
 
-
-
-  loadUsers() {
-    this.loading = true;
-    this.adminService.getUsers(this.pageNumber, this.pageSize, this.searchTerm)
-    .subscribe({
-      next:(res) => {
-        this.loading = false;
-        this.users = res.data?.items || [];
-        this.totalCount = res.data?.totalCount || 0;
-      },
-
-      error: (err) => {
-        this.loading = false; 
-        console.error('Failed to load users', err);
-      }
-    });
-  }
-
   loadDashboard()
   {
     this.isLoading = true;
@@ -85,17 +66,4 @@ export class AdminDashboardComponent implements OnInit
       }
     })
   }
-
-  onSearch()
-  {
-    this.pageNumber = 1;
-    this.loadUsers();
-  }
-
-  onPageChange(page:number)
-  {
-     this.pageNumber = page;
-     this.loadUsers();
-  }
-   
 }

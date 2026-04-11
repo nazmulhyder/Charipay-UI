@@ -1,7 +1,14 @@
-<div class="admin-layout d-flex">
+<div class="admin-layout">
+  <!-- Mobile Overlay -->
+  <div
+    class="sidebar-overlay"
+    [class.show]="isSidebarOpen"
+    (click)="toggleSidebar()"
+  ></div>
+
   <!-- Sidebar -->
-  <nav id="sidebar" class="sidebar bg-dark text-white p-3">
-    <div class="sidebar-header d-flex justify-content-between align-items-center mb-4">
+  <nav id="sidebar" class="sidebar bg-dark text-white" [class.show]="isSidebarOpen">
+    <div class="sidebar-header d-flex justify-content-between align-items-center p-3 border-bottom border-secondary">
       <h4 class="m-0 fw-bold">Charipay Admin</h4>
       <button
         class="btn btn-sm btn-outline-light d-lg-none"
@@ -12,38 +19,72 @@
       </button>
     </div>
 
-    <ul class="nav flex-column">
+    <ul class="nav flex-column p-3">
       <li class="nav-item mb-2">
         <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-speedometer2 me-2"></i> Dashboard
         </a>
       </li>
-  <li class="nav-item mb-2">
+
+      <li class="nav-item mb-2">
         <a routerLink="/admin/users" routerLinkActive="active" class="nav-link text-white">
-          <i class="bi bi-speedometer2 me-2"></i> Users
+          <i class="bi bi-people me-2"></i> Users
         </a>
       </li>
+
       <li class="nav-item mb-2">
         <a routerLink="/admin/charities" routerLinkActive="active" class="nav-link text-white">
-          <i class="bi bi-people me-2"></i> Charities
+          <i class="bi bi-heart me-2"></i> Charities
         </a>
       </li>
 
-     <li class="nav-item mb-2">
+      <li class="nav-item mb-2">
         <a routerLink="/admin/campaigns" routerLinkActive="active" class="nav-link text-white">
-          <i class="bi bi-people me-2"></i> Campaigns
+          <i class="bi bi-megaphone me-2"></i> Campaigns
         </a>
       </li>
 
-       <li class="nav-item mb-2">
-        <a routerLink="/admin/volunteers" routerLinkActive="active" class="nav-link text-white">
-          <i class="bi bi-people me-2"></i> Volunteers
-        </a>
+      <!-- Volunteer Management with submenu -->
+      <li class="nav-item mb-2">
+        <button
+          type="button"
+          class="nav-link text-white w-100 text-start d-flex justify-content-between align-items-center submenu-toggle"
+          (click)="toggleVolunteerMenu()"
+        >
+          <span>
+            <i class="bi bi-person-workspace me-2"></i> Volunteer Management
+          </span>
+          <i
+            class="bi"
+            [ngClass]="isVolunteerMenuOpen ? 'bi-chevron-up' : 'bi-chevron-down'"
+          ></i>
+        </button>
+
+        <ul class="submenu list-unstyled ms-3 mt-2" *ngIf="isVolunteerMenuOpen">
+          <li class="mb-2">
+            <a
+              routerLink="/admin/volunteer-tasks"
+              routerLinkActive="active"
+              class="nav-link text-white submenu-link"
+            >
+              <i class="bi bi-list-check me-2"></i> Volunteer Tasks
+            </a>
+          </li>
+          <li class="mb-2">
+            <a
+              routerLink="/admin/volunteer-participants"
+              routerLinkActive="active"
+              class="nav-link text-white submenu-link"
+            >
+              <i class="bi bi-person-lines-fill me-2"></i> Participants
+            </a>
+          </li>
+        </ul>
       </li>
 
-       <li class="nav-item mb-2">
+      <li class="nav-item mb-2">
         <a routerLink="/admin/donations" routerLinkActive="active" class="nav-link text-white">
-          <i class="bi bi-people me-2"></i> Donations
+          <i class="bi bi-cash-coin me-2"></i> Donations
         </a>
       </li>
 
@@ -62,21 +103,24 @@
   </nav>
 
   <!-- Content Area -->
-  <div class="content flex-grow-1">
+  <div class="content">
     <!-- Topbar -->
-    <nav class="navbar navbar-light bg-white shadow-sm px-4 py-2">
-      <button class="btn btn-outline-secondary d-lg-none" (click)="toggleSidebar()">
-        <i class="bi bi-list"></i>
-      </button>
-      <h5 class="m-0">Admin Portal</h5>
+    <nav class="navbar navbar-light bg-white shadow-sm px-3 px-md-4 py-2">
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary d-lg-none" (click)="toggleSidebar()">
+          <i class="bi bi-list"></i>
+        </button>
+        <h5 class="m-0">Admin Portal</h5>
+      </div>
+
       <div class="d-flex align-items-center">
         <i class="bi bi-person-circle fs-5 me-2 text-primary"></i>
-        <span class="fw-semibold">{{userName}}</span>
+        <span class="fw-semibold text-truncate" style="max-width: 160px;">{{ userName }}</span>
       </div>
     </nav>
 
     <!-- Main content -->
-    <main class="p-4">
+    <main class="p-3 p-md-4">
       <router-outlet></router-outlet>
     </main>
   </div>

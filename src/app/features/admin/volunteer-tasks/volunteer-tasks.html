@@ -1,0 +1,212 @@
+<div class="container py-4">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+      <h2 class="mb-1 fw-bold">Volunteer Tasks Management</h2>
+      <p class="text-muted mb-0">
+        Create, update, and manage volunteer tasks for campaign activities.
+      </p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Create / Edit Form -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title mb-3">
+            {{ isEditMode ? 'Edit Volunteer Task' : 'Create Volunteer Task' }}
+          </h5>
+
+          <form [formGroup]="volunteerTaskForm" (ngSubmit)="onSubmit()">
+            <!-- Campaign -->
+            <div class="mb-3">
+              <label for="campaignId" class="form-label">Campaign</label>
+              <select id="campaignId" class="form-select" formControlName="campaignId">
+                <option value="">Select campaign</option>
+                <option *ngFor="let campaign of campaigns" [value]="campaign.campaignId">
+                  {{ campaign.name }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Title -->
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input
+                type="text"
+                id="title"
+                class="form-control"
+                formControlName="title"
+                placeholder="Enter task title"
+              />
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                id="description"
+                rows="4"
+                class="form-control"
+                formControlName="description"
+                placeholder="Enter task description"
+              ></textarea>
+            </div>
+
+            <!-- Location -->
+            <div class="mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input
+                type="text"
+                id="location"
+                class="form-control"
+                formControlName="location"
+                placeholder="Enter location"
+              />
+            </div>
+
+            <!-- Start Date -->
+            <div class="mb-3">
+              <label for="startDate" class="form-label">Start Date</label>
+              <input
+                type="datetime-local"
+                id="startDate"
+                class="form-control"
+                formControlName="startDate"
+              />
+            </div>
+
+            <!-- End Date -->
+            <div class="mb-3">
+              <label for="endDate" class="form-label">End Date</label>
+              <input
+                type="datetime-local"
+                id="endDate"
+                class="form-control"
+                formControlName="endDate"
+              />
+            </div>
+
+            <!-- Max Volunteer -->
+            <div class="mb-3">
+              <label for="maxVolunteer" class="form-label">Max Volunteers</label>
+              <input
+                type="number"
+                id="maxVolunteer"
+                class="form-control"
+                formControlName="maxVolunteer"
+                placeholder="Enter max volunteers"
+              />
+            </div>
+
+            <!-- Active -->
+            <div class="form-check form-switch mb-3">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="isActive"
+                formControlName="isActive"
+              />
+              <label class="form-check-label" for="isActive">
+                Active
+              </label>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary">
+                {{ isEditMode ? 'Update Task' : 'Create Task' }}
+              </button>
+
+              <button
+                *ngIf="isEditMode"
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="resetForm()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task List -->
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h5 class="card-title mb-0">Volunteer Tasks</h5>
+
+            <input
+              type="text"
+              class="form-control w-auto"
+              placeholder="Search task..."
+            />
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Title</th>
+                  <th>Campaign</th>
+                  <th>Location</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th>Max</th>
+                  <th>Status</th>
+                  <th class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of volunteerTasks">
+                  <td>{{ task.title }}</td>
+                  <td>{{ task.campaignName }}</td>
+                  <td>{{ task.location }}</td>
+                  <td>{{ task.startDate | date:'medium' }}</td>
+                  <td>{{ task.endDate | date:'medium' }}</td>
+                  <td>{{ task.maxVolunteer }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [ngClass]="task.isActive ? 'bg-success' : 'bg-secondary'"
+                    >
+                      {{ task.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <button
+                        class="btn btn-outline-primary"
+                        type="button"
+                        (click)="editTask(task)"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-outline-warning"
+                        type="button"
+                        (click)="toggleStatus(task)"
+                      >
+                        {{ task.isActive ? 'Deactivate' : 'Activate' }}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr *ngIf="!volunteerTasks || volunteerTasks.length === 0">
+                  <td colspan="8" class="text-center text-muted py-4">
+                    No volunteer tasks found.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

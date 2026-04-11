@@ -1,44 +1,96 @@
 .admin-layout {
+  display: flex;
   min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.sidebar {
-  width: 250px;
-  min-height: 100vh;
-  transition: all 0.3s ease;
-}
-
-.sidebar.active {
-  margin-left: -250px;
-}
-
-.sidebar .nav-link {
-  color: #ccc;
-  transition: color 0.2s ease;
-}
-
-.sidebar .nav-link.active,
-.sidebar .nav-link:hover {
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-}
-
-.content {
+  position: relative;
   background-color: #f8f9fa;
-  flex-grow: 1;
 }
 
-@media (max-width: 991px) {
+/* Sidebar */
+.sidebar {
+  width: 270px;
+  min-width: 270px;
+  background-color: #212529;
+  color: #fff;
+  min-height: 100vh;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1040;
+  overflow-y: auto;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Nav links */
+.sidebar .nav-link {
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.submenu-toggle {
+  border: none;
+  background: transparent;
+}
+
+.submenu-link {
+  font-size: 0.95rem;
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+}
+
+/* Overlay for mobile */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1030;
+}
+
+.sidebar-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile */
+@media (max-width: 991.98px) {
   .sidebar {
     position: fixed;
-    z-index: 1050;
-    left: 0;
     top: 0;
-    height: 100%;
-  }
-  .sidebar.active {
+    left: 0;
+    height: 100vh;
     transform: translateX(-100%);
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .content {
+    width: 100%;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .sidebar {
+    transform: none !important;
+  }
+
+  .sidebar-overlay {
+    display: none;
   }
 }

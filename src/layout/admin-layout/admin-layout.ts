@@ -14,6 +14,15 @@ export class AdminLayout implements OnInit{
   sidebarOpen = true;
   userName:string = '';
 
+  isSidebarOpen = false;
+isVolunteerMenuOpen = false;
+
+
+
+toggleVolunteerMenu(): void {
+  this.isVolunteerMenuOpen = !this.isVolunteerMenuOpen;
+}
+
   constructor(private router:Router, private auth: AuthService) {}
   
    ngOnInit(): void {
@@ -21,6 +30,7 @@ export class AdminLayout implements OnInit{
   }
 
    toggleSidebar(){
+     this.isSidebarOpen = !this.isSidebarOpen;
      this.sidebarOpen = !this.sidebarOpen;
      const sidebar = document.getElementById('sidebar');
      if(sidebar) sidebar.classList.toggle('active');

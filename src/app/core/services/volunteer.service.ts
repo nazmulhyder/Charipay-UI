@@ -9,6 +9,7 @@ import { ApiResponse } from "../../shared/models/api-response.model";
 
 export class VolunteerService {
     private adminBaseUrl = `${environment.apiUrl}/Admin`
+     private volunteerBaseUrl = `${environment.apiUrl}/Volunteers`
 
 constructor(private http : HttpClient) {}
 
@@ -33,6 +34,15 @@ constructor(private http : HttpClient) {}
       );
 
       }
+
+      getVolunteerOpportunities(pageNumber: number, pageSize:number, search?:string) : Observable<any> {
+          let url = `${this.volunteerBaseUrl}/opportunities?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+    
+          if (search)
+            url += `&search=${encodeURIComponent(search)}`;
+    
+          return this.http.get(url);
+       }
 
 
 }

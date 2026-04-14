@@ -60,7 +60,7 @@ export class LoginComponent {
           this.router.navigate(['/donor/dashboard']);
           break;
         case 'Volunteer':
-          this.router.navigate(['/volunteer/tasks']);
+          this.router.navigate(['/volunteer/volunteer-dashboard']);
           break;
         default:
           this.router.navigate(['/'])

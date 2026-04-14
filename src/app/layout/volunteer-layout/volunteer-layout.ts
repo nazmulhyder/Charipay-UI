@@ -1,21 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../app/core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-admin-layout',
+  selector: 'app-volunteer-layout',
   standalone:true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './admin-layout.html',
-  styleUrl: './admin-layout.css'
+  templateUrl: './volunteer-layout.html',
+  styleUrl: './volunteer-layout.css'
 })
-export class AdminLayout implements OnInit{
-  sidebarOpen = true;
+export class VolunteerLayout  implements OnInit{ 
+ sidebarOpen = true;
   userName:string = '';
 
   isSidebarOpen = false;
-isVolunteerMenuOpen = false;
+ isVolunteerMenuOpen = false;
 
 
 toggleVolunteerMenu(): void {

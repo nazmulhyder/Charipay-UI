@@ -8,8 +8,7 @@ import { Campaign } from "../../shared/models/campaign.model";
 @Injectable ({providedIn:'root'})
 
 export class AdminService {
-   private baseUrl = `${environment.apiUrl}/AdminDashboard`
-   private charityBaseUrl = `${environment.apiUrl}/Charities`
+   private baseUrl = `${environment.apiUrl}/Admin`
    private campaignBaseUrl = `${environment.apiUrl}/Campaigns`
 
    constructor(private http : HttpClient) {}
@@ -21,36 +20,7 @@ export class AdminService {
        return this.http.get(url);
    }
 
-   //#region Admin-> Charity
-   createCharity(charity: any)
-   {
-     return this.http.post(`${this.charityBaseUrl}/CreateCharity`, charity);
-   }
 
-   updateCharity(charity: any)
-   {
-     return this.http.post(`${this.charityBaseUrl}/UpdateCharity`, charity);
-   }
-
-    getAllCharity(pageNumber: number, pageSize:number, search?:string) : Observable<any> 
-    {
-       let url = `${this.baseUrl}/GetAllCharity?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-       if (search) url+= `&search=${encodeURIComponent(search)}`;
-
-       return this.http.get(url);
-   }
-   
-   deleteCharity(id : string)
-   {
-     return this.http.delete(`${this.charityBaseUrl}/DeleteCharity?CharityId=${id}`);
-   }
-
-   getLookupCharity()
-   {
-     return this.http.get(`${this.charityBaseUrl}/GetLookupCharity`)
-   }
-
-   //#endregion
 
    //#region Campaigns
    getAllCampaign(pageNumber: number, pageSize:number, IsActive:boolean,IsFeatured?: boolean,  search?:string) : Observable<any> {

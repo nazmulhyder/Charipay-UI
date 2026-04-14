@@ -1,211 +1,407 @@
-<div class="container py-4">
+<div class="container-fluid py-4 volunteer-task-page">
   <!-- Page Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-    <div>
-      <h2 class="mb-1 fw-bold">Volunteer Tasks Management</h2>
-      <p class="text-muted mb-0">
-        Create, update, and manage volunteer tasks for campaign activities.
-      </p>
-    </div>
+  <div class="mb-4">
+    <h3 class="fw-bold mb-2 d-flex align-items-center gap-2">
+      <i class="bi bi-person-workspace text-primary"></i>
+      Volunteer Task Management
+    </h3>
+    <p class="text-muted mb-0">
+      Create and manage volunteer tasks under charity campaigns.
+    </p>
   </div>
 
-  <div class="row g-4">
-    <!-- Create / Edit Form -->
-    <div class="col-lg-4">
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
-          <h5 class="card-title mb-3">
+  <div class="row g-4 align-items-start">
+    <!-- Form Section -->
+    <div class="col-12 col-xxl-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+          <h5 class="fw-bold mb-1 d-flex align-items-center gap-2">
+            <i class="bi bi-ui-checks-grid text-primary"></i>
             {{ isEditMode ? 'Edit Volunteer Task' : 'Create Volunteer Task' }}
           </h5>
+          <p class="text-muted small mb-0">
+            Fill in the details below to create or update a task.
+          </p>
+        </div>
 
+        <div class="card-body px-4 pb-4">
           <form [formGroup]="volunteerTaskForm" (ngSubmit)="onSubmit()">
-            <!-- Campaign -->
-            <div class="mb-3">
-              <label for="campaignId" class="form-label">Campaign</label>
-              <select id="campaignId" class="form-select" formControlName="campaignId">
-                <option value="">Select campaign</option>
-                <option *ngFor="let campaign of campaigns" [value]="campaign.campaignId">
-                  {{ campaign.name }}
-                </option>
-              </select>
+            <!-- Charity & Campaign -->
+            <div class="mb-4">
+              <h6 class="fw-semibold text-uppercase small text-muted mb-3">Campaign Selection</h6>
+
+              <div class="mb-3">
+                <label class="form-label">Charity</label>
+                <select
+                  class="form-select"
+                  formControlName="charityId"
+                  (change)="onCharityChange($event)"
+                >
+                  <option value="">Select charity</option>
+                  <option *ngFor="let charity of charities" [value]="charity.charityId">
+                    {{ charity.name }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-0">
+                <label class="form-label">Campaign</label>
+                <select
+                  class="form-select"
+                  formControlName="campaignId"
+                  [disabled]="!selectedCharityId"
+                >
+                  <option value="">Select campaign</option>
+                  <option *ngFor="let campaign of campaigns" [value]="campaign.campaignId">
+                    {{ campaign.campaignName }}
+                  </option>
+                </select>
+
+                <div
+                  *ngIf="volunteerTaskForm.get('campaignId')?.touched && volunteerTaskForm.get('campaignId')?.invalid"
+                  class="text-danger mt-1"
+                >
+                  <small *ngIf="volunteerTaskForm.get('campaignId')?.errors?.['required']">
+                    Campaign is required
+                  </small>
+                </div>
+              </div>
             </div>
 
-            <!-- Title -->
-            <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input
-                type="text"
-                id="title"
-                class="form-control"
-                formControlName="title"
-                placeholder="Enter task title"
-              />
+            <!-- Task Info -->
+            <div class="mb-4">
+              <h6 class="fw-semibold text-uppercase small text-muted mb-3">Task Information</h6>
+
+              <div class="mb-3">
+                <label class="form-label">Task Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="title"
+                  placeholder="Enter task title"
+                />
+                <div
+                  *ngIf="volunteerTaskForm.get('title')?.touched && volunteerTaskForm.get('title')?.invalid"
+                  class="text-danger mt-1"
+                >
+                  <small *ngIf="volunteerTaskForm.get('title')?.errors?.['required']">
+                    Title is required
+                  </small>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="location"
+                  placeholder="Enter location"
+                />
+                <div
+                  *ngIf="volunteerTaskForm.get('location')?.touched && volunteerTaskForm.get('location')?.invalid"
+                  class="text-danger mt-1"
+                >
+                  <small *ngIf="volunteerTaskForm.get('location')?.errors?.['required']">
+                    Location is required
+                  </small>
+                </div>
+              </div>
+
+              <div class="mb-0">
+                <label class="form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  formControlName="description"
+                  placeholder="Enter task description"
+                ></textarea>
+                <div
+                  *ngIf="volunteerTaskForm.get('description')?.touched && volunteerTaskForm.get('description')?.invalid"
+                  class="text-danger mt-1"
+                >
+                  <small *ngIf="volunteerTaskForm.get('description')?.errors?.['required']">
+                    Description is required
+                  </small>
+                </div>
+              </div>
             </div>
 
-            <!-- Description -->
-            <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
-              <textarea
-                id="description"
-                rows="4"
-                class="form-control"
-                formControlName="description"
-                placeholder="Enter task description"
-              ></textarea>
+            <!-- Schedule -->
+            <div class="mb-4">
+              <h6 class="fw-semibold text-uppercase small text-muted mb-3">Schedule & Capacity</h6>
+
+              <div class="mb-3">
+                <label class="form-label">Start Date</label>
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  formControlName="startDate"
+                />
+                <div
+                  *ngIf="volunteerTaskForm.get('startDate')?.touched && volunteerTaskForm.get('startDate')?.invalid"
+                  class="text-danger mt-1"
+                >
+                  <small *ngIf="volunteerTaskForm.get('startDate')?.errors?.['required']">
+                    Start date is required
+                  </small>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">End Date</label>
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  formControlName="endDate"
+                />
+                <div
+                  *ngIf="volunteerTaskForm.get('endDate')?.touched && volunteerTaskForm.get('endDate')?.invalid"
+                  class="text-danger mt-1"
+                >
+                  <small *ngIf="volunteerTaskForm.get('endDate')?.errors?.['required']">
+                    End date is required
+                  </small>
+                </div>
+              </div>
+
+              <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Max Volunteers</label>
+                  <input
+                    type="number"
+                    min="1"
+                    class="form-control"
+                    formControlName="maxVolunteer"
+                    placeholder="Enter max volunteers"
+                  />
+                  <div
+                    *ngIf="volunteerTaskForm.get('maxVolunteer')?.touched && volunteerTaskForm.get('maxVolunteer')?.invalid"
+                    class="text-danger mt-1"
+                  >
+                    <small *ngIf="volunteerTaskForm.get('maxVolunteer')?.errors?.['required']">
+                      Max volunteers is required
+                    </small>
+                    <small *ngIf="volunteerTaskForm.get('maxVolunteer')?.errors?.['min']">
+                      Value must be at least 1
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="form-check form-switch pt-md-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="isActive"
+                      formControlName="isActive"
+                    />
+                    <label class="form-check-label" for="isActive">
+                      Active Task
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Location -->
-            <div class="mb-3">
-              <label for="location" class="form-label">Location</label>
-              <input
-                type="text"
-                id="location"
-                class="form-control"
-                formControlName="location"
-                placeholder="Enter location"
-              />
-            </div>
-
-            <!-- Start Date -->
-            <div class="mb-3">
-              <label for="startDate" class="form-label">Start Date</label>
-              <input
-                type="datetime-local"
-                id="startDate"
-                class="form-control"
-                formControlName="startDate"
-              />
-            </div>
-
-            <!-- End Date -->
-            <div class="mb-3">
-              <label for="endDate" class="form-label">End Date</label>
-              <input
-                type="datetime-local"
-                id="endDate"
-                class="form-control"
-                formControlName="endDate"
-              />
-            </div>
-
-            <!-- Max Volunteer -->
-            <div class="mb-3">
-              <label for="maxVolunteer" class="form-label">Max Volunteers</label>
-              <input
-                type="number"
-                id="maxVolunteer"
-                class="form-control"
-                formControlName="maxVolunteer"
-                placeholder="Enter max volunteers"
-              />
-            </div>
-
-            <!-- Active -->
-            <div class="form-check form-switch mb-3">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="isActive"
-                formControlName="isActive"
-              />
-              <label class="form-check-label" for="isActive">
-                Active
-              </label>
-            </div>
-
-            <!-- Buttons -->
-            <div class="d-flex gap-2">
-              <button type="submit" class="btn btn-primary">
-                {{ isEditMode ? 'Update Task' : 'Create Task' }}
-              </button>
-
+            <!-- Actions -->
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2">
               <button
-                *ngIf="isEditMode"
                 type="button"
                 class="btn btn-outline-secondary"
                 (click)="resetForm()"
               >
-                Cancel
+                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                Reset
               </button>
+
+              <div class="d-flex gap-2">
+                <button
+                  *ngIf="isEditMode"
+                  type="button"
+                  class="btn btn-outline-dark"
+                  (click)="resetForm()"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="volunteerTaskForm.invalid || isSubmitting"
+                >
+                  <span
+                    *ngIf="isSubmitting"
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                  ></span>
+                  <i *ngIf="!isSubmitting" class="bi bi-check2-circle me-1"></i>
+                  {{ isEditMode ? 'Update Task' : 'Create Task' }}
+                </button>
+              </div>
             </div>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- Task List -->
-    <div class="col-lg-8">
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <h5 class="card-title mb-0">Volunteer Tasks</h5>
+    <!-- List Section -->
+    <div class="col-12 col-xxl-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 px-4 pt-4 pb-3">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+              <h5 class="fw-bold mb-1 d-flex align-items-center gap-2">
+                <i class="bi bi-list-task text-primary"></i>
+                Volunteer Task List
+              </h5>
+              <p class="text-muted small mb-0">
+                Review, search, and manage all volunteer tasks.
+              </p>
+            </div>
 
-            <input
-              type="text"
-              class="form-control w-auto"
-              placeholder="Search task..."
-            />
+            <div class="d-flex flex-column flex-sm-row gap-2">
+              <input
+                [(ngModel)]="searchTerm"
+                type="text"
+                class="form-control"
+                style="min-width: 250px;"
+                placeholder="Search task..."
+              />
+              <button class="btn btn-primary" type="button" (click)="onSearch()">
+                <i class="bi bi-search me-1"></i>
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <!-- Loading -->
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
           </div>
 
-          <div class="table-responsive">
+          <!-- Table -->
+          <div class="table-responsive" *ngIf="!loading && volunteerTasks.length > 0">
             <table class="table table-hover align-middle mb-0">
               <thead class="table-light">
                 <tr>
-                  <th>Title</th>
+                  <th class="px-4">#</th>
+                  <th>Task</th>
+                  <th>Charity</th>
                   <th>Campaign</th>
                   <th>Location</th>
                   <th>Start</th>
                   <th>End</th>
                   <th>Max</th>
                   <th>Status</th>
-                  <th class="text-end">Actions</th>
+                  <th class="text-center pe-4">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let task of volunteerTasks">
-                  <td>{{ task.title }}</td>
-                  <td>{{ task.campaignName }}</td>
-                  <td>{{ task.location }}</td>
-                  <td>{{ task.startDate | date:'medium' }}</td>
-                  <td>{{ task.endDate | date:'medium' }}</td>
-                  <td>{{ task.maxVolunteer }}</td>
+                <tr *ngFor="let task of volunteerTasks; let i = index">
+                  <td class="px-4">{{ (pageNumber - 1) * pageSize + i + 1 }}</td>
+
+                  <td style="min-width: 180px;">
+                    <div class="fw-semibold">{{ task.title }}</div>
+                    <small class="text-muted d-block mt-1">
+                      {{ task.description }}
+                    </small>
+                  </td>
+
+                  <td style="min-width: 140px;">
+                    {{ task.charityName }}
+                  </td>
+
+                  <td style="min-width: 150px;">
+                    {{ task.campaignName }}
+                  </td>
+
+                  <td class="text-nowrap">
+                    {{ task.location }}
+                  </td>
+
+                  <td style="min-width: 140px;">
+                    {{ task.startDate | date:'mediumDate' }}<br />
+                    <small class="text-muted">{{ task.startDate | date:'shortTime' }}</small>
+                  </td>
+
+                  <td style="min-width: 140px;">
+                    {{ task.endDate | date:'mediumDate' }}<br />
+                    <small class="text-muted">{{ task.endDate | date:'shortTime' }}</small>
+                  </td>
+
+                  <td class="text-nowrap">
+                    {{ task.maxVolunteer }}
+                  </td>
+
                   <td>
                     <span
-                      class="badge"
+                      class="badge rounded-pill"
                       [ngClass]="task.isActive ? 'bg-success' : 'bg-secondary'"
                     >
                       {{ task.isActive ? 'Active' : 'Inactive' }}
                     </span>
                   </td>
-                  <td class="text-end">
-                    <div class="btn-group btn-group-sm">
+
+                  <td class="text-center pe-4">
+                    <div class="d-flex justify-content-center gap-2">
                       <button
-                        class="btn btn-outline-primary"
-                        type="button"
-                        (click)="editTask(task)"
+                        class="btn btn-sm btn-outline-primary"
+                        (click)="onEdit(task)"
+                        title="Edit task"
                       >
-                        Edit
+                        <i class="bi bi-pencil-square"></i>
                       </button>
+
                       <button
-                        class="btn btn-outline-warning"
-                        type="button"
+                        class="btn btn-sm"
+                        [ngClass]="task.isActive ? 'btn-outline-warning' : 'btn-outline-success'"
                         (click)="toggleStatus(task)"
+                        [title]="task.isActive ? 'Deactivate task' : 'Activate task'"
                       >
-                        {{ task.isActive ? 'Deactivate' : 'Activate' }}
+                        <i
+                          class="bi"
+                          [ngClass]="task.isActive ? 'bi-pause-circle' : 'bi-play-circle'"
+                        ></i>
                       </button>
                     </div>
-                  </td>
-                </tr>
-
-                <tr *ngIf="!volunteerTasks || volunteerTasks.length === 0">
-                  <td colspan="8" class="text-center text-muted py-4">
-                    No volunteer tasks found.
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+
+          <!-- Empty -->
+          <div *ngIf="!loading && volunteerTasks.length === 0" class="text-center py-5 text-muted">
+            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+            No volunteer tasks found.
+          </div>
         </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+        <small class="text-muted">
+          Showing {{ volunteerTasks.length }} of {{ totalCount }} tasks
+        </small>
+
+        <nav *ngIf="totalCount > pageSize">
+          <ul class="pagination mb-0">
+            <li class="page-item" [class.disabled]="pageNumber === 1">
+              <a class="page-link" (click)="onPageChange(pageNumber - 1)">Previous</a>
+            </li>
+            <li class="page-item disabled">
+              <span class="page-link">
+               Page {{ pageNumber }} of {{ totalPages }}
+              </span>
+            </li>
+            <li class="page-item" [class.disabled]="(pageNumber * pageSize) >= totalCount">
+              <a class="page-link" (click)="onPageChange(pageNumber + 1)">Next</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

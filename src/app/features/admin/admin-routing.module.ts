@@ -6,6 +6,7 @@ import { AdminCampaigns } from "./campaigns/campaigns";
 import { Users } from "./users/users";
 import { Volunteers } from "./volunteers/volunteers";
 import { Donations } from "./donations/donations";
+import { VolunteerTasks } from "./volunteer-tasks/volunteer-tasks";
 
 export const ADMIN_ROUTES : Routes = [
 {
@@ -17,6 +18,7 @@ export const ADMIN_ROUTES : Routes = [
         {path:'campaigns', component:AdminCampaigns},
         {path:'reports', component: Reports},
         {path:'volunteers', component:Volunteers},
+        {path:'volunteer-tasks', component:VolunteerTasks},
         {path:'donations', component: Donations}
        // {path:'', redirectTo: 'dashboard', pathMatch:'full'}
 

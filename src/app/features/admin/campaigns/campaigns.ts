@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { AdminService } from '../../../core/services/admin.service';
 import { endDateAfterStartDateValidator } from '../../../shared/validators/endDateAfterStartDateValidator';
 import { Campaign } from '../../../shared/models/campaign.model';
+import { CharityService } from '../../../core/services/charity.service';
 
 @Component({
   selector: 'app-admin-campaigns',
@@ -48,7 +49,7 @@ export class AdminCampaigns implements OnInit{
   }
 
 
-  constructor(private fb: FormBuilder, private http:HttpClient, private adminService: AdminService) {
+  constructor(private fb: FormBuilder, private http:HttpClient, private adminService: AdminService, private charityService : CharityService) {
      
   }
   ngOnInit(): void {
@@ -227,7 +228,7 @@ export class AdminCampaigns implements OnInit{
   }
 
   getLookupCharities(){
-    this.adminService.getLookupCharity().subscribe({
+    this.charityService.getLookupCharity().subscribe({
       next:(res) => {
            this.charities = res;
       },

@@ -5,6 +5,7 @@ import { AdminService } from '../../../core/services/admin.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Charity } from '../../../shared/models/charity.model';
+import { CharityService } from '../../../core/services/charity.service';
 
 @Component({
   selector: 'app-charities',
@@ -33,7 +34,8 @@ export class Charities implements OnInit{
       private http:HttpClient, 
       private adminService : AdminService,
       private route : ActivatedRoute,
-      private router : Router
+      private router : Router,
+      private charityService : CharityService
     )
     {
 
@@ -86,8 +88,8 @@ export class Charities implements OnInit{
 
     const request = 
     this.isEditMode ? 
-    this.adminService.updateCharity(update_data) 
-    : this.adminService.createCharity(insert_data);
+    this.charityService.updateCharity(update_data) 
+    : this.charityService.createCharity(insert_data);
 
     request.subscribe({
       next: (res) => {
@@ -109,7 +111,7 @@ export class Charities implements OnInit{
   loadCharities()
   {
     this.loading = true;
-    this.adminService.getAllCharity(this.pageNumber, this.pageSize, this.searchTerm)
+    this.charityService.getAllCharity(this.pageNumber, this.pageSize, this.searchTerm)
     .subscribe({
       next : (res) => {
         console.log('charities', res);
@@ -146,7 +148,7 @@ export class Charities implements OnInit{
     // console.log(charityId);
     if(confirm('Are you sure to delete this charity? This action cannot be undone.')) {
     this.loading = true;
-     this.adminService.deleteCharity(charityId).subscribe({
+     this.charityService.deleteCharity(charityId).subscribe({
        next: (res) =>{
           console.log(res);
           alert("deleted successully");

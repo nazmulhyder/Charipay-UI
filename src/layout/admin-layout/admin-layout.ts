@@ -18,7 +18,6 @@ export class AdminLayout implements OnInit{
 isVolunteerMenuOpen = false;
 
 
-
 toggleVolunteerMenu(): void {
   this.isVolunteerMenuOpen = !this.isVolunteerMenuOpen;
 }
@@ -38,6 +37,8 @@ toggleVolunteerMenu(): void {
 
    logout() {
      localStorage.removeItem('token');
-     this.router.navigate(['/auth/login']);
+    localStorage.removeItem('userName'); // if you store it
+    this.auth.logout();
+    this.router.navigate(['/'], { replaceUrl: true });
    }
 }

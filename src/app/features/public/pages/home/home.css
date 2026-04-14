@@ -105,3 +105,11 @@
   color: #555;
   line-height: 1.6;
 }
+
+.how-card i {
+  transition: transform 0.3s ease;
+}
+
+.how-card:hover i {
+  transform: scale(1.15);
+}

@@ -157,20 +157,20 @@ loadCharities(): void {
     const payload = this.buildPayload();
     this.isSubmitting = true;
 
-    if (this.isEditMode && this.selectedTaskId) {
-      this.volunteerTaskService.updateVolunteerTask(payload)
-        .pipe(finalize(() => (this.isSubmitting = false)))
-        .subscribe({
-          next: () => {
-            alert('Volunteer task updated successfully.');
-            this.resetForm();
-            this.loadVolunteerTasks();
-          },
-          error: (error) => {
-            console.error('Failed to update volunteer task:', error);
-          }
-        });
-    } else {
+    // if (this.isEditMode && this.selectedTaskId) {
+    //   this.volunteerTaskService.updateVolunteerTask(payload)
+    //     .pipe(finalize(() => (this.isSubmitting = false)))
+    //     .subscribe({
+    //       next: () => {
+    //         alert('Volunteer task updated successfully.');
+    //         this.resetForm();
+    //         this.loadVolunteerTasks();
+    //       },
+    //       error: (error) => {
+    //         console.error('Failed to update volunteer task:', error);
+    //       }
+    //     });
+    // } else {
       this.volunteerTaskService.createVolunteerTask(payload)
         .pipe(finalize(() => (this.isSubmitting = false)))
         .subscribe({
@@ -183,7 +183,7 @@ loadCharities(): void {
             console.error('Failed to create volunteer task:', error);
           }
         });
-    }
+    //}
   }
 
  onEdit(task: VolunteerTaskItem): void {

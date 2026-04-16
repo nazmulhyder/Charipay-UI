@@ -6,6 +6,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Charity } from '../../../shared/models/charity.model';
 import { CharityService } from '../../../core/services/charity.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-charities',
@@ -35,7 +36,8 @@ export class Charities implements OnInit{
       private adminService : AdminService,
       private route : ActivatedRoute,
       private router : Router,
-      private charityService : CharityService
+      private charityService : CharityService,
+      private toastr : ToastrService
     )
     {
 
@@ -94,14 +96,16 @@ export class Charities implements OnInit{
     request.subscribe({
       next: (res) => {
          this.loading = false;
-         alert(`Chairy ${this.isEditMode ? 'updated' : 'created'} successfully`);
+         //alert(`Chairy ${this.isEditMode ? 'updated' : 'created'} successfully`);
+          this.toastr.success(`Chairy ${this.isEditMode ? 'updated' : 'created'} successfully`, 'Success')
          this.resetForm();
          this.loadCharities();
       },
       error: (res)=>{
         console.log(res.error.message);
-        console.error(`${res.error.message? res.error.message : 'Error occured while saving charity!'}`);
-        alert(`${res.error.message? res.error.message : 'Error occured while saving charity!'}`);
+        // console.error(`${res.error.message? res.error.message : 'Error occured while saving charity!'}`);
+        // alert(`${res.error.message? res.error.message : 'Error occured while saving charity!'}`);
+        this.toastr.error(`${res.error.message? res.error.message : 'Error occured while saving charity!'}`, 'Error')
         this.loading = false;
       }
 
@@ -123,6 +127,7 @@ export class Charities implements OnInit{
       error: (err) => {
         this.loading = false;
         console.error('Failed to load charaties', err);
+        this.toastr.error('Failed to load charaties', 'Error')
       }
     });
   }
@@ -151,13 +156,15 @@ export class Charities implements OnInit{
      this.charityService.deleteCharity(charityId).subscribe({
        next: (res) =>{
           console.log(res);
-          alert("deleted successully");
+          //alert("deleted successully");
+          this.toastr.success('Deleted successfully', 'Success')
           this.loading = false;
        },
 
        error: (err) =>{
           console.log(err);
-          alert("something went wrong!");
+          //alert("something went wrong!");
+          this.toastr.error('Something went wrong!', 'Error')
           this.loading = false;
        }
      });

@@ -3,6 +3,7 @@ import { AdminService } from '../../../core/services/admin.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
   interface RecentDonation {
@@ -40,7 +41,7 @@ export class AdminDashboardComponent implements OnInit
    isLoading = false;
   errorMessage = '';
  
-  constructor(private adminService: AdminService){}
+  constructor(private adminService: AdminService, private toastr : ToastrService){}
   
   ngOnInit(): void {
     this.pageNumber =1;
@@ -61,7 +62,8 @@ export class AdminDashboardComponent implements OnInit
 
       error: (err) => {
             console.error('Failed to load dashboard data', err);
-            this.errorMessage = 'Failed to load dashboard data.';
+            //this.errorMessage = 'Failed to load dashboard data.';
+            this.toastr.error('Failed to load dashboard data.', 'error')
             this.isLoading = false;
       }
     })

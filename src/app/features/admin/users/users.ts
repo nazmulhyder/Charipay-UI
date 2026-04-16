@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminService } from '../../../core/services/admin.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-users',
@@ -20,7 +21,7 @@ export class Users  implements OnInit{
   loading = false;
   searchTerm = '';
 
-  constructor(private adminService : AdminService) {}
+  constructor(private adminService : AdminService, private toastr : ToastrService) {}
       
   ngOnInit(): void {
       this.pageNumber =1;
@@ -40,12 +41,14 @@ export class Users  implements OnInit{
 
       error: (err) => {
         this.loading = false; 
-        console.error('Failed to load users', err);
+       // console.error('Failed to load users', err);
+       this.toastr.error('Failed to load users', 'Error')
+
       }
     });
   }
 
-    onSearch()
+onSearch()
   {
     this.pageNumber = 1;
     this.loadUsers();

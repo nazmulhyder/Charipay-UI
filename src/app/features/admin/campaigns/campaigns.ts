@@ -6,6 +6,7 @@ import { AdminService } from '../../../core/services/admin.service';
 import { endDateAfterStartDateValidator } from '../../../shared/validators/endDateAfterStartDateValidator';
 import { Campaign } from '../../../shared/models/campaign.model';
 import { CharityService } from '../../../core/services/charity.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-campaigns',
@@ -49,7 +50,9 @@ export class AdminCampaigns implements OnInit{
   }
 
 
-  constructor(private fb: FormBuilder, private http:HttpClient, private adminService: AdminService, private charityService : CharityService) {
+  constructor(private fb: FormBuilder, private http:HttpClient, private adminService: AdminService, private charityService : CharityService
+    , private toastr : ToastrService
+  ) {
      
   }
   ngOnInit(): void {
@@ -126,7 +129,8 @@ export class AdminCampaigns implements OnInit{
            const campaignId = this.isEditMode? this.selectedCampaignId : res.data?.campaignId;
 
            if(!campaignId) {
-             alert("Campaign saved but campaigned id is not returned!");
+             //alert("Campaign saved but campaigned id is not returned!");
+             this.toastr.warning('Campaign saved but campaigned id is not returned!', 'Warning');
              this.loading = false;
              return;
            }
@@ -139,13 +143,15 @@ export class AdminCampaigns implements OnInit{
            else {
             // const campaignId =  res.data.CampaignId;
             this.loading = false;
-            alert(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`);
+            //alert(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`);
+            this.toastr.success(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`, 'Success')
             this.resetForm();
             this.loadCampaigns();
            }          
          },
         error: (err) =>{
-            alert('Error occured while save campaigns!');
+            //alert('Error occured while save campaigns!');
+            this.toastr.error('Error occured while save campaigns!', 'Error')
             this.loading = false;
         }
          
@@ -161,19 +167,23 @@ export class AdminCampaigns implements OnInit{
     this.loading = false;
   }
   onDelete(id: any) {
-    this.loading = true;
-    this.adminService.deleteCampaign(id) 
-    .subscribe({
-      next: (res) =>{
-           alert('delete successfully!');
-           this.loading = false;
-           this.loadCampaigns();
-      },
-      error: (err) =>{
-         alert('failed to delete data!');
-         this.loading = false;
-      }
-    })
+    if (confirm('Are you sure you want to delete this item?')) {
+      this.loading = true;
+      this.adminService.deleteCampaign(id) 
+      .subscribe({
+        next: (res) =>{
+            //alert('delete successfully!');
+            this.toastr.success('Deleted successfully', 'Success')
+            this.loading = false;
+            this.loadCampaigns();
+        },
+        error: (err) =>{
+          //alert('failed to delete data!');
+          this.toastr.error('Failed to delete data', 'Error')
+          this.loading = false;
+        }
+      })
+    }
   }
 
   onEdit(campaign : Campaign) {
@@ -208,7 +218,8 @@ export class AdminCampaigns implements OnInit{
     this.adminService.uploadCampaignImage(campaignId, formData).subscribe({
       next:(res) =>{
         this.loading = false;
-        alert(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`);
+        //alert(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`);
+         this.toastr.success(`Campaign ${this.isEditMode? 'update' : 'Save'} successfully.`, 'Success')
         this.resetForm();
         this.loadCampaigns();
 
@@ -217,7 +228,8 @@ export class AdminCampaigns implements OnInit{
       error:(err) =>{
         console.error(err);
         this.loading = false;
-        alert("Image upload failed");
+        //alert("Image upload failed");
+         this.toastr.error('Image upload failed', 'Error')
       }
     })
   }
@@ -234,7 +246,8 @@ export class AdminCampaigns implements OnInit{
       },
 
       error:(err) =>{
-         alert('charity not found!');
+        // alert('charity not found!');
+          this.toastr.error('charity not found!', 'Error')
       }
     })
   }
@@ -256,7 +269,8 @@ export class AdminCampaigns implements OnInit{
               this.loading = false;
            },
            error : (err) =>{
-             alert('Failed to load campaigns data!');
+             //alert('Failed to load campaigns data!');
+             this.toastr.error('Failed to load campaigns data!', 'Error')
              this.loading = false;
            }
       })

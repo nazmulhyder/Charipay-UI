@@ -4,6 +4,7 @@ import { CampaignService } from '../../../../core/services/campaign.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-campaign-detail',
@@ -31,7 +32,8 @@ export class CampaignDetail implements OnInit {
     private campaignService: CampaignService,
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr : ToastrService
   ) { }
 
   initializeForm(): void {
@@ -68,6 +70,7 @@ export class CampaignDetail implements OnInit {
         this.errorMessage = 'Failed to load campaign details.';
         this.loading = false;
         console.error(error);
+        this.toastr.error('Failed to load campaign details.', 'Error')
       }
     });
   }
@@ -146,18 +149,20 @@ console.log(payload);
        console.log(res);
       if(res.data?.paymentStatus == 'Succeeded')
        {
-        alert(`Donation Successful`);
+        //alert(`Donation Successful`);
+         this.toastr.success('Donation Successful!', 'Success')
          this.getCampaignDetails(res.data.campaignId);
        }
       else
-        alert('something went wrong in donation');
+        //alert('something went wrong in donation');
+         this.toastr.error('Something went wrong in donation', 'Error')
 
       this.donationForm.reset();
       this.showDonationForm = false;
     },
 
     error: (err) =>{
-        alert('something went wrong in donation');
+        this.toastr.error('Something went wrong in donation', 'Error')
         this.donationForm.reset();
         this.showDonationForm = false;
     }

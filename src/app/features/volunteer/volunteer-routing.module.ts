@@ -7,9 +7,9 @@ import { VolunteerOpportunities } from "./opportunities/opportunities";
 export const VOLUNTEER_ROUTES : Routes = [
   { path:'', 
     children : [
-        {path:'volunteer-dashboard', component: VolunteerDashboard},
-        {path:'volunteer-opportunities', component: VolunteerOpportunities},
-        {path: '', redirectTo:'tasks', pathMatch:'full'}
+         { path: 'volunteer-dashboard', component: VolunteerDashboard },
+          { path: 'volunteer-opportunities', component: VolunteerOpportunities },
+          { path: '', redirectTo: 'volunteer-opportunities', pathMatch: 'full' }
     ]
   }
 

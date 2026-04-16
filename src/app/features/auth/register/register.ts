@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { passwordMatchValidator } from '../../../shared/validators/password-match.validator';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-register',
   imports: [FormsModule, RouterModule, ReactiveFormsModule, CommonModule],
@@ -16,6 +17,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
+  private readonly toastr = inject(ToastrService);
 
   registerForm : FormGroup = this.fb.group({
       fullName: ['', Validators.required],
@@ -58,7 +60,8 @@ export class RegisterComponent {
     this.auth.signup(signupData).subscribe ({
       next: (res) => {
         this.loading = false;
-        alert('Registration successful!');
+       // alert('Registration successful!');
+        this.toastr.success('Registration successful', 'Success')
         this.registerForm.reset();
         this.router.navigate(['/auth/login'])
       },
@@ -66,7 +69,7 @@ export class RegisterComponent {
       error:(err) =>{
          this.loading = false;
          this.errorMessage = err.error?.message || 'Registration failed. Please try again'
-         alert(this.errorMessage);
+         this.toastr.error('Registration failed. Please try again!', 'Error')
       }
     });
 

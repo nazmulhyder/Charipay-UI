@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Campaign } from '../../../../shared/models/campaign.model';
 import { CampaignService } from '../../../../core/services/campaign.service';
 import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -23,9 +24,12 @@ export class Home  implements OnInit{
   selectedCampaignId : any;
   totalCount : number =0;
 
-   constructor(private campaignService:  CampaignService){}
+   constructor(private campaignService:  CampaignService, private toastr : ToastrService ){}
 
   ngOnInit(): void {
+
+    // this.toastr.success('Toastr is working!', 'Success');
+
     this.campaignService.getPublicCampaigns(this.pageNumber, this.pageSize, true, this.searchTerm).subscribe({
       next: (res)=> {
         this.featuredCampaigns = res.data?.items || [];
@@ -34,6 +38,7 @@ export class Home  implements OnInit{
       },
       error:(err) => {
         console.error('Error fetching featured campaigns', err);
+        this.toastr.error('Error fetching featured campaigns!', 'Error');
         this.loading = false;
       }
         

@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "20.0.2",
+    "@angular/animations": "^20.0.2",
     "@angular/common": "20.0.2",
     "@angular/compiler": "20.0.2",
     "@angular/core": "20.0.2",
@@ -24,6 +24,7 @@
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "chart.js": "^4.5.0",
+    "ngx-toastr": "^19.1.0",
     "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.1.14",

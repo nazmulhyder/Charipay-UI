@@ -12,15 +12,15 @@ export const ADMIN_ROUTES : Routes = [
 {
     path: '',
     children:[
-        {path:'dashboard', component: AdminDashboardComponent},
-        {path:'users', component: Users},
-        {path:'charities', component: Charities},
-        {path:'campaigns', component:AdminCampaigns},
-        {path:'reports', component: Reports},
-        {path:'volunteers', component:Volunteers},
-        {path:'volunteer-tasks', component:VolunteerTasks},
-        {path:'donations', component: Donations}
-       // {path:'', redirectTo: 'dashboard', pathMatch:'full'}
+        { path: 'dashboard', component: AdminDashboardComponent },
+        { path: 'users', component: Users },
+        { path: 'charities', component: Charities },
+        { path: 'campaigns', component: AdminCampaigns },
+        { path: 'reports', component: Reports },
+        { path: 'volunteers', component: Volunteers },
+        { path: 'volunteer-tasks', component: VolunteerTasks },
+        { path: 'donations', component: Donations },
+        { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 
     ]
 }

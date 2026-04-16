@@ -6,6 +6,8 @@ import { VolunteerService } from '../../../core/services/volunteer.service';
 import { AdminService } from '../../../core/services/admin.service';
 import { CharityService } from '../../../core/services/charity.service';
 import { finalize } from 'rxjs';
+import { ToastService } from '../../../shared/custom/toast-service';
+import { ToastrService } from 'ngx-toastr';
 
 
 interface CharityItem {
@@ -65,6 +67,7 @@ export class VolunteerTasks implements OnInit{
   private readonly charityService = inject(CharityService);
   private readonly campaignService = inject(CampaignService);
   private readonly volunteerTaskService = inject(VolunteerService);
+  private readonly toastr = inject(ToastrService);
   
   ngOnInit(): void {
     this.initializeForm();
@@ -96,7 +99,8 @@ loadCharities(): void {
           console.log('charities', this.charities);
         },
         error: (error: any) => {
-          console.error('Failed to load charities:', error);
+         // console.error('Failed to load charities:', error);
+         this.toastr.error('Failed to load charities!', 'Error')
         }
       });
   }
@@ -121,7 +125,8 @@ loadCharities(): void {
           this.campaigns = response?.data ?? response ?? [];
         },
         error: (error: any) => {
-          console.error('Failed to load campaigns by charity:', error);
+          //console.error('Failed to load campaigns by charity:', error);
+           this.toastr.error('Failed to load campaigns by charity!', 'Error')
         }
       });
     }
@@ -138,7 +143,8 @@ loadCharities(): void {
           this.totalCount = response?.data?.totalCount ?? response?.totalCount ?? this.volunteerTasks.length;
         },
         error: (error: any) => {
-          console.error('Failed to load volunteer tasks:', error);
+          //console.error('Failed to load volunteer tasks:', error);
+           this.toastr.error('Failed to load volunteer tasks!', 'Error')
         }
       });
     }
@@ -150,7 +156,8 @@ loadCharities(): void {
     }
 
     if (!this.isValidDateRange()) {
-      alert('End date must be later than start date.');
+      //alert('End date must be later than start date.');
+       this.toastr.warning('End date must be later than start date!', 'Warning')
       return;
     }
 
@@ -175,12 +182,14 @@ loadCharities(): void {
         .pipe(finalize(() => (this.isSubmitting = false)))
         .subscribe({
           next: () => {
-            alert('Volunteer task created successfully.');
+            //alert('Volunteer task created successfully.');
+             this.toastr.success('Volunteer task created successfully', 'Success')
             this.resetForm();
             this.loadVolunteerTasks();
           },
           error: (error) => {
-            console.error('Failed to create volunteer task:', error);
+            //console.error('Failed to create volunteer task:', error);
+            this.toastr.error('Failed to create volunteer task!', 'Error')
           }
         });
     //}
@@ -231,6 +240,7 @@ loadCharities(): void {
         },
         error: (error: any) => {
           console.error('Failed to toggle task status:', error);
+          this.toastr.error('Failed to toggle task status!', 'Error')
         }
       });
   }

@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,8 @@ export class LoginComponent {
    private fb = inject(FormBuilder);
    private auth = inject(AuthService);
    private router = inject(Router);
+   private readonly toastr = inject(ToastrService);
+   
    loading = false;
 
     loginForm : FormGroup =  this.fb.group({
@@ -39,12 +42,14 @@ export class LoginComponent {
           this.loading = false
           this.auth.storeToken(res.data.token);
           console.log(res);
-          alert('Logged in successful!');
+          //alert('Logged in successful!');
+           this.toastr.success('Logged in successful', 'success')
           this.redirectUser(this.auth.getUserRole());
         },
         error: (err) => {
           console.error(err);
-          alert('Invalid login');
+          //alert('Invalid login');
+          this.toastr.error('Invalid login!', 'Error')
         }
       });
     }

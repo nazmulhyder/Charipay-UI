@@ -18,11 +18,12 @@ export class App implements OnInit{
 
   ngOnInit():void
   {
-     if(this.auth.isLoggedIn())
-     {
-        const role = this.auth.getUserRole();
-        this.redirectUser(role);
-     }
+    // this redirect cousing a issue, when you work on other page it gets redirected to dashboard when reload
+    //  if(this.auth.isLoggedIn())
+    //  {
+    //     const role = this.auth.getUserRole();
+    //     this.redirectUser(role);
+    //  }
   }
 
   private redirectUser(role:string)

@@ -1,27 +1,77 @@
-# 🌍 Charipay – Frontend (Angular)
+# 🌍 Charipay UI – Frontend (Angular 20)
 
-Frontend application for **Charipay**, a charity management platform designed to manage campaigns, donations, and user roles. Built using Angular and Bootstrap, the frontend integrates with backend RESTful APIs to provide a responsive and user-friendly interface.
+The frontend application for **Charipay**, a full-stack charity donation platform.  
+Built with **Angular 20**, this UI provides a responsive and role-based experience for users to explore campaigns, donate, and manage platform activities.
 
----
-
-## 🚀 Features
-- Public pages (Home, Campaigns, About, Contact)  
-- User authentication (Signup & Login for Donors and Volunteers)  
-- Role-based dashboards for Admin, Donor, and Volunteer users  
-- Donation and volunteer task interfaces  
-- Responsive UI built with Bootstrap  
+The project demonstrates modern Angular practices, scalable UI architecture, and seamless integration with a .NET backend.
 
 ---
 
-## 🛠️ Tech Stack
-- Angular (v20+)  
-- TypeScript  
-- RxJS  
-- Bootstrap 5  
-- ASP.NET Core Web API (Backend)  
+## 🌐 Live Demo  
+- 🔗 Web App: https://charipay.azurewebsites.net/  
 
 ---
 
-## 🔗 Backend Integration
-The frontend communicates with backend RESTful APIs to handle authentication, campaign management, and donation workflows.
 
+## 🚀 Core Features  
+
+### 🔐 Authentication & Authorization  
+- JWT-based authentication  
+- Role-based routing (**Admin, Donor, Volunteer**)  
+- Route guards for secure navigation  
+
+### 🎯 Campaign Experience  
+- Browse featured and active campaigns  
+- Campaign detail pages with donation call-to-action  
+- Real-time progress display  
+
+### 💳 Donation Flow  
+- Support for authenticated and anonymous users  
+- Integration with backend donation APIs  
+- Clean and intuitive UI flow  
+
+### 🧑‍💼 Admin Dashboard  
+- Manage campaigns, charities, and users  
+- Structured dashboard UI for administrative actions  
+
+### 🙋 Volunteer Module *(In Progress)*  
+- Volunteer opportunity listing  
+- Application UI and tracking  
+
+### 📱 Responsive Design  
+- Fully responsive layout using Bootstrap  
+- Optimized for desktop and tablet usage  
+
+---
+
+## 🏗️ Tech Stack  
+
+- **Framework:** Angular 20 (Standalone Components)  
+- **Language:** TypeScript  
+- **State Management:** RxJS  
+- **UI Library:** Bootstrap 5 + Bootstrap Icons  
+- **Routing:** Angular Router (Role-based guards)  
+- **API Integration:** RESTful APIs (.NET backend)  
+
+---
+
+## 🧩 Frontend Architecture  
+
+- **Standalone Components** for modular structure  
+- **Service-based API integration** for separation of concerns  
+- **RxJS for reactive state management**  
+- **Route Guards** for authentication and authorization  
+- **Environment-based configuration** for API endpoints  
+
+---
+
+## 📂 Project Structure  
+
+```bash
+charipay-ui/
+├── src/app/
+│   ├── core/             # Services, guards, interceptors
+│   ├── features/         # Feature modules (campaigns, admin, auth)
+│   ├── shared/           # Shared components and utilities
+│   ├── layout/           # Navbar, footer, layouts
+│   └── app.routes.ts     # Application routing

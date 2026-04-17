@@ -1,0 +1,197 @@
+.volunteer-opportunities-page {
+  background: #f8fafc;
+  min-height: 100%;
+}
+
+.page-header h2 {
+  color: #1f2937;
+}
+
+.search-box input.form-control {
+  min-width: 280px;
+}
+
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.summary-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 1rem;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-bottom: 0.35rem;
+}
+
+.summary-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #198754;
+}
+
+.opportunity-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+
+.opportunity-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.1);
+}
+
+.charity-badge {
+  display: inline-block;
+  background: #e9f7ef;
+  color: #198754;
+  border: 1px solid #cfe9da;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.38rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.status-open {
+  background: #e9f7ef;
+  color: #198754;
+}
+
+.status-full {
+  background: #fdeaea;
+  color: #dc3545;
+}
+
+.status-applied {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.opportunity-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.campaign-name {
+  color: #198754;
+  font-weight: 600;
+}
+
+.description {
+  color: #4b5563;
+  line-height: 1.6;
+  min-height: 72px;
+}
+
+.details-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.detail-label {
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.detail-value {
+  color: #111827;
+  font-size: 0.95rem;
+  text-align: right;
+  font-weight: 500;
+}
+
+.custom-progress {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #edf2f7;
+}
+
+.custom-progress .progress-bar {
+  background-color: #198754;
+}
+
+.apply-btn {
+  border-radius: 0.85rem;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+}
+
+.empty-state {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 1.25rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.state-block {
+  background: transparent;
+}
+
+.pagination-wrap {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 991.98px) {
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input.form-control {
+    min-width: unset;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .summary-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .detail-value {
+    text-align: left;
+  }
+}

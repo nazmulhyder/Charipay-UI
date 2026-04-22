@@ -28,6 +28,13 @@ private volunteerOpportunityService = inject(VolunteerService);
 
   searchText = '';
 
+selectedOpportunity: VolunteerOpportunity | null = null;
+
+volunteerMessage = '';
+availabilityNote = '';
+
+isSubmitting = false;
+
   ngOnInit(): void {
     this.loadVolunteerOpportunities();
   }
@@ -101,21 +108,69 @@ private volunteerOpportunityService = inject(VolunteerService);
 
   applyNow(item: VolunteerOpportunity): void {
     if (item.alreadyApplied) {
-      this.toastr.warning('You have already applied for this opportunity.', 'Warning');
-      return;
-    }
+    this.toastr.warning('You have already applied for this opportunity.', 'Warning');
+    return;
+  }
 
     if (item.isFull) {
       this.toastr.error('This opportunity is already full.', 'Unavailable');
       return;
     }
 
-    // placeholder for actual apply API integration
-    this.toastr.success(`Application started for "${item.title}".`, 'Volunteer');
-    console.log('Apply clicked:', item.volunteerTaskId);
+    this.selectedOpportunity = item;
+    this.volunteerMessage = '';
+    this.availabilityNote = '';
+
+    // Open Bootstrap modal
+    const modal = new (window as any).bootstrap.Modal(
+      document.getElementById('applyVolunteerModal')
+    );
+    modal.show();
   }
 
-  trackByVolunteerTaskId(index: number, item: VolunteerOpportunity): string {
-    return item.volunteerTaskId;
+  submitApplication(): void {
+  if (!this.selectedOpportunity) return;
+
+  if (!this.volunteerMessage.trim()) {
+    this.toastr.warning('Please enter a volunteer message.', 'Validation');
+    return;
   }
+
+  this.isSubmitting = true;
+
+  const payload = {
+    volunteerTaskId: this.selectedOpportunity.volunteerTaskId,
+    volunteerMessage: this.volunteerMessage,
+    availabilityNote: this.availabilityNote
+  };
+
+  this.volunteerOpportunityService.applyForTask(payload).subscribe({
+    next: (res) => {
+      this.isSubmitting = false;
+
+      if (res.success) {
+        this.toastr.success('Application submitted successfully!', 'Success');
+
+        // Update UI instantly
+        this.selectedOpportunity!.alreadyApplied = true;
+        this.selectedOpportunity!.appliedCount += 1;
+        this.selectedOpportunity!.remainingSlots -= 1;
+
+        this.closeModal();
+      } else {
+        this.toastr.error(res.message || 'Failed to apply.');
+      }
+    },
+    error: () => {
+      this.isSubmitting = false;
+      this.toastr.error('Something went wrong.');
+    }
+  });
+}
+
+closeModal(): void {
+  const modalEl = document.getElementById('applyVolunteerModal');
+  const modal = (window as any).bootstrap.Modal.getInstance(modalEl);
+  modal?.hide();
+}
 }

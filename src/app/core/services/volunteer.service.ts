@@ -44,5 +44,33 @@ constructor(private http : HttpClient) {}
           return this.http.get(url);
        }
 
+   applyForTask(payload: any): Observable<ApiResponse<any>> {
+      return this.http.post<ApiResponse<any>>(
+         `${this.volunteerBaseUrl}/task/apply`,
+         payload
+      );
+      }
+
+      
+      getTaskApplyStatus(volunteerTaskId : string, volunteerUserId : string) : Observable<any> {
+          let url = `${this.volunteerBaseUrl}/task/is-applied?VolunteerTaskId=${volunteerTaskId}&VolunteerUserId=${volunteerUserId}`;
+          return this.http.get(url);
+       }
+
+      getMyApplicationRequests(pageNumber: number, pageSize:number, search?:string, status?:string) : Observable<any> {
+          let url = `${this.volunteerBaseUrl}/application/requests?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+    
+          if (search)
+            url += `&search=${encodeURIComponent(search)}`;
+
+           if (status)
+            url += `&status=${encodeURIComponent(status)}`;
+    
+          return this.http.get(url);
+       }
+
+       startTask() {}
+
+       cancelApplication(volunteerUserId : any){}
 
 }

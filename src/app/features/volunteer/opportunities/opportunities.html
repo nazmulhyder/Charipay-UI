@@ -65,7 +65,7 @@
     <div *ngIf="!loading && opportunities.length > 0" class="row g-4">
       <div
         class="col-12 col-md-6 col-xl-4"
-        *ngFor="let item of opportunities; trackBy: trackByVolunteerTaskId"
+        *ngFor="let item of opportunities;"
       >
         <div class="opportunity-card h-100">
           <div class="card-top d-flex justify-content-between align-items-start gap-2 mb-3">
@@ -162,6 +162,74 @@
       >
         Next
       </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="applyVolunteerModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title">Apply for Volunteer Task</h5>
+          <small class="text-muted" *ngIf="selectedOpportunity">
+            {{ selectedOpportunity.title }} • {{ selectedOpportunity.charityName }}
+          </small>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body" *ngIf="selectedOpportunity">
+        <div class="mb-3 small text-muted">
+          <div><strong>Campaign:</strong> {{ selectedOpportunity.campaignName }}</div>
+          <div><strong>Location:</strong> {{ selectedOpportunity.location }}</div>
+          <div>
+            <strong>Date:</strong>
+            {{ selectedOpportunity.startDate | date:'mediumDate' }} -
+            {{ selectedOpportunity.endDate | date:'mediumDate' }}
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Volunteer Message *</label>
+          <textarea
+            class="form-control"
+            rows="4"
+            [(ngModel)]="volunteerMessage"
+            placeholder="Why do you want to volunteer?"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Availability Note</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            [(ngModel)]="availabilityNote"
+            placeholder="Any availability notes..."
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <button
+          class="btn btn-success"
+          [disabled]="isSubmitting"
+          (click)="submitApplication()"
+        >
+          {{ isSubmitting ? 'Submitting...' : 'Submit Application' }}
+        </button>
+      </div>
+
     </div>
   </div>
 </div>

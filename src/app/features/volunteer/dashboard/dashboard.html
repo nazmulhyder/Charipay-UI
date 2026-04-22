@@ -1,1 +1,219 @@
-<p>dashboard works!</p>
+<div class="volunteer-dashboard-page">
+  <div class="container py-4 py-lg-5">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h2 class="fw-bold mb-1">
+          <i class="bi bi-speedometer2 me-2 text-success"></i>
+          Volunteer Dashboard
+        </h2>
+        <p class="text-muted mb-0">
+          Manage your applications and volunteering activities
+        </p>
+      </div>
+
+      <div class="d-flex gap-2 flex-wrap">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search..."
+          [(ngModel)]="searchText"
+          (keyup.enter)="onSearch()"
+          style="max-width: 250px"
+        />
+        <button class="btn btn-success" (click)="onSearch()">
+          <i class="bi bi-search me-1"></i> Search
+        </button>
+        <button class="btn btn-outline-secondary" (click)="clearSearch()" *ngIf="searchText">
+          <i class="bi bi-x-circle"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="dashboard-tabs mb-4">
+      <div class="nav nav-pills gap-2">
+
+        <button
+          class="btn d-flex align-items-center gap-2"
+          [ngClass]="activeTab === 'applications' ? 'btn-success' : 'btn-outline-success'"
+          (click)="changeTab('applications')"
+        >
+          <i class="bi bi-file-earmark-text"></i>
+          Applications
+          <span class="badge bg-light text-dark" *ngIf="activeTab === 'applications'">
+            {{ totalCount }}
+          </span>
+        </button>
+
+        <button
+          class="btn d-flex align-items-center gap-2"
+          [ngClass]="activeTab === 'tasks' ? 'btn-success' : 'btn-outline-success'"
+          (click)="changeTab('tasks')"
+        >
+          <i class="bi bi-play-circle"></i>
+          My Tasks
+        </button>
+
+        <button
+          class="btn d-flex align-items-center gap-2"
+          [ngClass]="activeTab === 'completed' ? 'btn-success' : 'btn-outline-success'"
+          (click)="changeTab('completed')"
+        >
+          <i class="bi bi-check-circle"></i>
+          Completed
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Status filters -->
+    <div class="mb-4" *ngIf="activeTab !== 'completed'">
+      <div class="d-flex gap-2 flex-wrap">
+
+        <button
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === '' ? 'btn-dark' : 'btn-outline-dark'"
+          (click)="changeStatus('')"
+        >
+          All
+        </button>
+
+        <button
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Pending' ? 'btn-warning text-dark' : 'btn-outline-warning'"
+          (click)="changeStatus('Pending')"
+        >
+          Pending
+        </button>
+
+        <button
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Approved' ? 'btn-primary' : 'btn-outline-primary'"
+          (click)="changeStatus('Approved')"
+        >
+          Approved
+        </button>
+
+        <button
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Started' ? 'btn-info text-dark' : 'btn-outline-info'"
+          (click)="changeStatus('Started')"
+        >
+          In Progress
+        </button>
+
+        <button
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Rejected' ? 'btn-danger' : 'btn-outline-danger'"
+          (click)="changeStatus('Rejected')"
+        >
+          Rejected
+        </button>
+
+        <button
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Cancelled' ? 'btn-secondary' : 'btn-outline-secondary'"
+          (click)="changeStatus('Cancelled')"
+        >
+          Cancelled
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-success"></div>
+      <p class="mt-2 text-muted">Loading...</p>
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && requests.length === 0" class="text-center py-5">
+      <i class="bi bi-inbox fs-1 text-muted"></i>
+      <p class="text-muted mt-2">No data found</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="row g-4" *ngIf="!loading && requests.length > 0">
+
+      <div class="col-md-6 col-xl-4" *ngFor="let item of requests">
+
+        <div class="dashboard-card h-100">
+
+          <!-- Top -->
+          <div class="d-flex justify-content-between mb-2">
+            <span class="charity-badge">{{ item.charityName }}</span>
+            <span class="status-badge" [ngClass]="getStatusClass(item.status)">
+              {{ getStatusLabel(item.status) }}
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h5 class="fw-bold">{{ item.title }}</h5>
+          <p class="text-success small mb-2">{{ item.campaignName }}</p>
+
+          <!-- Description -->
+          <p class="text-muted small mb-3">
+            {{ item.description }}
+          </p>
+
+          <!-- Info -->
+          <div class="small mb-3">
+            <div><i class="bi bi-geo-alt me-1"></i> {{ item.location }}</div>
+            <div><i class="bi bi-calendar-event me-1"></i> {{ item.startDate | date }}</div>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-auto d-grid gap-2">
+
+            <!-- Cancel -->
+            <button
+              *ngIf="item.status === 'Pending'"
+              class="btn btn-outline-danger btn-sm"
+              (click)="cancelApplication(item)"
+            >
+              <i class="bi bi-x-circle me-1"></i>
+              Cancel
+            </button>
+
+            <!-- Start -->
+            <button
+              *ngIf="item.status === 'approved'"
+              class="btn btn-primary btn-sm"
+              (click)="startTask(item)"
+            >
+              <i class="bi bi-play-fill me-1"></i>
+              Start Task
+            </button>
+
+            <!-- In Progress -->
+            <button
+              *ngIf="item.status === 'Started'"
+              class="btn btn-outline-info btn-sm"
+              disabled
+            >
+              <i class="bi bi-hourglass-split me-1"></i>
+              In Progress
+            </button>
+
+            <!-- Completed -->
+            <button
+              *ngIf="item.status === 'Completed'"
+              class="btn btn-outline-success btn-sm"
+              disabled
+            >
+              <i class="bi bi-check-circle me-1"></i>
+              Completed
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

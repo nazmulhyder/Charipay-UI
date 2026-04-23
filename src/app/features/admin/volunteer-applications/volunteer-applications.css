@@ -1,0 +1,166 @@
+.admin-participants-page {
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Header */
+.page-header h2 {
+  color: #0f172a;
+}
+
+.page-header p {
+  font-size: 0.95rem;
+}
+
+/* Search */
+.search-box .form-control {
+  min-width: 260px;
+  border-radius: 10px;
+  border: 1px solid #dbe3ea;
+}
+
+.search-box .form-control:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.1);
+}
+
+/* Summary */
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.summary-card {
+  background: #ffffff;
+  border: 1px solid #e9eef3;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.summary-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Filters */
+.status-filter-wrap .btn {
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Table */
+.admin-request-table {
+  font-size: 0.92rem;
+}
+
+.admin-request-table thead th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #64748b;
+}
+
+.admin-request-table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Status colors */
+.badge-pending {
+  background: #fff3cd;
+  color: #8a6d1f;
+}
+
+.badge-approved {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-started {
+  background: #cff4fc;
+  color: #055160;
+}
+
+.badge-completed {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.badge-rejected {
+  background: #f8d7da;
+  color: #842029;
+}
+
+.badge-cancelled {
+  background: #e2e3e5;
+  color: #41464b;
+}
+
+.badge-default {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* Empty & loading */
+.empty-state,
+.state-block {
+  background: #ffffff;
+  border: 1px solid #e9eef3;
+  border-radius: 18px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.btn-sm {
+  font-size: 0.8rem;
+  border-radius: 8px;
+}
+
+/* Pagination */
+.pagination-wrap .btn {
+  min-width: 100px;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .summary-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-box .form-control {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .summary-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-request-table {
+    font-size: 0.85rem;
+  }
+}

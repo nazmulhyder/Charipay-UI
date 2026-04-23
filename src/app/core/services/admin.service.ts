@@ -72,4 +72,30 @@ uploadCampaignImage(campaignId: string, formData: FormData): Observable<any> {
    }
    //#endregion Dashboard
 
+
+         getVolunteerApplicationRequests(pageNumber: number, pageSize:number, search?:string, status?:string) : Observable<any> {
+          let url = `${this.baseUrl}/volunteer/application/requests?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+    
+          if (search)
+            url += `&search=${encodeURIComponent(search)}`;
+
+           if (status)
+            url += `&status=${encodeURIComponent(status)}`;
+    
+          return this.http.get(url);
+       }
+
+       approveVolunteerRequest(payload : any): Observable<ApiResponse<Campaign>> {
+      return this.http.post<ApiResponse<Campaign>>(
+        `${this.baseUrl}/approve-volunteer-application`,
+        payload
+      );
+    }
+
+      rejectVolunteerRequest(payload : any): Observable<ApiResponse<Campaign>> {
+      return this.http.post<ApiResponse<Campaign>>(
+        `${this.baseUrl}/reject-volunteer-application`,
+        payload
+      );
+    }
 }

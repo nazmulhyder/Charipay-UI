@@ -1,0 +1,378 @@
+<div class="admin-participants-page">
+  <div class="container-fluid py-4">
+
+    <!-- Header -->
+    <div class="page-header mb-4">
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+        <div>
+          <h2 class="fw-bold mb-2">Participants & Requests</h2>
+          <p class="text-muted mb-0">
+            Review volunteer applications, manage participant statuses, and take action on pending requests.
+          </p>
+        </div>
+
+        <div class="search-box d-flex gap-2 flex-wrap">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by volunteer, task, charity, campaign..."
+            [(ngModel)]="searchText"
+            (keyup.enter)="onSearch()"
+          />
+          <button class="btn btn-success" (click)="onSearch()">
+            <i class="bi bi-search me-1"></i>
+            Search
+          </button>
+          <button
+            class="btn btn-outline-secondary"
+            *ngIf="searchText"
+            (click)="clearSearch()"
+          >
+            <i class="bi bi-x-circle me-1"></i>
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-strip mb-4" *ngIf="!loading && !errorMessage">
+      <div class="summary-card">
+        <span class="summary-label">Total Requests</span>
+        <span class="summary-value">{{ totalCount }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Current Page</span>
+        <span class="summary-value">{{ pageNumber }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Page Size</span>
+        <span class="summary-value">{{ pageSize }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Current Filter</span>
+        <span class="summary-value">{{ selectedStatus || 'All' }}</span>
+      </div>
+    </div>
+
+    <!-- Status filters -->
+    <div class="status-filter-wrap mb-4">
+      <div class="d-flex flex-wrap gap-2">
+        <button
+          type="button"
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === '' ? 'btn-dark' : 'btn-outline-dark'"
+          (click)="changeStatus('')"
+        >
+          All
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Pending' ? 'btn-warning text-dark' : 'btn-outline-warning'"
+          (click)="changeStatus('Pending')"
+        >
+          Pending
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Approved' ? 'btn-primary' : 'btn-outline-primary'"
+          (click)="changeStatus('Approved')"
+        >
+          Approved
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Started' ? 'btn-info text-dark' : 'btn-outline-info'"
+          (click)="changeStatus('Started')"
+        >
+          In Progress
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Completed' ? 'btn-success' : 'btn-outline-success'"
+          (click)="changeStatus('Completed')"
+        >
+          Completed
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Rejected' ? 'btn-danger' : 'btn-outline-danger'"
+          (click)="changeStatus('Rejected')"
+        >
+          Rejected
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm"
+          [ngClass]="selectedStatus === 'Cancelled' ? 'btn-secondary' : 'btn-outline-secondary'"
+          (click)="changeStatus('Cancelled')"
+        >
+          Cancelled
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="state-block text-center py-5">
+      <div class="spinner-border text-success" role="status"></div>
+      <p class="mt-3 mb-0 text-muted">Loading participant requests...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="!loading && errorMessage" class="alert alert-danger shadow-sm">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && !errorMessage && requests.length === 0" class="empty-state shadow-sm">
+      <div class="empty-state-icon">📭</div>
+      <h5 class="mb-2">No participant requests found</h5>
+      <p class="text-muted mb-0">
+        Try adjusting the search or status filter.
+      </p>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!loading && !errorMessage && requests.length > 0" class="table-responsive shadow-sm rounded-4 bg-white">
+      <table class="table table-hover align-middle mb-0 admin-request-table">
+        <thead class="table-light">
+          <tr>
+            <th>Volunteer</th>
+            <th>Task</th>
+            <th>Campaign / Charity</th>
+            <th>Dates</th>
+            <th>Status</th>
+            <th>Volunteer Notes</th>
+            <th>Admin Note</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of requests; trackBy: trackByVolunteerUserId">
+            <!-- Volunteer -->
+            <td>
+              <div class="fw-semibold">{{ item.volunteerName }}</div>
+              <div class="small text-muted">{{ item.volunteerEmail }}</div>
+              <div class="small text-muted mt-1">
+                Applied: {{ item.signupDate | date:'mediumDate' }}
+              </div>
+            </td>
+
+            <!-- Task -->
+            <td>
+              <div class="fw-semibold">{{ item.taskTitle }}</div>
+              <div class="small text-muted">{{ item.taskLocation }}</div>
+              <div class="small text-muted mt-1">
+                {{ item.taskStartDate | date:'mediumDate' }} - {{ item.taskEndDate | date:'mediumDate' }}
+              </div>
+            </td>
+
+            <!-- Campaign / Charity -->
+            <td>
+              <div class="fw-semibold">{{ item.campaignName }}</div>
+              <div class="small text-muted">{{ item.charityName }}</div>
+            </td>
+
+            <!-- Dates -->
+            <td>
+              <div class="small">
+                <div *ngIf="item.reviewedAt">
+                  <span class="text-muted">Reviewed:</span>
+                  <span>{{ item.reviewedAt | date:'medium' }}</span>
+                </div>
+
+                <div *ngIf="item.startedAt">
+                  <span class="text-muted">Started:</span>
+                  <span>{{ item.startedAt | date:'medium' }}</span>
+                </div>
+
+                <div *ngIf="item.completedAt">
+                  <span class="text-muted">Completed:</span>
+                  <span>{{ item.completedAt | date:'medium' }}</span>
+                </div>
+
+                <div *ngIf="!item.reviewedAt && !item.startedAt && !item.completedAt" class="text-muted">
+                  No updates yet
+                </div>
+              </div>
+            </td>
+
+            <!-- Status -->
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(item.status)">
+                {{ getStatusLabel(item.status) }}
+              </span>
+            </td>
+
+            <!-- Volunteer Notes -->
+            <td>
+              <div class="small mb-2" *ngIf="item.volunteerMessage">
+                <div class="fw-semibold text-dark">Message</div>
+                <div class="text-muted">{{ item.volunteerMessage }}</div>
+              </div>
+
+              <div class="small" *ngIf="item.availabilityNote">
+                <div class="fw-semibold text-dark">Availability</div>
+                <div class="text-muted">{{ item.availabilityNote }}</div>
+              </div>
+
+              <div *ngIf="!item.volunteerMessage && !item.availabilityNote" class="text-muted small">
+                No notes provided
+              </div>
+            </td>
+
+            <!-- Admin Note -->
+            <td>
+              <div *ngIf="item.adminNote; else noAdminNote" class="small text-muted">
+                {{ item.adminNote }}
+              </div>
+              <ng-template #noAdminNote>
+                <span class="text-muted small">No admin note</span>
+              </ng-template>
+            </td>
+
+            <!-- Actions -->
+            <td class="text-center">
+              <div class="d-flex flex-column gap-2" *ngIf="item.status === 'Pending'; else noActions">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-success"
+                  (click)="openApproveModal(item)"
+                >
+                  <i class="bi bi-check-circle me-1"></i>
+                  Approve
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger"
+                  (click)="openRejectModal(item)"
+                >
+                  <i class="bi bi-x-circle me-1"></i>
+                  Reject
+                </button>
+              </div>
+
+              <ng-template #noActions>
+                <span class="text-muted small">No actions</span>
+              </ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div
+      *ngIf="!loading && requests.length > 0 && totalPages > 1"
+      class="pagination-wrap mt-4 d-flex justify-content-center align-items-center gap-3"
+    >
+      <button
+        class="btn btn-outline-success"
+        [disabled]="pageNumber === 1"
+        (click)="goToPreviousPage()"
+      >
+        Previous
+      </button>
+
+      <span class="text-muted fw-medium">
+        Page {{ pageNumber }} of {{ totalPages }}
+      </span>
+
+      <button
+        class="btn btn-outline-success"
+        [disabled]="pageNumber === totalPages"
+        (click)="goToNextPage()"
+      >
+        Next
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" id="adminActionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title mb-1">
+            {{ selectedAction === 'approve' ? 'Approve Request' : 'Reject Request' }}
+          </h5>
+          <small class="text-muted" *ngIf="selectedRequest">
+            {{ selectedRequest.volunteerName }} • {{ selectedRequest.taskTitle }}
+          </small>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          [disabled]="isSubmittingAction"
+          (click)="closeAdminActionModal()"
+        ></button>
+      </div>
+
+      <div class="modal-body" *ngIf="selectedRequest">
+        <div class="mb-3 small text-muted">
+          <div><strong>Volunteer:</strong> {{ selectedRequest.volunteerName }}</div>
+          <div><strong>Email:</strong> {{ selectedRequest.volunteerEmail }}</div>
+          <div><strong>Task:</strong> {{ selectedRequest.taskTitle }}</div>
+          <div><strong>Campaign:</strong> {{ selectedRequest.campaignName }}</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            Admin Note
+            <span class="text-muted">
+              {{ selectedAction === 'reject' ? '(recommended)' : '(optional)' }}
+            </span>
+          </label>
+          <textarea
+            class="form-control"
+            rows="4"
+            [(ngModel)]="adminNote"
+            placeholder="Write a short note for this decision..."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          [disabled]="isSubmittingAction"
+          (click)="closeAdminActionModal()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="btn"
+          [disabled]="isSubmittingAction"
+          [ngClass]="selectedAction === 'approve' ? 'btn-success' : 'btn-danger'"
+          (click)="submitAdminAction()"
+        >
+          <span
+            *ngIf="isSubmittingAction"
+            class="spinner-border spinner-border-sm me-2"
+          ></span>
+          {{ selectedAction === 'approve' ? 'Approve' : 'Reject' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

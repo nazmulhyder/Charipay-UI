@@ -210,15 +210,11 @@ submitAdminAction(): void {
 
   const payload = {
     volunteerUserId: this.selectedRequest.volunteerUserId,
+    action: this.selectedAction === 'approve' ? 'Approve' : 'Reject',
     adminNote: this.adminNote
   };
 
-  const request$ =
-    this.selectedAction === 'approve'
-      ? this.adminService.approveVolunteerRequest(payload)
-      : this.adminService.rejectVolunteerRequest(payload);
-
-  request$.subscribe({
+  this.adminService.reviewVolunteerApplications(payload).subscribe({
     next: (res) => {
       this.isSubmittingAction = false;
 
@@ -227,21 +223,14 @@ submitAdminAction(): void {
         return;
       }
 
-      this.toastr.success(
-        res.message ||
-          (this.selectedAction === 'approve'
-            ? 'Volunteer request approved.'
-            : 'Volunteer request rejected.')
-      );
+      this.toastr.success(res.message || 'Request updated successfully.');
 
       this.closeAdminActionModal();
       this.loadRequests();
     },
-    error: (error) => {
+    error: () => {
       this.isSubmittingAction = false;
-      this.toastr.error(
-        error?.error?.message || 'Something went wrong while processing the request.'
-      );
+      this.toastr.error('Something went wrong.');
     }
   });
 }

@@ -85,17 +85,12 @@ uploadCampaignImage(campaignId: string, formData: FormData): Observable<any> {
           return this.http.get(url);
        }
 
-       approveVolunteerRequest(payload : any): Observable<ApiResponse<Campaign>> {
-      return this.http.post<ApiResponse<Campaign>>(
-        `${this.baseUrl}/approve-volunteer-application`,
+       reviewVolunteerApplications(payload : any): Observable<any> {
+      return this.http.put<any>(
+        `${this.baseUrl}/review-volunteer-applications`,
         payload
       );
     }
 
-      rejectVolunteerRequest(payload : any): Observable<ApiResponse<Campaign>> {
-      return this.http.post<ApiResponse<Campaign>>(
-        `${this.baseUrl}/reject-volunteer-application`,
-        payload
-      );
-    }
+
 }

@@ -38,19 +38,19 @@
     <!-- Summary -->
     <div class="summary-strip mb-4" *ngIf="!loading && !errorMessage">
       <div class="summary-card">
-        <span class="summary-label">Total Requests</span>
+        <span class="summary-label">Total Requests: </span>
         <span class="summary-value">{{ totalCount }}</span>
       </div>
       <div class="summary-card">
-        <span class="summary-label">Current Page</span>
+        <span class="summary-label">Current Page: </span>
         <span class="summary-value">{{ pageNumber }}</span>
       </div>
       <div class="summary-card">
-        <span class="summary-label">Page Size</span>
+        <span class="summary-label">Page Size: </span>
         <span class="summary-value">{{ pageSize }}</span>
       </div>
       <div class="summary-card">
-        <span class="summary-label">Current Filter</span>
+        <span class="summary-label">Current Filter: </span>
         <span class="summary-value">{{ selectedStatus || 'All' }}</span>
       </div>
     </div>
@@ -245,25 +245,30 @@
 
             <!-- Actions -->
             <td class="text-center">
-              <div class="d-flex flex-column gap-2" *ngIf="item.status === 'Pending'; else noActions">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-success"
-                  (click)="openApproveModal(item)"
-                >
-                  <i class="bi bi-check-circle me-1"></i>
-                  Approve
-                </button>
+           <!-- Pending: Approve / Reject -->
+<div *ngIf="item.status?.toLowerCase() === 'pending'; else otherActions">
+  <button class="btn btn-sm btn-success" (click)="openApproveModal(item)">
+    Approve
+  </button>
 
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-danger"
-                  (click)="openRejectModal(item)"
-                >
-                  <i class="bi bi-x-circle me-1"></i>
-                  Reject
-                </button>
-              </div>
+  <button class="btn btn-sm btn-outline-danger" (click)="openRejectModal(item)">
+    Reject
+  </button>
+</div>
+
+<ng-template #otherActions>
+  <button
+    *ngIf="item.status?.toLowerCase() === 'completionrequested'; else noActions"
+    class="btn btn-sm btn-success"
+    (click)="completeRequest(item)"
+  >
+    Mark Completed
+  </button>
+
+  <ng-template #noActions>
+    <span class="text-muted small">No actions</span>
+  </ng-template>
+</ng-template>
 
               <ng-template #noActions>
                 <span class="text-muted small">No actions</span>
@@ -310,7 +315,13 @@
       <div class="modal-header">
         <div>
           <h5 class="modal-title mb-1">
-            {{ selectedAction === 'approve' ? 'Approve Request' : 'Reject Request' }}
+              {{
+    selectedAction === 'approve'
+      ? 'Approve Request'
+      : selectedAction === 'reject'
+        ? 'Reject Request'
+        : 'Mark as Completed'
+  }}
           </h5>
           <small class="text-muted" *ngIf="selectedRequest">
             {{ selectedRequest.volunteerName }} • {{ selectedRequest.taskTitle }}
@@ -336,7 +347,13 @@
           <label class="form-label">
             Admin Note
             <span class="text-muted">
-              {{ selectedAction === 'reject' ? '(recommended)' : '(optional)' }}
+               {{
+    selectedAction === 'reject'
+      ? '(recommended)'
+      : selectedAction === 'complete'
+        ? '(completion note optional)'
+        : '(optional)'
+  }}
             </span>
           </label>
           <textarea
@@ -362,14 +379,23 @@
           type="button"
           class="btn"
           [disabled]="isSubmittingAction"
-          [ngClass]="selectedAction === 'approve' ? 'btn-success' : 'btn-danger'"
+          [ngClass]="{
+  'btn-success': selectedAction === 'approve' || selectedAction === 'complete',
+  'btn-danger': selectedAction === 'reject'
+}"
           (click)="submitAdminAction()"
         >
           <span
             *ngIf="isSubmittingAction"
             class="spinner-border spinner-border-sm me-2"
           ></span>
-          {{ selectedAction === 'approve' ? 'Approve' : 'Reject' }}
+         {{
+  selectedAction === 'approve'
+    ? 'Approve'
+    : selectedAction === 'reject'
+      ? 'Reject'
+      : 'Mark Completed'
+}}
         </button>
       </div>
 

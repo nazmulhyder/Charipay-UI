@@ -59,7 +59,7 @@ export class VolunteerApplications  implements OnInit {
   totalPages = 0;
 
   selectedRequest: AdminVolunteerRequestItem | null = null;
-selectedAction: 'approve' | 'reject' | null = null;
+selectedAction: 'approve' | 'reject' | 'complete' | null = null;
 adminNote = '';
 isSubmittingAction = false;
 
@@ -203,6 +203,27 @@ openRejectModal(item: AdminVolunteerRequestItem): void {
   modal.show();
 }
 
+openCompleteModal(item: AdminVolunteerRequestItem): void {
+  this.selectedRequest = item;
+  this.selectedAction = 'complete';
+  this.adminNote = item.adminNote || '';
+
+  const modal = new (window as any).bootstrap.Modal(
+    document.getElementById('adminActionModal')
+  );
+  modal.show();
+}
+
+
+completeRequest(item: AdminVolunteerRequestItem): void {
+  if (item.status?.toLowerCase() !== 'completionrequested') {
+    this.toastr.warning('Only completion requested tasks can be completed.');
+    return;
+  }
+
+  this.openCompleteModal(item);
+}
+
 submitAdminAction(): void {
   if (!this.selectedRequest || !this.selectedAction) return;
 
@@ -210,7 +231,11 @@ submitAdminAction(): void {
 
   const payload = {
     volunteerUserId: this.selectedRequest.volunteerUserId,
-    action: this.selectedAction === 'approve' ? 'Approve' : 'Reject',
+    action: this.selectedAction === 'approve'
+    ? 'Approve'
+    : this.selectedAction === 'reject'
+      ? 'Reject'
+      : 'Complete',
     adminNote: this.adminNote
   };
 

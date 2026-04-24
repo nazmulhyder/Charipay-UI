@@ -1,15 +1,21 @@
-<div class="container-fluid py-4">
+<div class="admin-dashboard-page container-fluid py-4">
+
   <!-- Header -->
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+  <div class="dashboard-hero mb-4">
     <div>
       <h2 class="fw-bold mb-1">Admin Dashboard</h2>
       <p class="text-muted mb-0">Overview of Charipay platform activity</p>
     </div>
+
+    <button class="btn btn-outline-success btn-sm" (click)="loadDashboard()">
+      <i class="bi bi-arrow-clockwise me-1"></i>
+      Refresh
+    </button>
   </div>
 
   <!-- Loading -->
-  <div *ngIf="isLoading" class="text-center py-5">
-    <div class="spinner-border" role="status" aria-hidden="true"></div>
+  <div *ngIf="isLoading" class="state-card text-center py-5">
+    <div class="spinner-border text-success" role="status"></div>
     <p class="mt-3 mb-0 text-muted">Loading dashboard...</p>
   </div>
 
@@ -19,117 +25,133 @@
     <button class="btn btn-sm btn-outline-danger" (click)="loadDashboard()">Retry</button>
   </div>
 
-  <!-- Dashboard Content -->
   <div *ngIf="!isLoading && dashboardData">
+
     <!-- Summary Cards -->
     <div class="row g-4 mb-4">
       <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card dashboard-card border-0 shadow-sm h-100">
-          <div class="card-body">
-            <p class="dashboard-label text-muted mb-2">Total Users</p>
-            <h3 class="dashboard-value mb-0">{{ dashboardData.totalUsers }}</h3>
+        <div class="metric-card">
+          <div class="metric-icon bg-primary-subtle text-primary">
+            <i class="bi bi-people"></i>
+          </div>
+          <div>
+            <p class="metric-label">Total Users</p>
+            <h3 class="metric-value">{{ dashboardData.totalUsers }}</h3>
           </div>
         </div>
       </div>
 
       <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card dashboard-card border-0 shadow-sm h-100">
-          <div class="card-body">
-            <p class="dashboard-label text-muted mb-2">Total Charities</p>
-            <h3 class="dashboard-value mb-0">{{ dashboardData.totalCharities }}</h3>
+        <div class="metric-card">
+          <div class="metric-icon bg-success-subtle text-success">
+            <i class="bi bi-building-heart"></i>
+          </div>
+          <div>
+            <p class="metric-label">Total Charities</p>
+            <h3 class="metric-value">{{ dashboardData.totalCharities }}</h3>
           </div>
         </div>
       </div>
 
       <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card dashboard-card border-0 shadow-sm h-100">
-          <div class="card-body">
-            <p class="dashboard-label text-muted mb-2">Total Campaigns</p>
-            <h3 class="dashboard-value mb-0">{{ dashboardData.totalCampaigns }}</h3>
+        <div class="metric-card">
+          <div class="metric-icon bg-warning-subtle text-warning">
+            <i class="bi bi-megaphone"></i>
+          </div>
+          <div>
+            <p class="metric-label">Total Campaigns</p>
+            <h3 class="metric-value">{{ dashboardData.totalCampaigns }}</h3>
           </div>
         </div>
       </div>
 
       <div class="col-12 col-sm-6 col-xl-3">
-        <div class="card dashboard-card border-0 shadow-sm h-100">
-          <div class="card-body">
-            <p class="dashboard-label text-muted mb-2">Total Donations</p>
-            <h3 class="dashboard-value mb-0">{{ dashboardData.totalDonations }}</h3>
+        <div class="metric-card">
+          <div class="metric-icon bg-info-subtle text-info">
+            <i class="bi bi-cash-coin"></i>
+          </div>
+          <div>
+            <p class="metric-label">Total Donations</p>
+            <h3 class="metric-value">{{ dashboardData.totalDonations }}</h3>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Quick Actions -->
-    <div class="card border-0 shadow-sm mb-4">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+    <div class="dashboard-card mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-12 col-md-6 col-lg-3">
+          <a routerLink="/admin/charities" class="quick-action">
+            <i class="bi bi-building-heart"></i>
+            <span>Create Charity</span>
+          </a>
         </div>
 
-        <div class="row g-3">
-          <div class="col-12 col-md-6 col-lg-3">
-            <a routerLink="/admin/charities" class="btn btn-primary w-100">
-              Create Charity
-            </a>
-          </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <a routerLink="/admin/campaigns" class="quick-action">
+            <i class="bi bi-megaphone"></i>
+            <span>Create Campaign</span>
+          </a>
+        </div>
 
-          <div class="col-12 col-md-6 col-lg-3">
-            <a routerLink="/admin/campaigns" class="btn btn-success w-100">
-              Create Campaign
-            </a>
-          </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <a routerLink="/admin/users" class="quick-action">
+            <i class="bi bi-people"></i>
+            <span>View Users</span>
+          </a>
+        </div>
 
-          <div class="col-12 col-md-6 col-lg-3">
-            <a routerLink="/admin/users" class="btn btn-outline-dark w-100">
-              View Users
-            </a>
-          </div>
-
-          <div class="col-12 col-md-6 col-lg-3">
-            <a routerLink="/admin/donations" class="btn btn-outline-secondary w-100">
-              View Donations
-            </a>
-          </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <a routerLink="/admin/donations" class="quick-action">
+            <i class="bi bi-cash-stack"></i>
+            <span>View Donations</span>
+          </a>
         </div>
       </div>
     </div>
 
     <!-- Recent Donations -->
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0 fw-semibold">Recent Donations</h5>
-        </div>
+    <div class="dashboard-card">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0 fw-semibold">Recent Donations</h5>
+        <a routerLink="/admin/donations" class="btn btn-sm btn-outline-success">
+          View All
+        </a>
+      </div>
 
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th>Donor</th>
-                <th>Campaign</th>
-                <th>Amount</th>
-                <th>Date</th>
-              </tr>
-            </thead>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 dashboard-table">
+          <thead>
+            <tr>
+              <th>Donor</th>
+              <th>Campaign</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
 
-            <tbody>
-              <tr *ngFor="let donation of dashboardData.recentDonations">
-                <td>{{ donation.donorName }}</td>
-                <td>{{ donation.campaignName }}</td>
-                <td>£{{ donation.amount }}</td>
-                <td>{{ donation.createdAt | date:'medium' }}</td>
-              </tr>
+          <tbody>
+            <tr *ngFor="let donation of dashboardData.recentDonations">
+              <td class="fw-semibold">{{ donation.donorName }}</td>
+              <td>{{ donation.campaignName }}</td>
+              <td class="fw-semibold text-success">£{{ donation.amount }}</td>
+              <td>{{ donation.createdAt | date:'medium' }}</td>
+            </tr>
 
-              <tr *ngIf="!dashboardData.recentDonations?.length">
-                <td colspan="4" class="text-center text-muted py-4">
-                  No recent donations found.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            <tr *ngIf="!dashboardData.recentDonations?.length">
+              <td colspan="4" class="text-center text-muted py-4">
+                No recent donations found.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+
   </div>
 </div>

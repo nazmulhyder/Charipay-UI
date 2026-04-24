@@ -69,8 +69,11 @@ constructor(private http : HttpClient) {}
           return this.http.get(url);
        }
 
-       startTask() {}
-
-       cancelApplication(volunteerUserId : any){}
+      volunteerApplicationAction(payload : any) : Observable<ApiResponse<any>> {
+      return this.http.put<ApiResponse<any>>(
+         `${this.volunteerBaseUrl}/update-application-status`,
+         payload
+      );
+      }
 
 }

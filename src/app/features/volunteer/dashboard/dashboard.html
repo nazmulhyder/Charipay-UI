@@ -170,7 +170,7 @@
 
             <!-- Cancel -->
             <button
-              *ngIf="item.status === 'Pending'"
+              *ngIf="item.status?.toLowerCase() === 'pending'"
               class="btn btn-outline-danger btn-sm"
               (click)="cancelApplication(item)"
             >
@@ -180,7 +180,7 @@
 
             <!-- Start -->
             <button
-              *ngIf="item.status === 'approved'"
+              *ngIf="item.status?.toLowerCase() === 'approved'"
               class="btn btn-primary btn-sm"
               (click)="startTask(item)"
             >
@@ -189,25 +189,35 @@
             </button>
 
             <!-- In Progress -->
-            <button
-              *ngIf="item.status === 'Started'"
-              class="btn btn-outline-info btn-sm"
-              disabled
-            >
-              <i class="bi bi-hourglass-split me-1"></i>
-              In Progress
-            </button>
+  <!-- Request Completion -->
+<button
+  *ngIf="item.status?.toLowerCase() === 'started'"
+  class="btn btn-success btn-sm"
+  (click)="requestCompletion(item)"
+>
+  <i class="bi bi-check2-circle me-1"></i>
+  Request Completion
+</button>
 
-            <!-- Completed -->
-            <button
-              *ngIf="item.status === 'Completed'"
-              class="btn btn-outline-success btn-sm"
-              disabled
-            >
-              <i class="bi bi-check-circle me-1"></i>
-              Completed
-            </button>
+<!-- Awaiting Admin -->
+<button
+  *ngIf="item.status?.toLowerCase() === 'completionrequested'"
+  class="btn btn-outline-warning btn-sm"
+  disabled
+>
+  <i class="bi bi-hourglass-split me-1"></i>
+  Awaiting Approval
+</button>
 
+<!-- Completed -->
+<button
+  *ngIf="item.status?.toLowerCase() === 'completed'"
+  class="btn btn-outline-success btn-sm"
+  disabled
+>
+  <i class="bi bi-check-circle me-1"></i>
+  Completed
+</button>
           </div>
 
         </div>

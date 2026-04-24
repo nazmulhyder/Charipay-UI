@@ -139,7 +139,7 @@ export class VolunteerDashboard  implements OnInit{
       });
   }
 
-    cancelApplication(item: VolunteerRequestItem): void {
+cancelApplication(item: VolunteerRequestItem): void {
     if (item.status !== 'Pending') return;
 
     const confirmed = window.confirm(
@@ -147,61 +147,57 @@ export class VolunteerDashboard  implements OnInit{
     );
 
     if (!confirmed) return;
-
-   // this.volunteerApplicationService.cancelApplication(item.volunteerUserId)
-    //.subscribe({
-      // next: (res: ApiResponse<null>) => {
-      //   if (!res.success) {
-      //     this.toastr.error(res.message || 'Failed to cancel application.');
-      //     return;
-      //   }
-
-      //   this.toastr.success(res.message || 'Application cancelled successfully.');
-
-      //   item.status = 'Cancelled';
-      //   item.isActive = false;
-
-      //   if (this.activeTab === 'applications' && this.selectedStatus === 'Pending') {
-      //     this.requests = this.requests.filter(x => x.volunteerUserId !== item.volunteerUserId);
-      //     this.totalCount = Math.max(0, this.totalCount - 1);
-      //   }
-
-      //   this.loadRequests();
-      // },
-      // error: (error) => {
-      //   this.toastr.error(
-      //     error?.error?.message || 'Something went wrong while cancelling application.'
-      //   );
-      // }
-      //});
+    else
+    {
+      this.submitVolunteerAction(item, 'Withdraw');
+    }
   }
+
  startTask(item: VolunteerRequestItem): void {
-    // if (item.status !== 'Approved') return;
+    if (item.status?.toLowerCase() !== 'approved') return;
 
-    // const confirmed = window.confirm(`Start task "${item.title}" now?`);
-    // if (!confirmed) return;
-
-    // this.volunteerApplicationService.startTask(item.volunteerUserId).subscribe({
-    //   next: (res: ApiResponse<null>) => {
-    //     if (!res.success) {
-    //       this.toastr.error(res.message || 'Failed to start task.');
-    //       return;
-    //     }
-
-    //     this.toastr.success(res.message || 'Task started successfully.');
-
-    //     item.status = 'Started';
-    //     item.startedAt = new Date().toISOString();
-
-    //     this.loadRequests();
-    //   },
-    //   error: (error) => {
-    //     this.toastr.error(
-    //       error?.error?.message || 'Something went wrong while starting task.'
-    //     );
-    //   }
-    // });
+    this.submitVolunteerAction(item, 'Start');
   }
+
+  requestCompletion(item: VolunteerRequestItem): void {
+    const status = item.status?.toLowerCase();
+      if (status !== 'started') {
+      this.toastr.error('Only started tasks can request completion.');
+      return;
+    }
+
+    if (!item.volunteerUserId) {
+      this.toastr.error('Invalid request.');
+      return;
+    }
+
+     const confirmed = confirm('Are you sure you want to request completion?');
+     if (!confirmed) return;
+
+    this.submitVolunteerAction(item, 'CompletionRequested');
+  }
+
+
+
+submitVolunteerAction(
+  item: VolunteerRequestItem,
+  action: 'Start' | 'Withdraw' | 'CompletionRequested',
+  message: string | null = null
+): void {
+  const payload = {
+    volunteerUserId: item.volunteerUserId,
+    action,
+    message
+  };
+
+  this.volunteerApplicationService.volunteerApplicationAction(payload).subscribe({
+    next: (res) => {
+      if (!res.success) return;
+
+      this.loadRequests();
+    }
+  });
+}
 
   setDefaultStatusForTab(): void {
     switch (this.activeTab) {

@@ -10,7 +10,11 @@
 
   <div id="navbarNav" class="collapse navbar-collapse justify-content-end">
     <ul class="navbar-nav align-items-center gap-2">
-
+    <li class="nav-item" *ngIf="isDonor">
+      <a class="nav-link" routerLink="/donor/dashboard" routerLinkActive="active">
+        Donor Dashboard
+      </a>
+    </li>
       <li class="nav-item">
         <a routerLink="/campaigns" routerLinkActive="active" class="nav-link">Browse Campaigns</a>
       </li>

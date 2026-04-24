@@ -17,13 +17,14 @@ export const routes: Routes = [
   {
     path: '',
     component: PublicLayout,
-  canActivate: [PublicRedirectGuard],
+    //canActivate: [PublicRedirectGuard],
     children: PUBLIC_ROUTES
   },
 
   {
     path: 'auth',
     component: AuthLayout,
+    canActivate: [PublicRedirectGuard],
     children: AUTH_ROUTES
   },
 
@@ -37,6 +38,7 @@ export const routes: Routes = [
 
   {
     path: 'donor',
+    component:PublicLayout,
     canActivate: [AuthGuard, RoleGuard],
     data: { role: 'Donor' },
     children: DONOR_ROUTES

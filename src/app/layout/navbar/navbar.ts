@@ -13,12 +13,13 @@ export class Navbar implements OnInit{
   
   isLoggedIn = false;
   userName : string = '';
-
+isDonor = false;
   constructor(private auth: AuthService, private router : Router) {}
 
   ngOnInit(): void {
      // subscribe to login state changes
-     debugger;
+     const role = this.auth.getUserRole();
+     this.isDonor = role === 'Donor';
      this.auth.isLoggedIn$.subscribe( status => {
         this.isLoggedIn = status;
         console.log('from navbar', this.isLoggedIn);

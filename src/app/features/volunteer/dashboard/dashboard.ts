@@ -149,14 +149,14 @@ cancelApplication(item: VolunteerRequestItem): void {
     if (!confirmed) return;
     else
     {
-      this.submitVolunteerAction(item, 'Withdraw');
+      this.submitVolunteerAction(item, 'Cancelled');
     }
   }
 
  startTask(item: VolunteerRequestItem): void {
     if (item.status?.toLowerCase() !== 'approved') return;
 
-    this.submitVolunteerAction(item, 'Start');
+    this.submitVolunteerAction(item, 'Started');
   }
 
   requestCompletion(item: VolunteerRequestItem): void {
@@ -181,7 +181,7 @@ cancelApplication(item: VolunteerRequestItem): void {
 
 submitVolunteerAction(
   item: VolunteerRequestItem,
-  action: 'Start' | 'Withdraw' | 'CompletionRequested',
+  action: 'Started' | 'Cancelled' | 'CompletionRequested',
   message: string | null = null
 ): void {
   const payload = {

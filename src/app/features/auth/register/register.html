@@ -13,62 +13,119 @@
       Join Charipay and start making an impact
     </p>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSignup()">
+   <form [formGroup]="registerForm" (ngSubmit)="onSignup()">
 
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label">Full Name</label>
-          <input type="text" formControlName="fullName" class="form-control" placeholder="Enter your name" />
-        </div>
+  <div class="row g-3">
 
-        <div class="col-md-6">
-          <label class="form-label">Email</label>
-          <input type="email" formControlName="email" class="form-control" placeholder="Enter your email" />
-        </div>
+    <!-- Full Name -->
+    <div class="col-md-6">
+      <label class="form-label">Full Name</label>
+      <input type="text" formControlName="fullName" class="form-control" placeholder="Enter your name" />
 
-        <div class="col-md-6">
-          <label class="form-label">Phone <span class="text-muted"></span></label>
-          <input type="text" formControlName="phone" class="form-control" placeholder="Phone number" />
-        </div>
+      <div *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid"
+           class="text-danger small mt-1">
+        <span *ngIf="registerForm.get('fullName')?.errors?.['required']">
+          Full name is required
+        </span>
+      </div>
+    </div>
 
-        <div class="col-md-6">
-          <label class="form-label">Password</label>
-          <input type="password" formControlName="password" class="form-control" placeholder="Enter password" />
-        </div>
+    <!-- Email -->
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input type="email" formControlName="email" class="form-control" placeholder="Enter your email" />
 
-        <div class="col-md-6">
-          <label class="form-label">Confirm Password</label>
-          <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Confirm password" />
-        </div>
+      <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+           class="text-danger small mt-1">
+        <span *ngIf="registerForm.get('email')?.errors?.['required']">
+          Email is required
+        </span>
+        <span *ngIf="registerForm.get('email')?.errors?.['email']">
+          Invalid email format
+        </span>
+      </div>
+    </div>
 
-        <div class="col-md-6">
-          <label class="form-label">Join as</label>
-          <div class="d-flex gap-2">
-            <button type="button"
-                    class="role-btn"
-                    [class.active]="registerForm.value.roleId === '2'"
-                    (click)="registerForm.patchValue({ roleId: '2' })">
-              Donor
-            </button>
+    <!-- Phone (optional) -->
+    <div class="col-md-6">
+      <label class="form-label">
+        Phone <span class="text-muted"></span>
+      </label>
+      <input type="text" formControlName="phone" class="form-control" placeholder="Phone number" />
+         <div *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid"
+           class="text-danger small mt-1">
+        <span *ngIf="registerForm.get('phone')?.errors?.['required']">
+          Phone is required
+        </span>
+      </div>
+    </div>
 
-            <button type="button"
-                    class="role-btn"
-                    [class.active]="registerForm.value.roleId === '3'"
-                    (click)="registerForm.patchValue({ roleId: '3' })">
-              Volunteer
-            </button>
-          </div>
-        </div>
+    <!-- Password -->
+    <div class="col-md-6">
+      <label class="form-label">Password</label>
+      <input type="password" formControlName="password" class="form-control" placeholder="Enter password" />
+
+      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+           class="text-danger small mt-1">
+        <span *ngIf="registerForm.get('password')?.errors?.['required']">
+          Password is required
+        </span>
+        <span *ngIf="registerForm.get('password')?.errors?.['minlength']">
+          Minimum 6 characters required
+        </span>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="col-md-6">
+      <label class="form-label">Confirm Password</label>
+      <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Confirm password" />
+
+      <div class="text-danger small mt-1">
+        <span *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors?.['required']">
+          Confirm password is required
+        </span>
+        <span *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
+          Passwords do not match
+        </span>
+      </div>
+    </div>
+
+    <!-- Role -->
+    <div class="col-md-6">
+      <label class="form-label">Join as</label>
+
+      <div class="d-flex gap-2">
+        <button type="button"
+                class="role-btn"
+                [class.active]="registerForm.value.roleId === '2'"
+                (click)="registerForm.patchValue({ roleId: '2' })">
+          Donor
+        </button>
+
+        <button type="button"
+                class="role-btn"
+                [class.active]="registerForm.value.roleId === '3'"
+                (click)="registerForm.patchValue({ roleId: '3' })">
+          Volunteer
+        </button>
       </div>
 
-      <button type="submit"
-              class="btn btn-primary w-100 mt-4"
-              [disabled]="registerForm.invalid || isLoading">
-        {{ isLoading ? 'Creating account...' : 'Create Account' }}
-      </button>
+      <div *ngIf="registerForm.get('roleId')?.touched && registerForm.get('roleId')?.invalid"
+           class="text-danger small mt-1">
+        Please select a role
+      </div>
+    </div>
 
-    </form>
+  </div>
 
+  <button type="submit"
+          class="btn btn-primary w-100 mt-4"
+          [disabled]="registerForm.invalid || isLoading">
+    {{ isLoading ? 'Creating account...' : 'Create Account' }}
+  </button>
+
+</form>
     <p class="text-center mt-4 mb-1">
       Already have an account?
       <a routerLink="/auth/login" class="fw-semibold text-decoration-none">Login</a>

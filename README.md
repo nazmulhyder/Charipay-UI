@@ -1,77 +1,83 @@
-# 🌍 Charipay UI – Frontend (Angular 20)
+# 🌍 Charipay – Frontend (Angular)
 
-The frontend application for **Charipay**, a full-stack charity donation platform.  
-Built with **Angular 20**, this UI provides a responsive and role-based experience for users to explore campaigns, donate, and manage platform activities.
-
-The project demonstrates modern Angular practices, scalable UI architecture, and seamless integration with a .NET backend.
+A modern Angular-based frontend for Charipay, a UK-first charity platform that enables users to discover campaigns, donate securely, and participate in volunteer activities.
 
 ---
 
-## 🌐 Live Demo  
-- 🔗 Web App: https://charipay.azurewebsites.net/  
+## 🚀 Live Demo
+
+- 🌐 Frontend: https://charipay.azurewebsites.net  
+- 📡 Backend API: https://charipay-web-api.azurewebsites.net/swagger/index.html  
 
 ---
 
+## 🎯 Overview
 
-## 🚀 Core Features  
+The Charipay frontend provides a clean and responsive user interface for:
 
-### 🔐 Authentication & Authorization  
-- JWT-based authentication  
-- Role-based routing (**Admin, Donor, Volunteer**)  
-- Route guards for secure navigation  
+- Browsing charity campaigns  
+- Making donations (anonymous or logged-in)  
+- Managing donor and volunteer activities  
+- Accessing role-based dashboards  
 
-### 🎯 Campaign Experience  
-- Browse featured and active campaigns  
-- Campaign detail pages with donation call-to-action  
-- Real-time progress display  
-
-### 💳 Donation Flow  
-- Support for authenticated and anonymous users  
-- Integration with backend donation APIs  
-- Clean and intuitive UI flow  
-
-### 🧑‍💼 Admin Dashboard  
-- Manage campaigns, charities, and users  
-- Structured dashboard UI for administrative actions  
-
-### 🙋 Volunteer Module *(In Progress)*  
-- Volunteer opportunity listing  
-- Application UI and tracking  
-
-### 📱 Responsive Design  
-- Fully responsive layout using Bootstrap  
-- Optimized for desktop and tablet usage  
+The application is built with a focus on usability, clarity, and real-world user flows.
 
 ---
 
-## 🏗️ Tech Stack  
+## ✨ Features
 
-- **Framework:** Angular 20 (Standalone Components)  
-- **Language:** TypeScript  
-- **State Management:** RxJS  
-- **UI Library:** Bootstrap 5 + Bootstrap Icons  
-- **Routing:** Angular Router (Role-based guards)  
-- **API Integration:** RESTful APIs (.NET backend)  
+### 🏠 Public Pages
+- Homepage with hero, stats, and call-to-action  
+- Campaign listing and details page  
+- About page  
+- How It Works page (Donor & Volunteer journeys)  
+
+### 🔐 Authentication
+- User registration (Donor / Volunteer)  
+- Login with JWT authentication  
+- Role-based redirection  
+
+### 💰 Donation Flow
+- Campaign → Donate → Success flow  
+- Support for anonymous donations  
+- Logged-in donation tracking  
+
+### 👤 Donor Features
+- Donor dashboard  
+- View donation history  
+- Track supported campaigns  
+
+### 🙋 Volunteer Features
+- Browse volunteer opportunities  
+- Apply / cancel applications  
+- Status tracking (Pending, Approved, Cancelled, Completed)  
+
+### 🧭 Navigation & UX
+- Responsive navbar (role-aware)  
+- Clean footer with quick links  
+- Form validation and error handling  
+- Loading states for API calls  
 
 ---
 
-## 🧩 Frontend Architecture  
+## 🧰 Tech Stack
 
-- **Standalone Components** for modular structure  
-- **Service-based API integration** for separation of concerns  
-- **RxJS for reactive state management**  
-- **Route Guards** for authentication and authorization  
-- **Environment-based configuration** for API endpoints  
+- Angular 20
+- TypeScript  
+- Bootstrap 5  
+- RxJS  
+- Angular Router (role-based layouts)  
 
 ---
 
-## 📂 Project Structure  
+## 🏗️ Application Structure
 
 ```bash
-charipay-ui/
-├── src/app/
-│   ├── core/             # Services, guards, interceptors
-│   ├── features/         # Feature modules (campaigns, admin, auth)
-│   ├── shared/           # Shared components and utilities
-│   ├── layout/           # Navbar, footer, layouts
-│   └── app.routes.ts     # Application routing
+src/
+ ├── app/
+ │   ├── core/          # Services, guards, interceptors
+ │   ├── features/      # Feature modules (campaigns, auth, dashboard)
+ │   ├── layouts/       # Layout components
+ │   ├── shared/        # Shared UI components
+ │   └── app-routing.module.ts
+```

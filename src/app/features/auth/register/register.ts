@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './register.css'
 })
 export class RegisterComponent {
-  loading = false;
+  isLoading = false;
   errorMessage = '';
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
@@ -38,7 +38,7 @@ export class RegisterComponent {
       return;
     }
 
-    this.loading = true;
+    this.isLoading = true;
     this.errorMessage = '';
 
     const formValue = this.registerForm.value;
@@ -59,7 +59,7 @@ export class RegisterComponent {
 
     this.auth.signup(signupData).subscribe ({
       next: (res) => {
-        this.loading = false;
+        this.isLoading = false;
        // alert('Registration successful!');
         this.toastr.success('Registration successful', 'Success')
         this.registerForm.reset();
@@ -67,7 +67,7 @@ export class RegisterComponent {
       },
 
       error:(err) =>{
-         this.loading = false;
+         this.isLoading = false;
          this.errorMessage = err.error?.message || 'Registration failed. Please try again'
          this.toastr.error('Registration failed. Please try again!', 'Error')
       }

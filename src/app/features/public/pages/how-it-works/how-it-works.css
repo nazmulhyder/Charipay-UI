@@ -1,0 +1,57 @@
+.journey-flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.journey-step {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #f1f1f1;
+  border-radius: 1.25rem;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+}
+
+.step-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.6rem;
+}
+
+.journey-step h5 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.journey-step p {
+  color: #6c757d;
+  font-size: 0.92rem;
+  margin-bottom: 0;
+}
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0d6efd;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .journey-flow {
+    flex-direction: column;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+    margin: -0.25rem 0;
+  }
+}

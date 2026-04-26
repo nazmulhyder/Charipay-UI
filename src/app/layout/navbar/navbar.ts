@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -37,5 +37,15 @@ isDonor = false;
     this.auth.logout();
     this.router.navigate(['/auth/login']);
   }
+
+  @HostListener('window:scroll', [])
+onScroll() {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 10) {
+    navbar?.classList.add('scrolled');
+  } else {
+    navbar?.classList.remove('scrolled');
+  }
+}
    
 }

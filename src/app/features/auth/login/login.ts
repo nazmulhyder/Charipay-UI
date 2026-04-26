@@ -18,7 +18,8 @@ export class LoginComponent {
    private router = inject(Router);
    private readonly toastr = inject(ToastrService);
    
-   loading = false;
+   
+   isLoading = false;
 
     loginForm : FormGroup =  this.fb.group({
         email: ['', [Validators.required, Validators.email]],
@@ -32,14 +33,14 @@ export class LoginComponent {
         return;
       }
 
-      this.loading = true;
+      this.isLoading = true;
 
 
       const {email, password} = this.loginForm.value;
 
       this.auth.login(email, password).subscribe({
         next: (res) => {
-          this.loading = false
+          this.isLoading = false
           this.auth.storeToken(res.data.token);
           console.log(res);
           //alert('Logged in successful!');

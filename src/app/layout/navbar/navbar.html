@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 py-2 sticky-top">
 
   <a class="navbar-brand fw-bold text-primary" routerLink="/">Charipay</a>
 
@@ -10,17 +10,23 @@
 
   <div id="navbarNav" class="collapse navbar-collapse justify-content-end">
     <ul class="navbar-nav align-items-center gap-2">
-    <li class="nav-item" *ngIf="isDonor">
-      <a class="nav-link" routerLink="/donor/dashboard" routerLinkActive="active">
-        Donor Dashboard
-      </a>
-    </li>
-      <li class="nav-item">
-        <a routerLink="/campaigns" routerLinkActive="active" class="nav-link">Browse Campaigns</a>
+
+      <li class="nav-item" *ngIf="isDonor">
+        <a class="nav-link" routerLink="/donor/dashboard" routerLinkActive="active">
+          Dashboard
+        </a>
       </li>
 
       <li class="nav-item">
-        <a routerLink="/about" routerLinkActive="active" class="nav-link">About</a>
+        <a routerLink="/campaigns" routerLinkActive="active" class="nav-link">
+          Campaigns
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/about" routerLinkActive="active" class="nav-link">
+          About
+        </a>
       </li>
 
       <ng-container *ngIf="!isLoggedIn; else loggedInMenu">
@@ -28,16 +34,20 @@
           <a routerLink="/auth/login" class="nav-link">Login</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/auth/register" class="btn btn-primary ms-2">Sign Up</a>
+          <a routerLink="/auth/register" class="btn btn-primary ms-lg-2 px-3">
+  Get Started
+</a>
         </li>
       </ng-container>
 
       <ng-template #loggedInMenu>
-        <li class="nav-item d-flex align-items-center text-secondary">
-          Welcome, {{ userName }}
+        <li class="nav-item d-flex align-items-center text-muted small">
+          Hi, {{ userName }}
         </li>
         <li class="nav-item">
-          <button class="btn btn-outline-danger ms-2" (click)="logout()">Logout</button>
+          <button class="btn btn-outline-danger ms-lg-2" (click)="logout()">
+  Logout
+</button>
         </li>
       </ng-template>
 

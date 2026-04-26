@@ -24,7 +24,7 @@ export class CampaignDetail implements OnInit {
   isLoggedIn = false;
   showDonationChoice = false;
   donationMode: 'anonymous' | 'nonAnonymous' | null = null;
-
+  isDonor =false;
 
 
   constructor(
@@ -48,6 +48,8 @@ export class CampaignDetail implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.initializeForm();
     const campaignId = this.route.snapshot.paramMap.get('id');
+    const role = this.authService.getUserRole();
+    if(role == 'Donor') {this.isDonor = true;}
 
     if (campaignId) {
       this.getCampaignDetails(campaignId);

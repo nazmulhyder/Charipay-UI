@@ -40,7 +40,7 @@
         <strong>Status:</strong> {{ campaign.isActive ? 'Active' : 'Closed' }}
       </p>
 
-      <div class="mt-4">
+      <div class="mt-4" *ngIf="!isLoggedIn || isDonor">
         <button class="btn btn-primary btn-lg px-4" (click)="toggleDonationForm()" [disabled]="!campaign.isActive">
           Donate Now
         </button>

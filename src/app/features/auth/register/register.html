@@ -1,95 +1,83 @@
-<div class="signup-container d-flex justify-content-center align-items-center vh-100">
-  <div class="signup-card p-4 shadow-lg rounded-4 w-100" style="max-width: 600px; background: #ffffff;">
-    <div class="text-center mb-4">
-      <img src="/assets/charipay-logo.svg" alt="Charity Logo" class="logo-img mb-3"
-        style="width: 80px; height: auto;" />
-      <h2 class="mb-2">Sign Up</h2>
-      <p class="text-muted">Join us and make a difference</p>
-    </div>
+<div class="signup-container">
 
-    <!-- Reactive Form -->
+  <div class="auth-top-link">
+    <a routerLink="/">← Back to Home</a>
+  </div>
+
+  <div class="signup-card">
+
+    <img src="/assets/charipay-logo.svg" alt="Charipay Logo" class="logo-img" />
+
+    <h2 class="fw-bold text-center mb-1">Create your account</h2>
+    <p class="text-muted text-center mb-4">
+      Join Charipay and start making an impact
+    </p>
+
     <form [formGroup]="registerForm" (ngSubmit)="onSignup()">
-      <div class="row">
-        <div class="col-6"> <!-- Full Name -->
-          <div class="mb-3">
-            <label class="form-label">Full Name</label>
-            <input type="text" formControlName="fullName" class="form-control" placeholder="Enter full name" />
-            <div *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid"
-              class="text-danger">
-               <small *ngIf="registerForm.get('fullName')?.errors?.['required']">Full Name is required</small>           
-            </div>
-          </div>
 
-          <!-- Email -->
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" formControlName="email" class="form-control" placeholder="Enter email" />
-            <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-danger">
-              <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</small>
-              <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format</small>
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" formControlName="password" class="form-control" placeholder="Enter password" />
-            <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
-              class="text-danger">
-              <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</small>
-              <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6
-                characters</small>
-            </div>
-          </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Full Name</label>
+          <input type="text" formControlName="fullName" class="form-control" placeholder="Enter your name" />
         </div>
-        <div class="col-6">
 
-          <div class="mb-3">
-            <label class="form-label">Phone</label>
-            <input type="text" formControlName="phone" class="form-control" placeholder="Phone number" />
-            <div *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.errors" class="text-danger">
-              <small *ngIf="registerForm.get('phone')?.errors?.['required']">Phone number is required</small>
-            </div>
-          </div>
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input type="email" formControlName="email" class="form-control" placeholder="Enter your email" />
+        </div>
 
-          <!-- Confirm Password -->
-          <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            <input type="password" formControlName="confirmPassword" class="form-control"
-              placeholder="Confirm password" />
-            <!-- Required -->
-              <div class="text-danger">
-              <small  *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors?.['required']">
-               Confirm Password is required</small>
-              <small *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
-                Passwords do not match</small>
-            </div>
-          </div>
+        <div class="col-md-6">
+          <label class="form-label">Phone <span class="text-muted"></span></label>
+          <input type="text" formControlName="phone" class="form-control" placeholder="Phone number" />
+        </div>
 
-          <!-- Role -->
-          <div class="mb-4">
-            <label class="form-label">Register As</label>
-            <select formControlName="roleId" class="form-select">
-              <option value="" disabled selected>Select role</option>
-              <option value="2">Donor</option>
-              <option value="3">Volunteer</option>
-            </select>
-            <div *ngIf="registerForm.get('roleId')?.touched && registerForm.get('roleId')?.invalid" class="text-danger">
-              
-              Role is required
-            </div>
+        <div class="col-md-6">
+          <label class="form-label">Password</label>
+          <input type="password" formControlName="password" class="form-control" placeholder="Enter password" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Confirm password" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Join as</label>
+          <div class="d-flex gap-2">
+            <button type="button"
+                    class="role-btn"
+                    [class.active]="registerForm.value.roleId === '2'"
+                    (click)="registerForm.patchValue({ roleId: '2' })">
+              Donor
+            </button>
+
+            <button type="button"
+                    class="role-btn"
+                    [class.active]="registerForm.value.roleId === '3'"
+                    (click)="registerForm.patchValue({ roleId: '3' })">
+              Volunteer
+            </button>
           </div>
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100 py-2" [disabled]="registerForm.invalid">
-        Sign Up
+      <button type="submit"
+              class="btn btn-primary w-100 mt-4"
+              [disabled]="registerForm.invalid || isLoading">
+        {{ isLoading ? 'Creating account...' : 'Create Account' }}
       </button>
+
     </form>
 
-    <p class="mt-3 text-center mb-0">
+    <p class="text-center mt-4 mb-1">
       Already have an account?
-      <a routerLink="/auth/login" class="btn btn-link p-0">Login</a>
+      <a routerLink="/auth/login" class="fw-semibold text-decoration-none">Login</a>
     </p>
+
+    <p class="text-center mb-0">
+      Just exploring?
+      <a routerLink="/campaigns" class="fw-semibold text-decoration-none">Browse campaigns</a>
+    </p>
+
   </div>
 </div>

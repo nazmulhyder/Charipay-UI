@@ -1,20 +1,69 @@
+.navbar {
+  z-index: 1000;
+}
+
 .navbar-brand {
-  font-size: 1.5rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
 }
 
 .nav-link {
-  font-weight: 500;
-  color: #333;
   transition: color 0.2s ease;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  color: #0d6efd; /* Bootstrap primary */
+  color: #0d6efd !important;
+  font-weight: 600;
 }
 
-.btn {
-  border-radius: 30px;
-  padding: 0.4rem 1.2rem;
+.btn-primary,
+.btn-outline-danger {
+  border-radius: 0.6rem;
+  font-weight: 600;
 }
+
+@media (max-width: 991.98px) {
+  .navbar {
+    padding: 0.75rem 1rem !important;
+  }
+
+  .navbar-collapse {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
+  }
+
+  .navbar-nav {
+    align-items: stretch !important;
+    gap: 0.4rem !important;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-link {
+    padding: 0.65rem 0;
+  }
+
+  .navbar .btn {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-top: 0.4rem;
+  }
+
+  .navbar .text-muted {
+    padding: 0.5rem 0;
+  }
+}
+
+.navbar {
+  transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+

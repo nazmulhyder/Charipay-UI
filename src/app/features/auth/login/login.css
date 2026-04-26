@@ -1,42 +1,94 @@
-/* Full-screen container with gradient background */
 .login-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: linear-gradient(135deg, #6a11cb, #2575fc); Purple → Blue gradient */
-  background-image: url("/assets/background-img/bg-img-1.jpg");
-  background-attachment: fixed; /* smooth scrolling effect */
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  padding: 20px;
+
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.45)
+    ),
+    url("/assets/background-img/bg-img-1.jpg") center/cover no-repeat;
+
+  padding: 40px 20px;
+  position: relative;
 }
 
-/* Card styling */
+/* Top-left link */
+.auth-top-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.auth-top-link a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.auth-top-link a:hover {
+  opacity: 1;
+}
+
+/* Card */
 .login-card {
-  border-radius: 15px;
-  max-width: 400px;
+  max-width: 420px;
   width: 100%;
   padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.95); /* slightly transparent white */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  position: relative; /* ok */
-  z-index: 1;         /* ensure above any background overlay */
+
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.88);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
 }
 
-/* Logo inside card */
+/* Logo */
 .logo-img {
-  width: 100px;
-  height: auto;
+  width: 80px;
   display: block;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 1rem;
 }
 
-/* Responsive: shrink logo on mobile */
+/* Inputs */
+.form-control {
+  min-height: 46px;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Button */
+.btn-primary {
+  min-height: 46px;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 8px 18px rgba(13, 110, 253, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+/* Mobile */
 @media (max-width: 576px) {
+  .login-container {
+    padding: 25px 15px;
+  }
+
+  .login-card {
+    padding: 1.5rem;
+  }
+
   .logo-img {
-    width: 80px;
+    width: 70px;
   }
 }
-

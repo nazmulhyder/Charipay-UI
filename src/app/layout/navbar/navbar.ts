@@ -1,11 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
-  imports: [ RouterLink,CommonModule],
+  imports: [ RouterLink,CommonModule, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
@@ -13,8 +14,15 @@ export class Navbar implements OnInit{
   
   isLoggedIn = false;
   userName : string = '';
+  isHomePage = false;
 isDonor = false;
-  constructor(private auth: AuthService, private router : Router) {}
+  constructor(private auth: AuthService, private router : Router) {
+     this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.isHomePage = this.router.url === '/';
+    });
+  }
 
   ngOnInit(): void {
      // subscribe to login state changes
@@ -42,6 +50,16 @@ isDonor = false;
 onScroll() {
   const navbar = document.querySelector('.navbar');
   if (window.scrollY > 10) {
+    navbar?.classList.add('scrolled');
+  } else {
+    navbar?.classList.remove('scrolled');
+  }
+}
+
+
+onWindowScroll() {
+  const navbar = document.querySelector('.charipay-navbar');
+  if (window.scrollY > 50) {
     navbar?.classList.add('scrolled');
   } else {
     navbar?.classList.remove('scrolled');

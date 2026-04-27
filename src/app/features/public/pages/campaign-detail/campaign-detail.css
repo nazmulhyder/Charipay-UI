@@ -1,20 +1,71 @@
+.campaign-details-page {
+  padding-top: 7rem;
+  padding-bottom: 4rem;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
 .campaign-image-wrapper {
-  min-height: 350px;
+  min-height: 380px;
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #f1f1f1;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.25rem;
 }
 
 .campaign-image {
   max-width: 100%;
-  max-height: 450px;
+  max-height: 440px;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  display: block;
 }
 
-.form-check-input {
-  cursor: pointer;
+.progress {
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: #e9ecef;
 }
 
+.btn {
+  border-radius: 0.65rem;
+  font-weight: 600;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.form-control {
+  border-radius: 0.65rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.form-control:focus {
+  border-color: #5fbd7a;
+  box-shadow: 0 0 0 0.2rem rgba(95, 189, 122, 0.15);
+}
+
+.form-check-input,
 .form-check-label {
   cursor: pointer;
+}
+
+@media (max-width: 991.98px) {
+  .campaign-details-page {
+    padding-top: 6rem;
+  }
+
+  .campaign-image-wrapper {
+    min-height: 280px;
+  }
+
+  .campaign-image {
+    max-height: 320px;
+  }
 }

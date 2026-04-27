@@ -1,242 +1,234 @@
-<!-- Hero Section -->
-<!-- Hero Section -->
-<section class="hero-section d-flex align-items-center justify-content-center">
-  <div class="container text-center">
+<!-- HERO -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
 
-    <div class="hero-glass">
+  <div class="container hero-content">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
 
-      <h1 class="display-6 fw-bold mb-2">
-        Make Giving Simple, Secure and Meaningful
-      </h1>
+        <h1 class="hero-title">
+          Make Giving <br />
+          Simple and <span>Meaningful</span>
+        </h1>
 
-      <p class="lead mb-3">
-        Support trusted campaigns, help communities, and see the real impact of your contribution.
-      </p>
+        <p class="hero-subtitle">
+          Discover campaigns, support communities, and create real impact through transparent giving.
+        </p>
 
-      <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <a routerLink="/campaigns" class="btn btn-primary btn-lg px-4">
-          Browse Campaigns
-        </a>
+        <div class="d-flex gap-3 flex-wrap mt-4">
+          <a routerLink="/campaigns" class="btn btn-primary btn-lg px-4">
+            Browse Campaigns
+          </a>
 
-        <a routerLink="/how-it-works" class="btn btn-outline-light btn-lg px-4">
-          How It Works
-        </a>
+          <a routerLink="/auth/register" class="btn btn-outline-light btn-lg px-4">
+            Get Started
+          </a>
+        </div>
+
       </div>
-
-      <p class="small text-light opacity-75 mt-3">
-        Want to track your donations?
-        <a routerLink="/auth/register" class="text-white fw-semibold text-decoration-underline">
-          Create a free account
-        </a>
-      </p>
-
     </div>
 
-  </div>
-</section>
-<!-- Impact Stats -->
-<section class="impact-stats py-5 bg-light">
-  <div class="container">
-    <div class="row g-4 text-center">
-
-      <div class="col-md-3">
-        <div class="stat-card h-100">
-          <i class="bi bi-cash-coin stat-icon text-success"></i>
-          <h4 class="fw-bold mt-3">£{{ totalDonated | number }}</h4>
-          <p class="text-muted mb-0">Total Donations</p>
-        </div>
+    <!-- Stats (keep minimal here) -->
+    <div class="hero-stats-card">
+      <div class="hero-stat">
+        <h4>{{ totalDonors }}+</h4>
+        <p>Donors</p>
       </div>
 
-      <div class="col-md-3">
-        <div class="stat-card h-100">
-          <i class="bi bi-megaphone stat-icon text-primary"></i>
-          <h4 class="fw-bold mt-3">{{ totalCampaigns }}</h4>
-          <p class="text-muted mb-0">Campaigns</p>
-        </div>
+      <div class="hero-stat">
+        <h4>{{ totalCampaigns }}+</h4>
+        <p>Campaigns</p>
       </div>
 
-      <div class="col-md-3">
-        <div class="stat-card h-100">
-          <i class="bi bi-person-heart stat-icon text-danger"></i>
-          <h4 class="fw-bold mt-3">{{ totalDonors }}</h4>
-          <p class="text-muted mb-0">Donors</p>
-        </div>
+      <div class="hero-stat">
+        <h4>{{ totalVolunteers }}+</h4>
+        <p>Volunteers</p>
       </div>
-
-      <div class="col-md-3">
-        <div class="stat-card h-100">
-          <i class="bi bi-people-fill stat-icon text-warning"></i>
-          <h4 class="fw-bold mt-3">{{ totalVolunteers }}</h4>
-          <p class="text-muted mb-0">Volunteers</p>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
-<!-- Featured Campaigns -->
+
+<!-- FEATURED CAMPAIGNS -->
 <section class="featured-campaigns py-5">
   <div class="container">
+
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-      <h2 class="fw-bold mb-0">Featured Campaigns</h2>
-      <a routerLink="/campaigns" class="text-decoration-none text-primary fw-semibold">
-        View All <i class="bi bi-arrow-right ms-1"></i>
+      <div>
+        <h2 class="section-title mb-1">Featured Campaigns</h2>
+        <p class="section-subtitle mb-0">
+          Support trusted campaigns and make an immediate impact.
+        </p>
+      </div>
+
+      <a routerLink="/campaigns" class="fw-semibold text-success text-decoration-none">
+        View All →
       </a>
     </div>
 
-    <!-- Loading -->
-    <div *ngIf="loading" class="text-center my-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-
-    <!-- Campaign Grid -->
     <div *ngIf="!loading && featuredCampaigns.length > 0" class="row g-4">
-      <div class="col-12 col-md-6 col-lg-4" *ngFor="let campaign of featuredCampaigns">
+      <div class="col-md-6 col-lg-4" *ngFor="let campaign of featuredCampaigns">
+
         <div class="card campaign-card h-100 border-0 shadow-sm">
+
           <div class="campaign-image-wrapper">
             <img
               [src]="campaign.imageUrl || '/assets/background-img/default-campaign-bg.jpg'"
               class="campaign-image"
-              [alt]="campaign.campaignName"
             />
           </div>
 
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title fw-semibold mb-2">
+
+            <h5 class="fw-semibold mb-2">
               {{ campaign.campaignName }}
             </h5>
 
-          <p class="card-text text-muted campaign-description mb-3">
-  {{ campaign.campaignDescription | slice:0:100 }}...
-</p>
+            <p class="text-muted campaign-description mb-3">
+              {{ campaign.campaignDescription }}
+            </p>
 
-            <div class="mb-2">
-              <div class="progress campaign-progress">
-                <div
-                  class="progress-bar bg-success"
-                  role="progressbar"
-                  [style.width.%]="getProgress(campaign)"
-                  [attr.aria-valuenow]="getProgress(campaign)"
-                  aria-valuemin="0"
-                  aria-valuemax="100">
-                </div>
+            <div class="progress mb-2">
+              <div
+                class="progress-bar bg-success"
+                [style.width.%]="getProgress(campaign)">
               </div>
             </div>
 
-            <small class="text-muted d-block mb-3">
-              Raised £{{ campaign.currentAmount | number }} of £{{ campaign.goalAmount | number }}
+            <small class="text-muted mb-3">
+              £{{ campaign.currentAmount }} raised of £{{ campaign.goalAmount }}
             </small>
 
-            <div class="mt-auto text-center">
-              <a
-                [routerLink]="['/campaigns', campaign.campaignId]"
-                class="btn btn-outline-primary w-75">
-                View Details
-              </a>
-            </div>
+            <a
+              [routerLink]="['/campaigns', campaign.campaignId]"
+              class="btn btn-outline-primary w-100 mt-auto">
+              View Details
+            </a>
+
           </div>
         </div>
+
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div *ngIf="!loading && featuredCampaigns.length === 0" class="text-center py-5">
-      <p class="text-muted mb-0">No featured campaigns available right now.</p>
-    </div>
   </div>
 </section>
 
-<!-- Volunteer CTA -->
-<section class="volunteer-cta py-5">
-  <div class="container">
-    <div class="row align-items-center g-4">
-      <div class="col-lg-7">
-        <span class="badge bg-success bg-opacity-10 text-success mb-3">
-          Volunteer Opportunities
-        </span>
-
-        <h2 class="fw-bold mb-3">
-          Give your time, not just donations
-        </h2>
-
-        <p class="text-muted mb-4">
-          Support charity campaigns by joining volunteer opportunities, helping with events,
-          community work, and campaign activities.
-        </p>
-
-        <a routerLink="/auth/register" class="btn btn-success btn-lg px-4">
-          Join as Volunteer
-        </a>
-      </div>
-
-      <div class="col-lg-5">
-        <div class="volunteer-card shadow-sm">
-          <i class="bi bi-people-fill fs-1 text-success mb-3"></i>
-          <h5 class="fw-bold">Volunteer with Charipay</h5>
-          <p class="text-muted mb-0">
-            Browse open tasks, apply to help, and track your volunteering status.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- How It Works -->
+<!-- HOW IT WORKS -->
 <section class="how-it-works py-5 bg-light">
   <div class="container text-center">
-    <h2 class="fw-bold section-title mb-3">How It Works</h2>
-    <p class="text-muted section-subtitle mb-5">
-      A simple and secure way to support causes that matter.
+
+    <h2 class="section-title mb-3">How It Works</h2>
+    <p class="section-subtitle mb-5">
+      A simple and transparent way to support causes that matter.
     </p>
 
     <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 p-4 how-card">
-          <div class="d-flex justify-content-center mb-3">
-            <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-flex align-items-center justify-content-center">
-              <i class="bi bi-search-heart text-primary fs-2"></i>
-            </div>
-          </div>
 
-          <h5 class="fw-bold text-center">1. Discover Campaigns</h5>
-          <p class="mb-0 text-center">
-            Browse meaningful causes and find campaigns that match your values.
+      <div class="col-md-4">
+        <div class="card how-card h-100 p-4 border-0 shadow-sm">
+          <h5 class="fw-bold">1. Discover</h5>
+          <p class="text-muted mb-0">
+            Browse verified campaigns and find causes aligned with your values.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 p-4 how-card">
-          <div class="d-flex justify-content-center mb-3">
-            <div class="bg-danger bg-opacity-10 p-3 rounded-circle d-flex align-items-center justify-content-center">
-              <i class="bi bi-shield-check text-danger fs-2"></i>
-            </div>
-          </div>
-
-          <h5 class="fw-bold text-center">2. Donate Securely</h5>
-          <p class="mb-0 text-center">
-            Support your chosen campaign safely through a secure donation process.
+        <div class="card how-card h-100 p-4 border-0 shadow-sm">
+          <h5 class="fw-bold">2. Contribute</h5>
+          <p class="text-muted mb-0">
+            Donate securely or support anonymously with a simple payment process.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 p-4 how-card">
-          <div class="d-flex justify-content-center mb-3">
-            <div class="bg-success bg-opacity-10 p-3 rounded-circle d-flex align-items-center justify-content-center">
-              <i class="bi bi-people-fill text-success fs-2"></i>
-            </div>
-          </div>
-
-          <h5 class="fw-bold text-center">3. Make a Difference</h5>
-          <p class="mb-0 text-center">
-            Help real communities and see how contributions create meaningful impact.
+        <div class="card how-card h-100 p-4 border-0 shadow-sm">
+          <h5 class="fw-bold">3. Create Impact</h5>
+          <p class="text-muted mb-0">
+            Help communities grow and see how your contributions make a difference.
           </p>
         </div>
       </div>
+
     </div>
+  </div>
+</section>
+
+<!-- IMPACT STATS -->
+<section class="impact-stats py-5">
+  <div class="container text-center">
+
+    <h2 class="section-title mb-4">Our Impact</h2>
+
+    <div class="row g-4">
+
+      <div class="col-md-3">
+        <div class="stat-card">
+          <h4>£{{ totalDonated }}</h4>
+          <p>Total Donations</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="stat-card">
+          <h4>{{ totalCampaigns }}</h4>
+          <p>Campaigns</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="stat-card">
+          <h4>{{ totalDonors }}</h4>
+          <p>Donors</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="stat-card">
+          <h4>{{ totalVolunteers }}</h4>
+          <p>Volunteers</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VOLUNTEER CTA -->
+<section class="volunteer-cta py-5 bg-light">
+  <div class="container text-center">
+
+    <h2 class="fw-bold mb-3">
+      Prefer to help with your time?
+    </h2>
+
+    <p class="text-muted mb-4">
+      Join volunteer opportunities and support campaigns beyond donations.
+    </p>
+
+    <a routerLink="/auth/register" class="btn btn-success btn-lg px-4">
+      Become a Volunteer
+    </a>
+
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta py-5">
+  <div class="container text-center">
+
+    <h2 class="fw-bold mb-3">
+      Ready to make an impact?
+    </h2>
+
+    <p class="text-muted mb-4">
+      Explore campaigns and start supporting causes today.
+    </p>
+
+    <a routerLink="/campaigns" class="btn btn-primary btn-lg px-4">
+      Browse Campaigns
+    </a>
+
   </div>
 </section>

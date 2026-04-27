@@ -1,69 +1,202 @@
-.navbar {
-  z-index: 1000;
+.charipay-navbar {
+  z-index: 9999;
+  background: transparent;
+  transition: all 0.3s ease;
 }
 
 .navbar-brand {
+  color: #ffffff !important;
+  font-size: 1.7rem;
+  line-height: 1.1;
   letter-spacing: 0.2px;
 }
 
-.nav-link {
+.brand-subtitle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.charipay-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 0.4rem;
   transition: color 0.2s ease;
 }
 
-.nav-link:hover,
-.nav-link.active {
-  color: #0d6efd !important;
-  font-weight: 600;
+.charipay-navbar .nav-link:hover,
+.charipay-navbar .nav-link.active {
+  color: #ffffff !important;
 }
 
-.btn-primary,
-.btn-outline-danger {
-  border-radius: 0.6rem;
-  font-weight: 600;
+.charipay-navbar .nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: -4px;
+  height: 3px;
+  border-radius: 999px;
+  background: #7ed36b;
 }
 
+/* Light navbar for non-home pages */
+.light-navbar {
+  background: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.light-navbar .navbar-brand,
+.light-navbar .nav-link {
+  color: #212529 !important;
+}
+
+.light-navbar .brand-subtitle {
+  color: #6c757d !important;
+}
+
+.light-navbar .nav-link:hover,
+.light-navbar .nav-link.active {
+  color: #5fbd7a !important;
+}
+
+.light-navbar .nav-link.active::after {
+  background: #5fbd7a;
+}
+
+/* Register button */
+.nav-register-btn {
+  background: #5fbd7a;
+  color: #ffffff !important;
+  border-radius: 0.7rem;
+  font-weight: 700;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  box-shadow: 0 8px 20px rgba(95, 189, 122, 0.25);
+}
+
+.nav-register-btn:hover {
+  background: #4faa68;
+  color: #ffffff !important;
+}
+
+/* Mobile */
 @media (max-width: 991.98px) {
-  .navbar {
-    padding: 0.75rem 1rem !important;
+  .charipay-navbar {
+    background: rgba(10, 20, 15, 0.92) !important;
+    padding: 0.85rem 1rem !important;
+  }
+
+  .light-navbar {
+    background: #ffffff !important;
   }
 
   .navbar-collapse {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .light-navbar .navbar-collapse {
     border-top: 1px solid #e9ecef;
   }
 
   .navbar-nav {
     align-items: stretch !important;
-    gap: 0.4rem !important;
+    gap: 0.5rem !important;
   }
 
   .nav-item {
     width: 100%;
   }
 
-  .nav-link {
+  .charipay-navbar .nav-link {
     padding: 0.65rem 0;
   }
 
-  .navbar .btn {
+  .charipay-navbar .nav-link.active::after {
+    left: 0;
+    right: auto;
+    width: 45px;
+  }
+
+  .charipay-navbar .btn {
     width: 100%;
     margin-left: 0 !important;
     margin-top: 0.4rem;
   }
-
-  .navbar .text-muted {
-    padding: 0.5rem 0;
-  }
 }
 
-.navbar {
-  transition: all 0.3s ease;
+/* SCROLLED NAVBAR */
+.charipay-navbar.scrolled {
+  background: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-.navbar.scrolled {
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+/* Text becomes dark */
+.charipay-navbar.scrolled .navbar-brand,
+.charipay-navbar.scrolled .nav-link {
+  color: #212529 !important;
+}
+
+/* Hover + active */
+.charipay-navbar.scrolled .nav-link:hover,
+.charipay-navbar.scrolled .nav-link.active {
+  color: #5fbd7a !important;
+}
+
+/* Fix subtitle */
+.charipay-navbar.scrolled .brand-subtitle {
+  color: #6c757d !important;
+}
+
+/* DEFAULT (hero - dark) */
+.charipay-navbar .nav-user {
+    color: #ffffff;   /* slightly darker */
+  font-weight: 500;
+}
+
+.charipay-navbar .nav-logout-btn {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+}
+
+/* SCROLLED (white navbar) */
+.charipay-navbar.scrolled .nav-user {
+    color: #495057;   /* slightly darker */
+  font-weight: 500;
+}
+
+.charipay-navbar.scrolled .nav-logout-btn {
+  color: #212529;
+  border: 1px solid #dee2e6;
+  background: transparent;
+}
+
+/* hover */
+.charipay-navbar.scrolled .nav-logout-btn:hover {
+  background: #f8f9fa;
+}
+
+/* Logged-in user text */
+.light-navbar .nav-user {
+  color: #6c757d !important;
+  font-weight: 500;
+}
+
+/* Logout button */
+.light-navbar .nav-logout-btn {
+  color: #dc3545 !important;
+  border: 1px solid #f1c0c5;
+  background: transparent;
+  border-radius: 0.6rem;
+  font-weight: 600;
+}
+
+.light-navbar .nav-logout-btn:hover {
+  background: #f8d7da;
+  color: #dc3545 !important;
 }
 

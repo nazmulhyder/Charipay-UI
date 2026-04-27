@@ -1,6 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 py-2 sticky-top">
-
-  <a class="navbar-brand fw-bold text-primary" routerLink="/">Charipay</a>
+<nav class="navbar navbar-expand-lg px-4 py-3 fixed-top"
+  [ngClass]="isHomePage ? 'charipay-navbar' : 'charipay-navbar light-navbar'">
+  <a class="navbar-brand fw-bold" routerLink="/">
+    Charipay
+    <small class="d-block brand-subtitle">Give. Help. Inspire.</small>
+  </a>
 
   <button class="navbar-toggler" type="button"
           data-bs-toggle="collapse"
@@ -9,7 +12,7 @@
   </button>
 
   <div id="navbarNav" class="collapse navbar-collapse justify-content-end">
-    <ul class="navbar-nav align-items-center gap-2">
+    <ul class="navbar-nav align-items-center gap-lg-4 gap-2">
 
       <li class="nav-item" *ngIf="isDonor">
         <a class="nav-link" routerLink="/donor/dashboard" routerLinkActive="active">
@@ -18,38 +21,54 @@
       </li>
 
       <li class="nav-item">
-        <a routerLink="/campaigns" routerLinkActive="active" class="nav-link">
-          Campaigns
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+          Home
         </a>
       </li>
 
       <li class="nav-item">
+        <a routerLink="/campaigns" routerLinkActive="active" class="nav-link">
+          Campaigns
+        </a>
+      </li>
+<li class="nav-item">
+  <a routerLink="/how-it-works" routerLinkActive="active" class="nav-link">
+    How It Works
+  </a>
+</li>
+
+      <li class="nav-item">
         <a routerLink="/about" routerLinkActive="active" class="nav-link">
-          About
+          About Us
         </a>
       </li>
 
       <ng-container *ngIf="!isLoggedIn; else loggedInMenu">
         <li class="nav-item">
-          <a routerLink="/auth/login" class="nav-link">Login</a>
+          <a routerLink="/auth/login" class="nav-link">
+            <i class="bi bi-person me-1"></i>
+            Login
+          </a>
         </li>
+
         <li class="nav-item">
-          <a routerLink="/auth/register" class="btn btn-primary ms-lg-2 px-3">
-  Get Started
-</a>
+          <a routerLink="/auth/register" class="btn nav-register-btn ms-lg-2 px-4">
+            Register
+          </a>
         </li>
       </ng-container>
 
-      <ng-template #loggedInMenu>
-        <li class="nav-item d-flex align-items-center text-muted small">
-          Hi, {{ userName }}
-        </li>
-        <li class="nav-item">
-          <button class="btn btn-outline-danger ms-lg-2" (click)="logout()">
-  Logout
-</button>
-        </li>
-      </ng-template>
+<ng-template #loggedInMenu>
+  <li class="nav-item nav-user small">
+    Hi, {{ userName }}
+  </li>
+
+  <li class="nav-item">
+    <button class="btn nav-logout-btn ms-lg-2 px-3" (click)="logout()">
+      Logout
+    </button>
+  </li>
+</ng-template>
 
     </ul>
   </div>

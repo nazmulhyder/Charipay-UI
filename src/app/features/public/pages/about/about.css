@@ -1,0 +1,38 @@
+.about-page {
+  padding-top: 7rem;
+  padding-bottom: 4rem;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.about-page h1,
+.about-page h2,
+.about-page h5 {
+  color: #1f2937;
+}
+
+.about-page .card {
+  border-radius: 1rem;
+}
+
+.about-page .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.about-page .card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.about-page ul {
+  padding-left: 1.2rem;
+}
+
+.about-page li::marker {
+  color: #5fbd7a;
+}
+
+.vision-card {
+  background: #f8fff9 !important;
+  border: 1px solid #e6f4ea !important;
+}

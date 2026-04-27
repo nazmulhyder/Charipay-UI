@@ -10,7 +10,7 @@
       rgba(0, 0, 0, 0.45),
       rgba(0, 0, 0, 0.45)
     ),
-    url("/assets/background-img/bg-img-1.jpg") center/cover no-repeat;
+    url("/assets/background-img/bg-img-1.png") center/cover no-repeat;
 
   padding: 40px 20px;
   position: relative;

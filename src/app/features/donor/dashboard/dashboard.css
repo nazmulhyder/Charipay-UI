@@ -67,3 +67,10 @@
     font-size: 1.5rem;
   }
 }
+
+.dashboard-page{
+    padding-top: 7rem;
+  padding-bottom: 4rem;
+  min-height: 100vh;
+  background: #ffffff;
+}

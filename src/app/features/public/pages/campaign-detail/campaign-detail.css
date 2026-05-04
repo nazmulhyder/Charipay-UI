@@ -2,14 +2,22 @@
   padding-top: 7rem;
   padding-bottom: 4rem;
   min-height: 100vh;
-  background: #f8f9fa;
+  background: linear-gradient(180deg, #f8f9fa 0%, #eef7f1 100%);
+}
+
+.campaign-details-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
 }
 
 .campaign-image-wrapper {
-  min-height: 380px;
-  background: #ffffff;
-  border-radius: 1rem;
-  border: 1px solid #f1f1f1;
+  min-height: 420px;
+  background: #f8f9fa;
+  border-radius: 1.25rem;
+  border: 1px solid #eeeeee;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,11 +26,61 @@
 
 .campaign-image {
   max-width: 100%;
-  max-height: 440px;
+  max-height: 460px;
   width: auto;
   height: auto;
   object-fit: contain;
   display: block;
+  border-radius: 1rem;
+}
+
+.campaign-info {
+  padding: 0.5rem;
+}
+
+.campaign-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.campaign-status {
+  font-size: 0.85rem;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  white-space: nowrap;
+}
+
+.campaign-description {
+  color: #6c757d;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.summary-box {
+  background: #f8f9fa;
+  border: 1px solid #eeeeee;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+}
+
+.summary-box small {
+  display: block;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.summary-box h5 {
+  margin: 0;
+  font-weight: 800;
+  color: #198754;
+}
+
+.progress-section {
+  margin-top: 1rem;
 }
 
 .progress {
@@ -32,17 +90,35 @@
   background-color: #e9ecef;
 }
 
+.progress-bar {
+  border-radius: 999px;
+}
+
+.donate-main-btn {
+  padding: 0.75rem 2rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.donation-card {
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
 .btn {
-  border-radius: 0.65rem;
+  border-radius: 0.75rem;
   font-weight: 600;
 }
 
-.card {
-  border-radius: 1rem;
+.form-label {
+  font-weight: 600;
 }
 
 .form-control {
-  border-radius: 0.65rem;
+  border-radius: 0.75rem;
   padding: 0.75rem 0.9rem;
 }
 
@@ -51,9 +127,12 @@
   box-shadow: 0 0 0 0.2rem rgba(95, 189, 122, 0.15);
 }
 
-.form-check-input,
-.form-check-label {
-  cursor: pointer;
+.payment-option {
+  padding: 0.65rem 1rem;
+}
+
+.alert {
+  border-radius: 0.9rem;
 }
 
 @media (max-width: 991.98px) {
@@ -61,11 +140,49 @@
     padding-top: 6rem;
   }
 
+  .campaign-details-card {
+    padding: 1rem;
+  }
+
   .campaign-image-wrapper {
-    min-height: 280px;
+    min-height: 300px;
   }
 
   .campaign-image {
-    max-height: 320px;
+    max-height: 340px;
+  }
+
+  .campaign-title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .campaign-details-page {
+    padding-top: 5.5rem;
+  }
+
+  .campaign-details-card {
+    border-radius: 1rem;
+  }
+
+  .campaign-image-wrapper {
+    min-height: 240px;
+  }
+
+  .campaign-image {
+    max-height: 280px;
+  }
+
+  .campaign-title {
+    font-size: 1.4rem;
+  }
+
+  .summary-box {
+    padding: 0.85rem;
+  }
+
+  .donate-main-btn {
+    width: 100%;
   }
 }

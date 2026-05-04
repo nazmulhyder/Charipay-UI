@@ -78,11 +78,11 @@ export class CampaignDetail implements OnInit {
   }
 
   getProgress(): number {
-    if (!this.campaign?.goalAmount || this.campaign.goalAmount <= 0) {
-      return 0;
-    }
+     if (!this.campaign || this.campaign.goalAmount === 0) return 0;
 
-    return Math.min((this.campaign.currentAmount / this.campaign.goalAmount) * 100, 100);
+  return Math.round(
+    (this.campaign.currentAmount / this.campaign.goalAmount) * 100
+  );
   }
 
 

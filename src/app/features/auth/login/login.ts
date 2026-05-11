@@ -27,7 +27,7 @@ export class LoginComponent {
        });
 
     onSubmit() {
-      debugger;
+      //debugger;
       if(this.loginForm.invalid) {
         this.loginForm.markAllAsTouched();
         return;
@@ -41,6 +41,12 @@ export class LoginComponent {
       this.auth.login(email, password).subscribe({
         next: (res) => {
           this.isLoading = false
+           if (!res.success || !res.data?.token) 
+          {
+            this.toastr.error(res.message || 'Invalid login!', 'Error');
+            return;
+          }
+
           this.auth.storeToken(res.data.token);
           console.log(res);
           //alert('Logged in successful!');

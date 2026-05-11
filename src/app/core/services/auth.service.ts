@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "../../../environments/environment.prod";
 
 interface ApiResponse <T> {
-   sucess: boolean;
+   success: boolean;
    message: string;
    data:T;
    errors : string[]

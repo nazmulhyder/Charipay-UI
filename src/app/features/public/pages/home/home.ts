@@ -18,7 +18,7 @@ import { PublicService } from '../../../../core/services/public.service';
 })
 export class Home implements OnInit {
   featuredCampaigns: Campaign[] = [];
-  loading = true;
+  loading = false;
   searchTerm = "";
   pageNumber = 1;
   pageSize = 10;
@@ -33,7 +33,7 @@ export class Home implements OnInit {
   constructor(private campaignService: CampaignService, private toastr: ToastrService, private publicService: PublicService) { }
 
   ngOnInit(): void {
-
+this.loading = true;
     // this.toastr.success('Toastr is working!', 'Success');
     this.getHomeStats();
     this.campaignService.getPublicCampaigns(this.pageNumber, this.pageSize, true, this.searchTerm).subscribe({

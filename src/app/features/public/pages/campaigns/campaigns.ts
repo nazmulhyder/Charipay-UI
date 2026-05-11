@@ -25,6 +25,7 @@ export class Campaigns implements OnInit{
   constructor(private campainService: CampaignService) {}
 
   ngOnInit(): void {
+    this.loading = true;
      this.campainService.getPublicCampaigns(this.pageNumber, this.pageSize, false, this.searchTerm)
      .subscribe({
       next: (res) =>{

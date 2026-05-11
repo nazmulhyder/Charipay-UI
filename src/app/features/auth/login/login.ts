@@ -49,6 +49,7 @@ export class LoginComponent {
         },
         error: (err) => {
           console.error(err);
+          this.isLoading = false
           //alert('Invalid login');
           this.toastr.error('Invalid login!', 'Error')
         }
